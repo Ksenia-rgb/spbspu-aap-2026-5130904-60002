@@ -1,12 +1,5 @@
-#include <cstdio>
-
-namespace yushina {
-    void print_name() {
-        printf("yushina.sofia\n");
-    }
-}
+#include <iostream>
 
 int main() {
-    yushina::print_name();
-    return 0;
+	std::cout << "yushina.sofia\n";
 }
