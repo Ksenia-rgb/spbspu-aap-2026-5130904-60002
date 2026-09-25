@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
+int main()
+{
 	std::cout << "fedorov.maxim";
 	return 0;
 }
