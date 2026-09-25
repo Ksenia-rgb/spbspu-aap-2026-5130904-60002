@@ -2,6 +2,6 @@
 
 int main()
 {
-	std::cout << "fedorov.maxim";
-	return 0;
+  std::cout << "fedorov.maxim";
+  return 0;
 }
