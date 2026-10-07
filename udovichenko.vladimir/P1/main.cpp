@@ -29,20 +29,20 @@ int main()
     prev = x;
     count++;
   }
-
   if (!std::cin)
   {
     std::cerr << "The input isn't a sequence\n";
     return 1;
   }
+
+  std::cout << count_after_max << "\n";
+
   if (count == 0)
   {
     std::cerr << "Not enough elements to find local minimum\n";
     return return_code_cannot_calculate_any_parameter;
   }
-
   std::cout << count_local_minimums << "\n";
-  std::cout << count_after_max << "\n";
 
   return 0;
 }
