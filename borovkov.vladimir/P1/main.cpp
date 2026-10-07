@@ -2,6 +2,9 @@
 
 int main()
 {
+  constexpr int second_element_pos = 2;
+  constexpr int third_element_pos = 3;
+  constexpr int error_sequence_too_short = 2;
   int max_count = 0;
   int count = 1;
   int current_element = 0;
@@ -37,21 +40,21 @@ int main()
     {
       left = current_element;
     }
-    else if (counter == 2)
+    else if (counter == second_element_pos)
     {
       middle = current_element;
     }
-    else if (counter == 3)
+    else if (counter == third_element_pos)
     {
       right = current_element;
     }
-    else if (counter > 3)
+    else if (counter > third_element_pos)
     {
       left = middle;
       middle = right;
       right = current_element;
     }
-    if (counter >= 3 && middle > left && middle > right)
+    if (counter >= third_element_pos && middle > left && middle > right)
     {
       count_local_max++;
     }
@@ -60,7 +63,7 @@ int main()
   if (counter == 0)
   {
     std::cerr << "ERROR: Sequence is too short" << "\n";
-    return 2;
+    return error_sequence_too_short;
   }
   std::cout << count_local_max << "\n";
   return 0;
