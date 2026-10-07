@@ -3,15 +3,23 @@
 
 int main()
 {
-
-  const int input_error_code = 1;
-  const int calculation_error_code = 2;
-
   int n = 1;
   int cnt = 0;
+  int chk = 2;
   bool findzero = false;
   int max1 = std::numeric_limits< int >::min();
   int max2 = std::numeric_limits< int >::min();
+  int v1, v2 = 0;
+  std::cin >> v1;
+  if (v1 == 0) {
+    std::cerr << "Too short\n";
+    return 2;
+  }
+  std::cin >> v2;
+  if (v2 == 0) {
+    std::cerr << "Too short\n";
+    return 2;
+  }
   while (std::cin >> n) {
     if (n == 0) {
       findzero = true;
@@ -21,17 +29,22 @@ int main()
       max2 = max1;
       max1 = n;
     }
-    cnt += 1;
+    if (v1 + v2 == n) {
+      cnt += 1;
+    }
+    v1 = v2;
+    v2 = n;
+    chk += 1;
   }
 
   if (!findzero) {
     std::cerr << "Last should be zero\n";
-    return input_error_code;
+    return 1;
   }
 
-  if (cnt < 2) {
+  if (chk == 2) {
     std::cerr << "Too short\n";
-    return calculation_error_code;
+    return 2;
   }
 
   if (max1 > max2) {
@@ -40,44 +53,9 @@ int main()
     std::cout << max1;
   }
 
-  int n1 = 1;
-  int cnt1 = 0;
-  int chk1 = 2;
-  bool findzero1 = false;
-  int v1, v2 = 0;
-  std::cin >> v1;
-  if (v1 == 0) {
-    std::cerr << "Too short\n";
-    return calculation_error_code;
-  }
-  std::cin >> v2;
-  if (v2 == 0) {
-    std::cerr << "Too short\n";
-    return calculation_error_code;
-  }
-  while (std::cin >> n1) {
-    if (n1 == 0) {
-      findzero1 = true;
-      break;
-    }
-    if (v1 + v2 == n1) {
-      cnt1 += 1;
-    }
-    v1 = v2;
-    v2 = n1;
-    chk1 += 1;
-  }
+  std::cout << "\n";
 
-  if (!findzero1) {
-    std::cerr << "Last should be zero\n";
-    return input_error_code;
-  }
-
-  if (chk1 == 2) {
-    std::cerr << "Too short\n";
-    return calculation_error_code;
-  }
-  std::cout << cnt1 << "\n";
+  std::cout << cnt << std::endl;
 
   return 0;
 }
