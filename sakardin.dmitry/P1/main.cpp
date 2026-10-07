@@ -14,7 +14,6 @@ int main()
   while (true) {
 
     std::cin >> nowNum;
-    
     if (std::cin.fail()) {
       std::cerr << "Invalid input!!!\n";
       return 1;
@@ -24,8 +23,8 @@ int main()
       break;
     }
     counter++;
-    
-    if (counter == 1) {
+
+    if (counter == 1){
       left = nowNum;
     }
     else if (counter == 2) {
