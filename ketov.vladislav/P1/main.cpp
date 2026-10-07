@@ -3,12 +3,12 @@
 
 int main()
 {
-  const int CLACULATION_ERROR = 2;
-  const int INPUT_ERROR_CODE = 1;
-
+  const int calcualtion_error = 2;
+  const int input_error_code = 1;
+  const int for_chk = 2;
   int n = 1;
   int cnt = 0;
-  int chk = 2;
+  int chk = for_chk;
   bool findzero = false;
   int max1 = std::numeric_limits< int >::min();
   int max2 = std::numeric_limits< int >::min();
@@ -17,12 +17,12 @@ int main()
   std::cin >> v1;
   if (v1 == 0) {
     std::cerr << "Too short\n";
-    return CLACULATION_ERROR;
+    return calcualtion_error;
   }
   std::cin >> v2;
   if (v2 == 0) {
     std::cerr << "Too short\n";
-    return CLACULATION_ERROR;
+    return calcualtion_error;
   }
   while (std::cin >> n) {
     if (n == 0) {
@@ -43,12 +43,12 @@ int main()
 
   if (!findzero) {
     std::cerr << "Last should be zero\n";
-    return INPUT_ERROR_CODE;
+    return input_error_code;
   }
 
-  if (chk == 2) {
+  if (chk == for_chk) {
     std::cerr << "Too short\n";
-    return CLACULATION_ERROR;
+    return calcualtion_error;
   }
 
   if (max1 > max2) {
