@@ -3,22 +3,26 @@
 
 int main()
 {
+  const int CLACULATION_ERROR = 2;
+  const int INPUT_ERROR_CODE = 1;
+
   int n = 1;
   int cnt = 0;
   int chk = 2;
   bool findzero = false;
   int max1 = std::numeric_limits< int >::min();
   int max2 = std::numeric_limits< int >::min();
-  int v1, v2 = 0;
+  int v1 = 0;
+  int v2 = 0;
   std::cin >> v1;
   if (v1 == 0) {
     std::cerr << "Too short\n";
-    return 2;
+    return CLACULATION_ERROR;
   }
   std::cin >> v2;
   if (v2 == 0) {
     std::cerr << "Too short\n";
-    return 2;
+    return CLACULATION_ERROR;
   }
   while (std::cin >> n) {
     if (n == 0) {
@@ -39,12 +43,12 @@ int main()
 
   if (!findzero) {
     std::cerr << "Last should be zero\n";
-    return 1;
+    return INPUT_ERROR_CODE;
   }
 
   if (chk == 2) {
     std::cerr << "Too short\n";
-    return 2;
+    return CLACULATION_ERROR;
   }
 
   if (max1 > max2) {
