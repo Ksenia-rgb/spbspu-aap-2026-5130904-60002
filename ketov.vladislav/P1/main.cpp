@@ -17,7 +17,7 @@ int main()
       findzero = true;
       break;
     }
-    if (n > max1) {
+    if (n > max2) {
       max2 = max1;
       max1 = n;
     }
@@ -34,7 +34,11 @@ int main()
     return calculation_error_code;
   }
 
-  std::cout << max2 << std::endl;
+  if (max1 > max2) {
+    std::cout << max2;
+  } else {
+    std::cout << max1;
+  }
 
   int n1 = 1;
   int cnt1 = 0;
