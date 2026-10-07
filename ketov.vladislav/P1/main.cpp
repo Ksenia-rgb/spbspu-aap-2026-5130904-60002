@@ -73,7 +73,7 @@ int main()
     std::cerr << "Too short\n";
     return calculation_error_code;
   }
-  std::cout << cnt1 << std::endl;
+  std::cout << cnt1 << "\n";
 
   return 0;
 }
