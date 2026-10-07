@@ -3,6 +3,9 @@
 
 int main()
 {
+  const int input_error_code = 1;
+  const int calculation_error_code = 2;
+
   int curr_el = 0;
   int prev_el = 0;
   bool is_first_el = true;
@@ -18,7 +21,7 @@ int main()
     if (std::cin.fail())
     {
       std::cerr << "ERROR: INPUT CANNOT BE IDENTIFIED AS A SEQUENCE\n";
-      return 1;
+      return input_error_code;
     }
 
     if (curr_el == 0)
@@ -37,7 +40,7 @@ int main()
       if (greater_count > std::numeric_limits< int >::max() - 1)
       {
         std::cerr << "ERROR: SEQUENCE IS TOO LONG\n";
-        return 2;
+        return calculation_error_code;
       }
 
       greater_count++;
@@ -49,7 +52,7 @@ int main()
       if (curr_max_descending > std::numeric_limits< int >::max() - 1)
       {
         std::cerr << "ERROR: SEQUENCE IS TOO LONG\n";
-        return 2;
+        return calculation_error_code;
       }
 
       curr_max_descending++;
