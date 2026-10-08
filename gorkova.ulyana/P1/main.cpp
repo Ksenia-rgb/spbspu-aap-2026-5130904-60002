@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
+int main()
+{
   int previous_elem = 0;
   int current_elem = 0;
   int next_elem = 0;
