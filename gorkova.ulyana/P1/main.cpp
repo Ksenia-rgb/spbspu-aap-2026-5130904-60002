@@ -41,7 +41,7 @@ int main() {
     if (current_elem > previous_elem && current_elem > next_elem) {
       ++local_max_count;
     }
-    if (previous_elem > current_elem && current_elem > next _elem) {
+    if (previous_elem > current_elem && current_elem > next_elem) {
       ++strict_decrease_count;
     }
     previous_elem = current_elem;
