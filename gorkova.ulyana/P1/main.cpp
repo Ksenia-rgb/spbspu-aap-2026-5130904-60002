@@ -24,6 +24,7 @@ int main() {
   if (std::cin.fail()) {
     std::cerr << "ERROR: invalid input format!\n";
     return 1;
+  }
   if (current_elem == 0) {
     std::cout << 0 << "\n";
     std::cout << 0 << "\n";
