@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main(){
-	std::cout << "Tsilke Lev";
+	std::cout << "tsilke.lev";
 	return 0;
 }
