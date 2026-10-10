@@ -2,7 +2,7 @@
 
 int main()
 {
-  int x;
+  int x = 0;
   if (!(std::cin >> x)) {
     std::cerr << "error\n";
     return 1;
@@ -13,7 +13,7 @@ int main()
   }
 
   int num1 = x;
-  int num2;
+  int num2 = 0;
   if (!(std::cin >> num2)) {
     std::cerr << "error\n";
     return 1;
@@ -31,7 +31,7 @@ int main()
       count_max += 1;
     }
 
-    int num3;
+    int num3 = 0;
     while (std::cin >> num3) {
       if (num3 == 0) {
         break;
