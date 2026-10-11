@@ -10,8 +10,8 @@ int main()
   int current = 0;
   int max_chet = 0;
   int chet_count = 0;
-  int max_value = std::numeric_limits<int>::min();
-  int second_max = std::numeric_limits<int>::min();
+  int max_value = std::numeric_limits< int >::min();
+  int second_max = std::numeric_limits< int >::min();
   std::size_t element_count = 0;
 
   while ((std::cin >> current) && current != sentinel) {
