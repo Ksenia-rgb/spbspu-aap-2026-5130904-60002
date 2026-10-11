@@ -2,8 +2,7 @@
 #include <iostream>
 #include <limits>
 
-int main()
-{
+int main() {
   const int sentinel = 0;
   const int code_bad_input = 1;
   const int code_no_result = 2;
