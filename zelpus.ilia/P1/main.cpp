@@ -1,7 +1,6 @@
 #include <iostream>
 
-int main()
-{
+int main() {
   int previous = 0;
   int current = 0;
   unsigned long long count = 0;
@@ -9,33 +8,26 @@ int main()
   unsigned long long evenRun = 0;
   unsigned long long evenMax = 0;
 
-  while (true)
-  {
-    if (!(std::cin >> current))
-    {
-      std::cerr << "Error: input is not a sequence of integers terminated by 0\n";
+  while (true) {
+    if (!(std::cin >> current)) {
+      std::cerr
+          << "Error: input is not a sequence of integers terminated by 0\n";
       return 1;
     }
-    if (current == 0)
-    {
+    if (current == 0) {
       break;
     }
 
-       if (count > 0 && (previous == -1 || current % previous == 0))
-    {
+    if (count > 0 && (previous == -1 || current % previous == 0)) {
       ++divCount;
     }
 
-    if (current % 2 == 0)
-    {
+    if (current % 2 == 0) {
       ++evenRun;
-      if (evenRun > evenMax)
-      {
+      if (evenRun > evenMax) {
         evenMax = evenRun;
       }
-    }
-    else
-    {
+    } else {
       evenRun = 0;
     }
 
@@ -44,13 +36,10 @@ int main()
   }
 
   int result = 0;
-  if (count < 2)
-  {
+  if (count < 2) {
     std::cerr << "Error: sequence is too short to calculate DIV-REM\n";
     result = 2;
-  }
-  else
-  {
+  } else {
     std::cout << divCount << '\n';
   }
 
