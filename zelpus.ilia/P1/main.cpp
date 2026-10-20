@@ -5,9 +5,9 @@ int main()
   int previous = 0;
   int current = 0;
   unsigned long long count = 0;
-  unsigned long long divCount = 0;
-  unsigned long long evenRun = 0;
-  unsigned long long evenMax = 0;
+  unsigned long long div_count = 0;
+  unsigned long long even_run = 0;
+  unsigned long long even_max = 0;
 
   while (true) {
     if (!(std::cin >> current)) {
@@ -19,16 +19,16 @@ int main()
     }
 
     if (count > 0 && (previous == -1 || current % previous == 0)) {
-      ++divCount;
+      ++div_count;
     }
 
     if (current % 2 == 0) {
-      ++evenRun;
-      if (evenRun > evenMax) {
-        evenMax = evenRun;
+      ++even_run;
+      if (even_run > even_max) {
+        even_max = even_run;
       }
     } else {
-      evenRun = 0;
+      even_run = 0;
     }
 
     previous = current;
@@ -40,9 +40,9 @@ int main()
     std::cerr << "Error: sequence is too short to calculate DIV-REM\n";
     result = 2;
   } else {
-    std::cout << divCount << '\n';
+    std::cout << div_count << '\n';
   }
 
-  std::cout << evenMax << '\n';
+  std::cout << even_max << '\n';
   return result;
 }
