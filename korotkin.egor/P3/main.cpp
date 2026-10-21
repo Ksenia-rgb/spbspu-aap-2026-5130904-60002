@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
   {
     try
     {
-      dyn_matrix = new int* [rows] { };
+      dyn_matrix = new int* [rows]();
       for (int i = 0; i < rows; i++)
       {
         dyn_matrix[i] = new int[cols];
