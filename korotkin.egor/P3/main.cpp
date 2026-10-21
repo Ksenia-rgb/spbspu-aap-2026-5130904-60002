@@ -2,7 +2,6 @@
 #include <fstream>
 #include <cstring>
 #include <algorithm>
-#include <stdexcept>
 
 namespace korotkin
 {
@@ -94,15 +93,15 @@ int main(int argc, char* argv[])
   {
     try
     {
-      dyn_matrix = new int*[rows]{};
+      dyn_matrix = new int* [rows] { };
       for (int i = 0; i < rows; i++)
       {
         dyn_matrix[i] = new int[cols];
       }
     }
-    catch (const std::exception& e)
+    catch (...)
     {
-      std::cerr << e.what() << '\n';
+      std::cerr << "ERROR: Cannot allocate memory\n";
       korotkin::eraseMatrix(dyn_matrix, rows);
       return file_err;
     }
