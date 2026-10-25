@@ -28,10 +28,6 @@ void checkArguments(const int argc, char* argv[])
 
 int** allocateMatrix(const int rows, const int cols)
 {
-  if (rows < 1 || cols < 1) {
-    throw std::invalid_argument("Invalid rows or colums");
-  }
-
   int** const matrix = new int* [static_cast< size_t >(rows)]
   {
   };
@@ -68,7 +64,7 @@ void checkMatrixInFile(std::ifstream& ifile)
   if (!(ifile >> rows >> cols)) {
     throw std::runtime_error("Error! Code 2");
   }
-  if (rows < 1 || cols < 1) {
+  if (rows < 0 || cols < 0) {
     throw std::runtime_error("Error: incorrect matrix size");
   }
   size_t count_in_file = 0;
