@@ -34,7 +34,7 @@ namespace sakardin {
       throw std::invalid_argument("Matrix size <= 0");
     }
 
-    int** const matrix = new int* [rows];
+    int** const matrix = new int*[rows];
     for (int i = 0; i < rows; i++) {
       matrix[i] = nullptr;
     }
