@@ -1,7 +1,11 @@
-#include <iostream>
 #include <climits>
+#include <exception>
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
-#include "sakardin.h"
+#include "sakardin.hpp"
 
 const int MAX_SIZE = 10000;
 const int INVALID_ARGUMENT_ERROR = 2;
@@ -9,29 +13,35 @@ const int STD_EXCEPTION = 3;
 
 int main(int argc, char* argv[])
 {
-  int matrixStc[MAX_SIZE];
-  int** matrixDyn = nullptr;
+  int matrix_stc[MAX_SIZE];
+  int** matrix_dyn = nullptr;
 
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
     return 1;
   }
-  std::string mode = argv[1];
+  const std::string mode = argv[1];
 
   if (mode != "1" && mode != "2") {
     std::cerr << "Unsuitable num. (Possible num: 1, 2)\n";
     return 1;
   }
 
-  std::ifstream fileIn = sakardin::openInputFile(argv[2]);
-  if (!fileIn.is_open()) {
+  std::ifstream file_in = sakardin::openInputFile(argv[2]);
+  if (!file_in.is_open()) {
     return 1;
   }
 
-  int rows, cols;
-  if (!(fileIn >> rows >> cols)) {
+  int rows = 0;
+  int cols = 0;
+  if (!(file_in >> rows >> cols)) {
     std::cerr << "ERROR: Error reading matrix size\n";
     return 1;
+  }
+
+  if (rows == 0 && cols == 0) {
+    std::cout << "Max sum: 0\n Diagonal: 0\n";
+    return 0;
   }
 
   if (mode == "1") {
@@ -41,63 +51,61 @@ int main(int argc, char* argv[])
     }
 
     for (int i = 0; i < rows * cols; i++) {
-      if (!(fileIn >> matrixStc[i])) {
+      if (!(file_in >> matrix_stc[i])) {
         std::cerr << "ERROR: Error reading matrix data\n";
         return 1;
       }
     }
 
-    fileIn.close();
+    file_in.close();
   }
 
   if (mode == "2") {
     try {
-      matrixDyn = sakardin::allocateMatrix(rows, cols);
-      sakardin::fillMatrixInputFile(matrixDyn, rows, cols, fileIn);
-      fileIn.close();
-    }
-
-    catch (const std::invalid_argument& e) {
+      matrix_dyn = sakardin::allocateMatrix(rows, cols);
+      sakardin::fillMatrixInputFile(matrix_dyn, rows, cols, file_in);
+      file_in.close();
+    } catch (const std::invalid_argument& e) {
       std::cerr << "INVALID ARGUMENT ERROR: " << e.what() << "\n";
-      sakardin::freeMatrix(matrixDyn, rows);
+      sakardin::freeMatrix(matrix_dyn, rows);
       return INVALID_ARGUMENT_ERROR;
-    }
-    catch (const std::exception& e) {
+    } catch (const std::exception& e) {
       std::cerr << "STD EXCEPTION: " << e.what() << "\n";
-      sakardin::freeMatrix(matrixDyn, rows);
+      sakardin::freeMatrix(matrix_dyn, rows);
       return STD_EXCEPTION;
     }
   }
 
-  long long maxSum = LLONG_MIN;
-  long long nowSum = 0;
-  int bestK = 0;
+  long long max_sum = LLONG_MIN;
+  long long now_sum = 0;
+  int best_k = 0;
   int j = 0;
   for (int k = -(cols - 1); k <= rows - 1; k++) {
-    nowSum = 0;
+    now_sum = 0;
 
     for (int i = 0; i < rows; i++) {
       j = i - k;
-      if (j < 0 || j >= cols) continue;
+      if (j < 0 || j >= cols) {
+        continue;
+      }
 
       if (mode == "1") {
-        nowSum += matrixStc[i * cols + j];
-      }
-      else {
-        nowSum += matrixDyn[i][j];
+        now_sum += matrix_stc[i * cols + j];
+      } else {
+        now_sum += matrix_dyn[i][j];
       }
     }
 
-    if (nowSum > maxSum) {
-      maxSum = nowSum;
-      bestK = k;
+    if (now_sum > max_sum) {
+      max_sum = now_sum;
+      best_k = k;
     }
   }
 
-  std::cout << "Max sum: " << maxSum << "\n Diagonal: " << (bestK + cols - 1) << "\n";
+  std::cout << "Max sum: " << max_sum << "\n Diagonal: " << (best_k + cols - 1) << "\n";
 
   if (mode == "2") {
-    sakardin::freeMatrix(matrixDyn, rows);
+    sakardin::freeMatrix(matrix_dyn, rows);
   }
 
   return 0;

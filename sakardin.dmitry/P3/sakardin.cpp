@@ -1,40 +1,49 @@
-#include "sakardin.h"
-#include <iostream>
+#include "sakardin.hpp"
 
-#include <string>
 #include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+const int MAX_DIM = 100;
+const int MIN_VAL = -100;
+const int MAX_VAL = 100;
 
 namespace sakardin {
-
-  std::ifstream openInputFile(const std::string& filename) {
-    std::ifstream fileIn(filename);
-    if (!fileIn.is_open()) {
+  std::ifstream openInputFile(const std::string& filename)
+  {
+    std::ifstream file_in(filename);
+    if (!file_in.is_open()) {
       std::cerr << "ERROR: cannot open file " << filename << "\n";
     }
-    return fileIn;
+    return file_in;
   }
 
-  std::ofstream openOutFule(const std::string& filename) {
-    std::ofstream fileOut(filename);
-    if (!fileOut.is_open()) {
+  std::ofstream openOutFule(const std::string& filename)
+  {
+    std::ofstream file_out(filename);
+    if (!file_out.is_open()) {
       std::cerr << "ERROR: cannot open file " << filename << "\n";
     }
-    return fileOut;
+    return file_out;
   }
 
-  int** allocateMatrix(int rows, int cols) {
+  int** allocateMatrix(int rows, int cols)
+  {
     if (rows <= 0 || cols <= 0) {
       throw std::invalid_argument("Matrix size <= 0");
     }
 
-    int** matrix = new int* [rows] {};
+    int** const matrix = new int* [rows];
+    for (int i = 0; i < rows; i++) {
+      matrix[i] = nullptr;
+    }
 
     try {
       for (int i = 0; i < rows; i++) {
-        matrix[i] = new int[cols] {};
+        matrix[i] = new int[cols];
       }
-    }
-    catch (...) {
+    } catch (...) {
       for (int i = 0; i < rows; i++) {
         delete[] matrix[i];
       }
@@ -45,8 +54,11 @@ namespace sakardin {
     return matrix;
   }
 
-  void freeMatrix(int** matrix, int rows) {
-    if (matrix == nullptr) return;
+  void freeMatrix(int** matrix, int rows)
+  {
+    if (matrix == nullptr) {
+      return;
+    }
 
     for (int i = 0; i < rows; i++) {
       delete[] matrix[i];
@@ -54,12 +66,13 @@ namespace sakardin {
     delete[] matrix;
   }
 
-  void fillMatrixInputFile(int** matrix, int rows, int cols, std::ifstream& file) {
+  void fillMatrixInputFile(int** matrix, int rows, int cols, std::ifstream& file)
+  {
     if (matrix == nullptr) {
       throw std::invalid_argument("Matrix is nullptr");
     }
 
-    if (rows <= 0 || rows > 100 || cols <= 0 || cols > 100) {
+    if (rows <= 0 || rows > MAX_DIM || cols <= 0 || cols > MAX_DIM) {
       throw std::invalid_argument("Matrix size <= 0");
     }
 
@@ -68,11 +81,10 @@ namespace sakardin {
         if (!(file >> matrix[i][j])) {
           throw std::runtime_error("Incorrect input or unexpected end of file");
         }
-        if (matrix[i][j] > 100 || matrix[i][j] < -100) {
+        if (matrix[i][j] > MAX_VAL || matrix[i][j] < MIN_VAL) {
           throw std::out_of_range("ENTER NUM IN DIAPASON -100 - 100");
         }
       }
     }
   }
-
 }
