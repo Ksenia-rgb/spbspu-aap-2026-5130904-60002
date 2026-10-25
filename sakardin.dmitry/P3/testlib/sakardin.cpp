@@ -12,7 +12,7 @@ namespace sakardin {
     }
     return fileIn;
   }
-  
+
   std::ofstream openOutFule(const std::string& filename) {
     std::ofstream fileOut(filename);
     if (!fileOut.is_open()) {

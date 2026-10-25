@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <climits>
 
 #include "testlib/sakardin.h"
