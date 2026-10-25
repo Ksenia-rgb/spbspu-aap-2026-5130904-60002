@@ -5,7 +5,7 @@
 #include <exception>
 #include <cstddef>
 
-const size_t maxSize = 10000;
+const size_t max_size = 10000;
 
 void checkArguments(const int argc, char* argv[])
 {
@@ -32,7 +32,7 @@ int** allocateMatrix(const int rows, const int cols)
     throw std::invalid_argument("Invalid rows or colums");
   }
 
-  int** matrix = new int* [static_cast< size_t >(rows)]
+  int** const matrix = new int* [static_cast< size_t >(rows)]
   {
   };
 
@@ -71,21 +71,21 @@ void checkMatrixInFile(std::ifstream& ifile)
   if (rows < 1 || cols < 1) {
     throw std::runtime_error("Error: incorrect matrix size");
   }
-  size_t countInFile = 0;
+  size_t count_in_file = 0;
   int x = 0;
   while (ifile >> x) {
-    countInFile++;
+    count_in_file++;
   }
-  if (countInFile != static_cast< size_t >(rows) * static_cast< size_t >(cols)) {
+  if (count_in_file != static_cast< size_t >(rows) * static_cast< size_t >(cols)) {
     throw std::runtime_error("Error: incorrect matrix");
   }
 }
 
-void fillMatrix(int arr[maxSize], std::ifstream& ifile)
+void fillMatrix(int arr[max_size], std::ifstream& ifile)
 {
   size_t i = 0;
   int x = 0;
-  while (ifile >> x && i < maxSize) {
+  while (ifile >> x && i < max_size) {
     arr[i] = x;
     i++;
   }
@@ -102,52 +102,52 @@ void fillMatrix(int** matrix, const size_t rows, const size_t cols, std::ifstrea
 
 int numRowsMaxLenEqual(const int arr[], const size_t rows, const size_t cols)
 {
-  int numRowsWithMax = 0;
-  size_t maxLen = 0;
+  int num_rows_with_max = 0;
+  size_t max_len = 0;
   for (size_t i = 0; i < rows; i++) {
-    size_t currLen = 1;
+    size_t curr_len = 1;
     for (size_t j = 1; j < cols; j++) {
       if (arr[i * cols + j] == arr[i * cols + j - 1]) {
-        currLen++;
+        curr_len++;
       } else {
-        currLen = 1;
+        curr_len = 1;
       }
-      if (currLen > maxLen) {
-        maxLen = currLen;
-        numRowsWithMax = static_cast< int >(i) + 1;
+      if (curr_len > max_len) {
+        max_len = curr_len;
+        num_rows_with_max = static_cast< int >(i) + 1;
       }
     }
-    if (cols == 1 && maxLen == 0) {
-      maxLen = 1;
-      numRowsWithMax = static_cast< int >(i) + 1;
+    if (cols == 1 && max_len == 0) {
+      max_len = 1;
+      num_rows_with_max = static_cast< int >(i) + 1;
     }
   }
-  return numRowsWithMax;
+  return num_rows_with_max;
 }
 
 int numRowsMaxLenEqual(int** matrix, const size_t rows, const size_t cols)
 {
-  int numRowsWithMax = 0;
-  size_t maxLen = 0;
+  int num_rows_with_max = 0;
+  size_t max_len = 0;
   for (size_t i = 0; i < rows; i++) {
-    size_t currLen = 1;
+    size_t curr_len = 1;
     for (size_t j = 1; j < cols; j++) {
       if (matrix[i][j] == matrix[i][j - 1]) {
-        currLen++;
+        curr_len++;
       } else {
-        currLen = 1;
+        curr_len = 1;
       }
-      if (currLen > maxLen) {
-        maxLen = currLen;
-        numRowsWithMax = static_cast< int >(i) + 1;
+      if (curr_len > max_len) {
+        max_len = curr_len;
+        num_rows_with_max = static_cast< int >(i) + 1;
       }
     }
-    if (cols == 1 && maxLen == 0) {
-      maxLen = 1;
-      numRowsWithMax = static_cast< int >(i) + 1;
+    if (cols == 1 && max_len == 0) {
+      max_len = 1;
+      num_rows_with_max = static_cast< int >(i) + 1;
     }
   }
-  return numRowsWithMax;
+  return num_rows_with_max;
 }
 
 int main(int argc, char* argv[])
@@ -178,11 +178,11 @@ int main(int argc, char* argv[])
   int cols = 0;
   ifile >> rows >> cols;
 
-  int numRowsMaxEqual = 0;
+  int num_rows_max_equal = 0;
   if (mode == 1) {
-    int arr[maxSize]{};
+    int arr[max_size]{};
     fillMatrix(arr, ifile);
-    numRowsMaxEqual = numRowsMaxLenEqual(arr, static_cast< size_t >(rows), static_cast< size_t >(cols));
+    num_rows_max_equal = numRowsMaxLenEqual(arr, static_cast< size_t >(rows), static_cast< size_t >(cols));
   } else {
     int** matrix = nullptr;
     try {
@@ -192,13 +192,13 @@ int main(int argc, char* argv[])
       return 3;
     }
     fillMatrix(matrix, static_cast< size_t >(rows), static_cast< size_t >(cols), ifile);
-    numRowsMaxEqual = numRowsMaxLenEqual(matrix, static_cast< size_t >(rows), static_cast< size_t >(cols));
+    num_rows_max_equal = numRowsMaxLenEqual(matrix, static_cast< size_t >(rows), static_cast< size_t >(cols));
     freeMatrix(matrix, rows);
   }
   ifile.close();
 
   std::ofstream ofile(argv[3]);
-  ofile << numRowsMaxEqual;
+  ofile << num_rows_max_equal;
   ofile.close();
   return 0;
 }
