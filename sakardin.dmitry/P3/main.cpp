@@ -1,7 +1,7 @@
 #include <iostream>
 #include <climits>
 
-#include "testlib/sakardin.h"
+#include "sakardin.h"
 
 const int MAX_SIZE = 10000;
 const int INVALID_ARGUMENT_ERROR = 2;
