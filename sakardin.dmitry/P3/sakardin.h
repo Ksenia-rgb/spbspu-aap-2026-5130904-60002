@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SAKARDIN_H
+#define SAKARDIN_H
 
 #include <string>
 #include <fstream>
@@ -12,3 +13,4 @@ namespace sakardin {
   void fillMatrixInputFile(int** matrix, int rows, int cols, std::ifstream& file);
 
 }
+#endif
