@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <cstddef>
+#include <new>
 
 const int MAX_SIZE = 100;
 
