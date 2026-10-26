@@ -41,7 +41,7 @@ void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int n) {
 }
 
 int min(int a, int b) {
-  int n;
+  int n = 0;
   if (a < b) {
     n = a;
   } else {
@@ -52,7 +52,7 @@ int min(int a, int b) {
 
 void fillMatrix(int (&matrix)[MAX_SIZE][MAX_SIZE], std::ifstream& file, int rows, int cols) {
   int value = 0;
-  int n = min(rows, cols);
+  const int n = min(rows, cols);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       file >> value;
@@ -68,7 +68,7 @@ void fillMatrix(int (&matrix)[MAX_SIZE][MAX_SIZE], std::ifstream& file, int rows
 
 void fillMatrix(int**(&matrix), std::ifstream& file, int rows, int cols) {
   int value = 0;
-  int n = min(rows, cols);
+  const int n = min(rows, cols);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       file >> value;
@@ -82,7 +82,7 @@ void fillMatrix(int**(&matrix), std::ifstream& file, int rows, int cols) {
   }
 }
 
-int Cnt_nzr_dig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
+int CntNzrDig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
   int count = 0;
   bool zero = false;
   for (int c = 1; c < n; c++) {
@@ -110,7 +110,7 @@ int Cnt_nzr_dig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
   return count;
 }
 
-int Cnt_nzr_dig(int**(&matrix), int n) {
+int CntNzrDig(int**(&matrix), int n) {
   int count = 0;
   bool zero = false;
   for (int c = 1; c < n; c++) {
@@ -147,8 +147,9 @@ int main(int argc, char* avgv[]) {
     std::cerr << "Too many arguments\n";
     return 1;
   }
+  int option = std::stoi(avgv[1]);
   try {
-    if ((std::stoi(avgv[1]) != 1) && (std::stoi(avgv[1]) != 2)) {
+    if ((option != 1) && (option != 2)) {
       std::cerr << "First parameter out of range\n";
       return 1;
     }
@@ -177,13 +178,13 @@ int main(int argc, char* avgv[]) {
   }
   int matrix[MAX_SIZE][MAX_SIZE]{};
   int** matrix_d = nullptr;
-  switch (std::atoi(avgv[1])) {
+  switch (option) {
     case 1:
       try {
         fillMatrix(matrix, ifile, rows, cols);
         std::cout << "Input matrix: \n";
         printMatrix(matrix, min(rows, cols));
-        result = Cnt_nzr_dig(matrix, min(rows, cols));
+        result = CntNzrDig(matrix, min(rows, cols));
       } catch (std::invalid_argument& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
         return 2;
@@ -196,7 +197,7 @@ int main(int argc, char* avgv[]) {
         fillMatrix(matrix_d, ifile, rows, cols);
         std::cout << "Input matrix: \n";
         printMatrix(matrix_d, min(rows, cols));
-        result = Cnt_nzr_dig(matrix_d, min(rows, cols));
+        result = CntNzrDig(matrix_d, min(rows, cols));
         freeMatrix(matrix_d, min(rows, cols));
       } catch (std::invalid_argument& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
