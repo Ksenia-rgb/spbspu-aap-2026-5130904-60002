@@ -164,15 +164,15 @@ int main(int argc, char* avgv[]) {
   }
   std::ofstream ofile(avgv[3]);
   int result = 0;
-  int rows = 0;
-  int cols = 0;
+  int rows = -1;
+  int cols = -1;
   ifile >> rows >> cols;
   if (rows < 0 || cols < 0) {
     std::cerr << "ERROR: invalid number of cols or/and rows\n";
     return 2;
   }
   if (rows == 0 || cols == 0) {
-    ofile << "The number of diagonals: 0\n";
+    ofile << 0;
     std::cout << "Expects output\n";
     return 0;
   }
@@ -210,7 +210,7 @@ int main(int argc, char* avgv[]) {
       }
       break;
   }
-  ofile << "The number of diagonals: " << result << "\n";
+  ofile << result;
   std::cout << "Expects output\n";
   return 0;
 }
