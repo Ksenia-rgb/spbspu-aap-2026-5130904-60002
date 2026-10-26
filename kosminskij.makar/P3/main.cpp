@@ -121,9 +121,9 @@ int main(int argc, char* argv[])
       return 2;
     }
 
-    int data[MAX_SIZE]
-    int* matrix[MAX_SIZE]
-    for (int i = 0; i < rows; ++i {
+    int data[MAX_SIZE];
+    int* matrix[MAX_SIZE];
+    for (int i = 0; i < rows; ++i) {
       matrix[i] = data + i * cols;
     }
 
