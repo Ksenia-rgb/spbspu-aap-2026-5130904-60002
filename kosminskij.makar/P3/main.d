@@ -1,4 +1,4 @@
-out/kosminskij.makar/P1/main.o: \
+out/kosminskij.makar/P3/main.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/SDKSettings.json \
-  kosminskij.makar/P1/main.cpp
+  kosminskij.makar/P3/main.cpp
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/SDKSettings.json:
