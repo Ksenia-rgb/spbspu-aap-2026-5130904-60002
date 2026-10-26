@@ -1,11 +1,12 @@
-#include <fstream>
 #include <iostream>
-#include <stdexcept>
+#include <fstream>
 #include <string>
+#include <stdexcept>
 
 const int MAX_SIZE = 100;
 
-void spiralDecrease(int matrix[][MAX_SIZE], int rows, int cols) {
+void spiralDecrease(int matrix[][MAX_SIZE], int rows, int cols)
+{
   int change = 1;
   int top = 0;
   int bottom = rows - 1;
@@ -40,7 +41,8 @@ void spiralDecrease(int matrix[][MAX_SIZE], int rows, int cols) {
   }
 }
 
-void spiralDecrease(int **matrix, int rows, int cols) {
+void spiralDecrease(int** matrix, int rows, int cols)
+{
   int change = 1;
   int top = 0;
   int bottom = rows - 1;
@@ -75,11 +77,12 @@ void spiralDecrease(int **matrix, int rows, int cols) {
   }
 }
 
-int **allocateMatrix(int rows, int cols) {
+int** allocateMatrix(int rows, int cols)
+{
   if (rows <= 0 || cols <= 0) {
     throw std::invalid_argument("Matrix size <= 0");
   }
-  int **const matrix = new int *[rows];
+  int** const matrix = new int*[rows];
   try {
     for (int i = 0; i < rows; ++i) {
       matrix[i] = new int[cols]{};
@@ -94,7 +97,8 @@ int **allocateMatrix(int rows, int cols) {
   return matrix;
 }
 
-void freeMatrix(int **matrix, int rows) {
+void freeMatrix(int** matrix, int rows)
+{
   if (matrix != nullptr) {
     for (int i = 0; i < rows; ++i) {
       delete[] matrix[i];
@@ -103,7 +107,8 @@ void freeMatrix(int **matrix, int rows) {
   }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[])
+{
   const int error_code_content = 2;
   const int error_code_args = 1;
 
@@ -114,16 +119,16 @@ int main(int argc, char *argv[]) {
 
   int memory_var = 0;
   try {
-    size_t pos;
+    size_t pos = 0;  // ВАЖНО: инициализация = 0
     memory_var = std::stoi(argv[1], &pos);
     if (pos != std::string(argv[1]).length()) {
       std::cerr << "ERROR: first parameter is not a valid number\n";
       return error_code_args;
     }
-  } catch (const std::invalid_argument &e) {
+  } catch (const std::invalid_argument& e) {
     std::cerr << "ERROR: first parameter is not a number\n";
     return error_code_args;
-  } catch (const std::out_of_range &e) {
+  } catch (const std::out_of_range& e) {
     std::cerr << "ERROR: first parameter is out of range\n";
     return error_code_args;
   }
@@ -169,8 +174,7 @@ int main(int argc, char *argv[]) {
   switch (memory_var) {
   case 1: {
     if (rows > MAX_SIZE || cols > MAX_SIZE) {
-      std::cerr << "ERROR: matrix dimensions exceed maximum allowed size for "
-                   "stack allocation\n";
+      std::cerr << "ERROR: matrix dimensions exceed maximum allowed size for stack allocation\n";
       return error_code_content;
     }
     int matrix1[MAX_SIZE][MAX_SIZE] = {};
@@ -192,10 +196,10 @@ int main(int argc, char *argv[]) {
     break;
   }
   case 2: {
-    int **matrix2 = nullptr;
+    int** matrix2 = nullptr;
     try {
       matrix2 = allocateMatrix(rows, cols);
-    } catch (const std::bad_alloc &e) {
+    } catch (const std::bad_alloc& e) {
       std::cerr << "ERROR: memory allocation failed\n";
       return error_code_content;
     }
