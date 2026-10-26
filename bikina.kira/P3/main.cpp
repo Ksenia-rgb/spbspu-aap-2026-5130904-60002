@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
 
   int memory_var = 0;
   try {
-    size_t pos = 0;  // ВАЖНО: инициализация = 0
+    size_t pos = 0;
     memory_var = std::stoi(argv[1], &pos);
     if (pos != std::string(argv[1]).length()) {
       std::cerr << "ERROR: first parameter is not a valid number\n";
