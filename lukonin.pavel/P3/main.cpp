@@ -14,7 +14,16 @@ int main(int argc, char* argv[])
   int m, n;
   file_i >> m >> n;
 
-  if ((m <= 0) && (n <= 0))
+  if ((m == 0) && (n == 0)){
+    file_i.close();
+
+    std::ofstream file_o(argv[3]);
+    file_o << 0;
+    file_o.close();
+
+    return 0;
+  }
+  else if ((m <= 0) || (n <= 0))
   {
     std::cerr << "INVALID_ARGUMENT\n";
     return 1;
@@ -34,10 +43,34 @@ int main(int argc, char* argv[])
       for (int j = 0; j < n; j++)
       {
         file_i >> matr[i][j];
-        std::cout << matr[i][j] << " ";
+        //std::cout << matr[i][j] << " ";
       }
-      std::cout << "\n";
+      //std::cout << "\n";
     }
+
+    file_i.close();
+
+    int ans = 0;
+
+    for (int i = 0; i < m; i++)
+    {
+      bool flag = true;
+      for (int j = 0; j < n - 1; j++)
+      {
+        if (matr[i][j] == matr[i][j+1])
+        {
+          flag = false;
+        }
+      }
+      if (flag)
+      {
+        ans++;
+      }
+    }
+
+    std::ofstream file_o(argv[3]);
+    file_o << ans;
+    file_o.close();
   }
   else if (std::stoi(argv[1]) == 2)
   {
@@ -52,10 +85,41 @@ int main(int argc, char* argv[])
       for (int j = 0; j < n; j++)
       {
         file_i >> matr[i][j];
-        std::cout << matr[i][j] << " ";
+        //std::cout << matr[i][j] << " ";
       }
-      std::cout << "\n";
+      //std::cout << "\n";
     }
+
+    file_i.close();
+
+    int ans = 0;
+
+    for (int i = 0; i < m; i++)
+    {
+      bool flag = true;
+      for (int j = 0; j < n - 1; j++)
+      {
+        if (matr[i][j] == matr[i][j+1])
+        {
+          flag = false;
+        }
+      }
+      if (flag)
+      {
+        ans++;
+      }
+    }
+
+    for (int i = 0; i < m; i++)
+    {
+      delete[] matr[i];
+    }
+    delete[] matr;
+    matr = nullptr;
+
+    std::ofstream file_o(argv[3]);
+    file_o << ans;
+    file_o.close();
   }
   else
   {
