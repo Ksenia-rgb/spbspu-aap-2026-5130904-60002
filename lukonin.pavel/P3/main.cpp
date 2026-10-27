@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
   int m, n;
   file_i >> m >> n;
 
-  if ((m == 0) && (n == 0)){
+  if ((m == 0) && (n == 0))
+  {
     file_i.close();
 
     std::ofstream file_o(argv[3]);
