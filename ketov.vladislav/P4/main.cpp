@@ -1,13 +1,17 @@
+#include <cctype>
+#include <cstddef>
 #include <cstring>
 #include <iostream>
 
 const char second[] = "abc_ef";
 const int out1 = 1;
 const int out0 = 0;
+const size_t initial_capacity = 8;
+const size_t digits_count = 10;
 
 namespace ketov {
 
-  char *findCommonChars(char *dest, const char *str1, const char *str2)
+  char *find_common_chars(char *dest, const char *str1, const char *str2)
   {
     size_t idx = 0;
     for (size_t i = 0; i < strlen(str1); i++) {
@@ -23,11 +27,11 @@ namespace ketov {
     return dest;
   }
 
-  int hasRepeatedDigits(const char *str)
+  int has_repeated_digits(const char *str)
   {
-    int counts[10] = {0};
-    for (int i = 0; str[i] != '\0'; i++) {
-      if (std::isdigit(str[i])) {
+    int counts[digits_count] = {0};
+    for (size_t i = 0; str[i] != '\0'; i++) {
+      if (std::isdigit(static_cast< unsigned char >(str[i]))) {
         counts[str[i] - '0'] += 1;
         if (counts[str[i] - '0'] > 1) {
           return out1;
@@ -36,35 +40,34 @@ namespace ketov {
     }
     return out0;
   }
-
 } // namespace ketov
 
 int main()
 {
   try {
-    int size = 0;
-    int capacity = 8;
+    size_t size = 0;
+    size_t capacity = initial_capacity;
     char *first = new char[capacity];
     char ch = 0;
     while (std::cin.get(ch) && ch != '\n') {
       if (size + 1 >= capacity) {
-        int newCapacity = capacity * 2;
-        char *newFirst = new char[newCapacity];
-        for (int i = 0; i < size; i++) {
-          newFirst[i] = first[i];
+        const size_t new_capacity = capacity * 2;
+        char *const new_first = new char[new_capacity];
+        for (size_t i = 0; i < size; i++) {
+          new_first[i] = first[i];
         }
         delete[] first;
-        first = newFirst;
-        capacity = newCapacity;
+        first = new_first;
+        capacity = new_capacity;
       }
       first[size] = ch;
       size++;
     }
     first[size] = '\0';
 
-    char *dest = new char[std::strlen(first) + 1];
-    char *res1 = ketov::findCommonChars(dest, first, second);
-    int res2 = ketov::hasRepeatedDigits(first);
+    char *const dest = new char[std::strlen(first) + 1];
+    const char *const res1 = ketov::find_common_chars(dest, first, second);
+    const int res2 = ketov::has_repeated_digits(first);
 
     std::cout << res1 << "\n";
 
@@ -79,4 +82,3 @@ int main()
     return out1;
   }
 }
-
