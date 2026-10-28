@@ -9,9 +9,9 @@ namespace ketov {
 
   char *findCommonChars(char *dest, const char *str1, const char *str2)
   {
-    int idx = 0;
-    for (int i = 0; i < strlen(str1); i++) {
-      for (int j = 0; j < strlen(str2); j++) {
+    size_t idx = 0;
+    for (size_t i = 0; i < strlen(str1); i++) {
+      for (size_t j = 0; j < strlen(str2); j++) {
         if (str1[i] == str2[j]) {
           dest[idx] = str1[i];
           idx++;
