@@ -11,7 +11,7 @@ const size_t digits_count = 10;
 
 namespace ketov {
 
-  char *find_common_chars(char *dest, const char *str1, const char *str2)
+  char *findCommonChars(char *dest, const char *str1, const char *str2)
   {
     size_t idx = 0;
     for (size_t i = 0; i < strlen(str1); i++) {
@@ -27,7 +27,7 @@ namespace ketov {
     return dest;
   }
 
-  int has_repeated_digits(const char *str)
+  int hasRepeatedDigits(const char *str)
   {
     int counts[digits_count] = {0};
     for (size_t i = 0; str[i] != '\0'; i++) {
@@ -40,7 +40,7 @@ namespace ketov {
     }
     return out0;
   }
-} // namespace ketov
+}
 
 int main()
 {
@@ -63,11 +63,17 @@ int main()
       first[size] = ch;
       size++;
     }
+    if (size == 0) {
+      delete[] first;
+      std::cerr << "Empty input\n";
+      return out1;
+    }
+
     first[size] = '\0';
 
     char *const dest = new char[std::strlen(first) + 1];
-    const char *const res1 = ketov::find_common_chars(dest, first, second);
-    const int res2 = ketov::has_repeated_digits(first);
+    const char *const res1 = ketov::findCommonChars(dest, first, second);
+    const int res2 = ketov::hasRepeatedDigits(first);
 
     std::cout << res1 << "\n";
 
