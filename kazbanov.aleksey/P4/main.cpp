@@ -3,6 +3,7 @@
 #include <iostream>
 
 const int error = 1;
+const int initial_buffer = 8;
 
 namespace kazbanov {
   char* removeLatin(char* dest, const char* src)
@@ -33,7 +34,7 @@ namespace kazbanov {
 int main()
 {
   size_t size = 0;
-  size_t max_size = 8;
+  size_t max_size = initial_buffer;
   char* buffer = nullptr;
   try {
     buffer = new char[max_size];
@@ -44,7 +45,7 @@ int main()
   char ch = '\0';
   while (std::cin.get(ch) && ch != '\n') {
     if (size + 1 >= max_size) {
-      size_t new_max_size = max_size * 2;
+      const size_t new_max_size = max_size * 2;
       char* new_buffer = nullptr;
       try {
         new_buffer = new char[new_max_size];
@@ -63,6 +64,12 @@ int main()
     buffer[size++] = ch;
   }
   buffer[size] = '\0';
+
+  if (size == 0) {
+    std::cerr << "Error\n";
+    delete[] buffer;
+    return error;
+  }
 
   char* result = nullptr;
   try {
