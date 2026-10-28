@@ -9,9 +9,9 @@ int main(int argc, char* argv[])
     std::cerr << "INVALID_ARGUMENT\n";
     return 1;
   }
-  
+
   std::ifstream file_i(argv[2]);
-  int m, n;
+  int m{}, n{};
   file_i >> m >> n;
 
   if ((m == 0) && (n == 0))
@@ -44,9 +44,7 @@ int main(int argc, char* argv[])
       for (int j = 0; j < n; j++)
       {
         file_i >> matr[i][j];
-        //std::cout << matr[i][j] << " ";
       }
-      //std::cout << "\n";
     }
 
     file_i.close();
@@ -86,9 +84,7 @@ int main(int argc, char* argv[])
       for (int j = 0; j < n; j++)
       {
         file_i >> matr[i][j];
-        //std::cout << matr[i][j] << " ";
       }
-      //std::cout << "\n";
     }
 
     file_i.close();
