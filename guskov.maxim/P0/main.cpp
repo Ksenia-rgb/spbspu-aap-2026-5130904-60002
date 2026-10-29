@@ -1,5 +1,2 @@
 #include <iostream>
-int main()
-{
- std::cout << "guskov.maxim\n";
-}
+int main() { std::cout << "guskov.maxim\n"; }
