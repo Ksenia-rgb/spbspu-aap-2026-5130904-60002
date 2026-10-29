@@ -15,9 +15,9 @@ void freeMatrix(int **matrix, int n)
 void allocateMatrix(int **(&matrix), int n)
 {
   try {
-    matrix = new int *[n];
+    matrix = new int *[n]();
     for (int i = 0; i < n; i++) {
-      matrix[i] = new int[n]{};
+      matrix[i] = new int[n]();
     }
   } catch (...) {
     throw;
