@@ -82,7 +82,7 @@ void fillMatrix(int**(&matrix), std::ifstream& file, int rows, int cols) {
   }
 }
 
-int CntNzrDig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
+int cntNzrDig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
   int count = 0;
   bool zero = false;
   for (int c = 1; c < n; c++) {
@@ -110,7 +110,7 @@ int CntNzrDig(int (&matrix)[MAX_SIZE][MAX_SIZE], int n) {
   return count;
 }
 
-int CntNzrDig(int**(&matrix), int n) {
+int cntNzrDig(int**(&matrix), int n) {
   int count = 0;
   bool zero = false;
   for (int c = 1; c < n; c++) {
@@ -147,9 +147,9 @@ int main(int argc, char* avgv[]) {
     std::cerr << "Too many arguments\n";
     return 1;
   }
-  int option = std::stoi(avgv[1]);
+  const char* option = avgv[1];
   try {
-    if ((option != 1) && (option != 2)) {
+    if ((std::stoi(option) != 1) && (std::stoi(option) != 2)) {
       std::cerr << "First parameter out of range\n";
       return 1;
     }
@@ -164,9 +164,12 @@ int main(int argc, char* avgv[]) {
   }
   std::ofstream ofile(avgv[3]);
   int result = 0;
-  int rows = -1;
-  int cols = -1;
-  ifile >> rows >> cols;
+  int rows = 0;
+  int cols = 0;
+  if (!(ifile >> rows >> cols)) {
+    std::cerr << "ERROR: empty file\n";
+    return 2;
+  }
   if (rows < 0 || cols < 0) {
     std::cerr << "ERROR: invalid number of cols or/and rows\n";
     return 2;
@@ -178,13 +181,13 @@ int main(int argc, char* avgv[]) {
   }
   int matrix[MAX_SIZE][MAX_SIZE]{};
   int** matrix_d = nullptr;
-  switch (option) {
+  switch (std::stoi(option)) {
     case 1:
       try {
         fillMatrix(matrix, ifile, rows, cols);
         std::cout << "Input matrix: \n";
         printMatrix(matrix, min(rows, cols));
-        result = CntNzrDig(matrix, min(rows, cols));
+        result = cntNzrDig(matrix, min(rows, cols));
       } catch (std::invalid_argument& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
         return 2;
@@ -193,11 +196,10 @@ int main(int argc, char* avgv[]) {
     case 2:
       try {
         allocateMatrix(matrix_d, min(rows, cols));
-        std::cout << "1\n";
         fillMatrix(matrix_d, ifile, rows, cols);
         std::cout << "Input matrix: \n";
         printMatrix(matrix_d, min(rows, cols));
-        result = CntNzrDig(matrix_d, min(rows, cols));
+        result = cntNzrDig(matrix_d, min(rows, cols));
         freeMatrix(matrix_d, min(rows, cols));
       } catch (std::invalid_argument& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
