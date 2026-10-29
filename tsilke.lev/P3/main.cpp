@@ -15,7 +15,7 @@ void freeMatrix(int **matrix, int n)
 void allocateMatrix(int **(&matrix), int n)
 {
   try {
-    matrix = new int* [n]{};
+    matrix = new int * [n]{};
     for (int i = 0; i < n; i++) {
       matrix[i] = new int[n]{};
     }
@@ -163,7 +163,7 @@ int main(int argc, char *avgv[])
     std::cerr << "Too many arguments\n";
     return 1;
   }
-  const char* const option = avgv[1];
+  const char *const option = avgv[1];
   try {
     if ((std::stoi(option) != 1) && (std::stoi(option) != 2)) {
       std::cerr << "First parameter out of range\n";
