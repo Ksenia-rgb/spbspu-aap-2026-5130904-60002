@@ -116,6 +116,7 @@ int main(int argc, char* argv[])
 
     std::ofstream file_o(argv[3]);
     file_o << ans;
+
     file_o.close();
   }
   else
