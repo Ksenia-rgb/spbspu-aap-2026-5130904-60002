@@ -1,12 +1,15 @@
 #include <iostream>
 
 namespace merkulov {
-    void printName() {
-        std::cout << "merkulov.vasily" << std::endl;
-    }
+  void printName();
 }
 
-int main() {
-    merkulov::printName();
-    return 0;
+void merkulov::printName()
+{
+  std::cout << "merkulov.vasily\n";
+}
+
+int main()
+{
+  merkulov::printName();
 }
