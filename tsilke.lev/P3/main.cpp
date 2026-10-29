@@ -163,7 +163,7 @@ int main(int argc, char *avgv[])
     std::cerr << "Too many arguments\n";
     return 1;
   }
-  char const *option = avgv[1];
+  const char* const option = avgv[1];
   try {
     if ((std::stoi(option) != 1) && (std::stoi(option) != 2)) {
       std::cerr << "First parameter out of range\n";
