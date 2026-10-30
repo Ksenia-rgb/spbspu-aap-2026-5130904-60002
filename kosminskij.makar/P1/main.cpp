@@ -3,7 +3,7 @@
 int main()
 {
   int x;
-  int n = 0;              
+  int n = 0;      
   int max1 = 0, max2 = 0;
   int prev = 0, cur = 0, best = 0;
 
@@ -14,13 +14,13 @@ int main()
     }
     if (x == 0) {
       break;
-    } 
+    }
 
     if (n == 0) {
       max1 = x;
     } else if (n == 1) {
       if (x > max1) {
-        max2 = max1; 
+        max2 = max1;
         max1 = x;
       } else {
         max2 = x;
