@@ -2,7 +2,7 @@
 
 int main()
 {
-  int x;
+  int x = 0;
   int n = 0;
   int max1 = 0, max2 = 0;
   int prev = 0, cur = 0, best = 0;
