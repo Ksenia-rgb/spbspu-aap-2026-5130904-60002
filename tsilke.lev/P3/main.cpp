@@ -69,7 +69,7 @@ void fillMatrix(int (&matrix)[MAX_SIZE][MAX_SIZE], std::ifstream &file, int rows
         matrix[i][j] = value;
       }
       if (file.eof() && ((i * j) <= ((rows - 1) * (cols - 1)))) {
-        throw std::length_error("Not enough values in matrix");
+        throw std::invalid_argument("Not enough values in matrix");
       }
     }
   }
@@ -89,7 +89,7 @@ void fillMatrix(int **(&matrix), std::ifstream &file, int rows, int cols)
         matrix[i][j] = value;
       }
       if (file.eof() && ((i * j) <= ((rows - 1) * (cols - 1)))) {
-        throw std::length_error("Not enough values in matrix");
+        throw std::invalid_argument("Not enough values in matrix");
       }
     }
   }
@@ -183,7 +183,7 @@ int main(int argc, char *avgv[])
   int rows = 0;
   int cols = 0;
   if (!(ifile >> rows >> cols)) {
-    std::cerr << "ERROR: empty file\n";
+    std::cerr << "ERROR: can't read values of rows and cols\n";
     return 2;
   }
   if (rows < 0 || cols < 0) {
@@ -207,9 +207,6 @@ int main(int argc, char *avgv[])
     } catch (std::invalid_argument &e) {
       std::cerr << "ERROR: " << e.what() << "\n";
       return 2;
-    } catch (std::length_error &e) {
-      std::cerr << "ERROR: " << e.what() << "\n";
-      return 2;
     }
     break;
   case 2:
@@ -223,10 +220,6 @@ int main(int argc, char *avgv[])
     } catch (std::invalid_argument &e) {
       std::cerr << "ERROR: " << e.what() << "\n";
       freeMatrix(matrix_d, min(rows, cols));
-      return 2;
-    } catch (std::length_error &e) {
-      freeMatrix(matrix_d, min(rows, cols));
-      std::cerr << "ERROR: " << e.what() << "\n";
       return 2;
     } catch (...) {
       freeMatrix(matrix_d, min(rows, cols));
