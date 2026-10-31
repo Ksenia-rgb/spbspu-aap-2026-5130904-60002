@@ -1,11 +1,12 @@
 #include <cctype>
+#include <cstddef>
 
 namespace fedorov {
-  const size_t CHARS_COUNT = 27;
+  const std::size_t CHARS_COUNT = 27;
 
   bool isCharInStr(const char c, const char* const str)
   {
-    size_t i = 0;
+    std::size_t i = 0;
     while (str[i] != '\0') {
       if (str[i++] == c) {
         return true;
@@ -16,8 +17,8 @@ namespace fedorov {
 
   char* getUniqueChars(const char* const str1, const char* const str2, char* const res)
   {
-    size_t i = 0;
-    size_t k = 0;
+    std::size_t i = 0;
+    std::size_t k = 0;
 
     while (str1[i] != '\0') {
       if (!isCharInStr(str1[i], str2) && !isCharInStr(str1[i], res)) {
@@ -43,9 +44,9 @@ namespace fedorov {
   char* getMissingChars(const char* const str, char* const res)
   {
     const char chars[CHARS_COUNT] = "abcdefghijklmnopqrstuvwxyz";
-    size_t k = 0;
+    std::size_t k = 0;
 
-    for (size_t i = 0; i < CHARS_COUNT - 1; i++) {
+    for (std::size_t i = 0; i < CHARS_COUNT - 1; i++) {
       if (!isCharInStr(chars[i], str)) {
         res[k++] = chars[i];
       }

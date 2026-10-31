@@ -1,20 +1,21 @@
 #include <iostream>
+#include <cstddef>
 #include "utils.hpp"
 
-const size_t ARRAY_GROWTH_SIZE = 5;
-const size_t RES_ARRAY_SIZE = 256;
+const std::size_t ARRAY_GROWTH_SIZE = 5;
+const std::size_t RES_ARRAY_SIZE = 256;
 
 int main()
 {
   char temp = 0;
-  size_t idx = 0;
+  std::size_t idx = 0;
   char* first = nullptr;
   char* temp_first = nullptr;
 
   while ((temp = std::cin.get()) != '\n') {
     if (idx % ARRAY_GROWTH_SIZE == 0) {
       temp_first = new char[idx + ARRAY_GROWTH_SIZE];
-      for (size_t i = 0; i < idx; i++) {
+      for (std::size_t i = 0; i < idx; i++) {
         temp_first[i] = first[i];
       }
       delete[] first;
@@ -36,7 +37,7 @@ int main()
   while ((temp = std::cin.get()) != '\n') {
     if (idx % ARRAY_GROWTH_SIZE == 0) {
       temp_second = new char[idx + ARRAY_GROWTH_SIZE];
-      for (size_t i = 0; i < idx; i++) {
+      for (std::size_t i = 0; i < idx; i++) {
         temp_second[i] = second[i];
       }
       delete[] second;
