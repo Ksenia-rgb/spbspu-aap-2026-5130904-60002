@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  std::ifstream in(inputFile);
+  std::ifstream in(input_file);
   if (!in) {
     std::cerr << "ERROR: cannot open input file\n";
     return 2;
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
     result = countColumns(matrix, rows, cols);
   }
 
-  std::ofstream out(outputFile);
+  std::ofstream out(output_file);
   if (!out) {
     std::cerr << "ERROR: cannot open output file\n";
     return 1;
