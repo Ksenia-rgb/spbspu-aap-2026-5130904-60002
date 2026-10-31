@@ -7,7 +7,7 @@ namespace korotkin
   const std::size_t start_capacity = 10;
   const std::size_t ascii_size = 256;
 
-  char* expandBuffer(char* buffer, std::size_t& capacity);
+  char* expandBuffer(const char* buffer, std::size_t& capacity);
 
   char* readLine(std::size_t& length);
 
@@ -16,9 +16,9 @@ namespace korotkin
   char* removeChars(const char* first_str, const char* second_str, char* buffer);
 }
 
-char* korotkin::expandBuffer(char* buffer, std::size_t& capacity)
+char* korotkin::expandBuffer(const char* buffer, std::size_t& capacity)
 {
-  char* expanded_buffer = new char[capacity * 2];
+  char* const expanded_buffer = new char[capacity * 2];
   for (std::size_t i = 0; i < capacity - 1; i++)
   {
     expanded_buffer[i] = buffer[i];
@@ -111,6 +111,7 @@ char* korotkin::removeChars(const char* first_str, const char* second_str, char*
 int main()
 {
   const int alloc_err = 1;
+  const int empty_str_err = 2;
 
   std::size_t len = 0;
   char* str = nullptr;
@@ -128,6 +129,17 @@ int main()
     delete[] str;
     delete[] repeated_chars;
     return alloc_err;
+  }
+
+  if (len == 0)
+  {
+    std::cerr << "ERROR: empty str\n";
+
+    delete[] remove_chars;
+    delete[] repeated_chars;
+    delete[] str;
+
+    return empty_str_err;
   }
 
   std::cout << korotkin::extractRepeated(str, repeated_chars) << "\n";
