@@ -13,7 +13,8 @@ void freeMatrix(int **matrix, int rows)
   delete[] matrix;
 }
 
-int **allocateMatrix(int rows, int cols) {
+int **allocateMatrix(int rows, int cols)
+{
   int **const matrix = new int *[rows];
 
   try {
