@@ -5,7 +5,8 @@
 
 const int MAX_SIZE = 10000;
 
-void freeMatrix(int **matrix, int rows) {
+void freeMatrix(int **matrix, int rows)
+{
   for (int i = 0; i < rows; i++) {
     delete[] matrix[i];
   }
@@ -13,7 +14,7 @@ void freeMatrix(int **matrix, int rows) {
 }
 
 int **allocateMatrix(int rows, int cols) {
-  int **const matrix = new int *[rows]{};
+  int **const matrix = new int *[rows];
 
   try {
     for (int i = 0; i < rows; i++) {
@@ -27,7 +28,8 @@ int **allocateMatrix(int rows, int cols) {
   return matrix;
 }
 
-bool readMatrix(int **m, int rows, int cols, std::ifstream &in) {
+bool readMatrix(int **m, int rows, int cols, std::ifstream &in)
+{
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (!(in >> m[i][j])) {
@@ -42,7 +44,8 @@ bool readMatrix(int **m, int rows, int cols, std::ifstream &in) {
   return true;
 }
 
-int countColumns(int **m, int rows, int cols) {
+int countColumns(int **m, int rows, int cols)
+{
   int count = 0;
   for (int j = 0; j < cols; ++j) {
     bool ok = true;
@@ -59,7 +62,8 @@ int countColumns(int **m, int rows, int cols) {
   return count;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
     return 1;
@@ -107,7 +111,7 @@ int main(int argc, char *argv[]) {
     result = countColumns(matrix, rows, cols);
     freeMatrix(matrix, rows);
   } else {
-    if (static_cast<long long>(rows) * cols > MAX_SIZE) {
+    if (static_cast< long long >(rows) * cols > MAX_SIZE) {
       std::cerr << "ERROR: matrix is too big\n";
       return 2;
     }
