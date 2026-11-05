@@ -4,93 +4,99 @@
 #include <stdexcept>
 #include <string>
 
-namespace shakirov {
-constexpr std::size_t MAX_ROWS = 100;
-constexpr std::size_t MAX_COLS = 100;
+namespace shakirov
+{
+  constexpr std::size_t MAX_ROWS = 100;
+  constexpr std::size_t MAX_COLS = 100;
 
-int **allocateMatrix(int rows, int cols) {
-  if (rows <= 0 || cols <= 0) {
-    throw std::invalid_argument("matrix size <= 0");
-  }
-  int **matrix = new int *[rows];
-  try {
-    for (int i = 0; i < rows; ++i) {
-      matrix[i] = new int[cols]{};
+  int **allocateMatrix(int rows, int cols)
+  {
+    if (rows <= 0 || cols <= 0) {
+      throw std::invalid_argument("matrix size <= 0");
     }
-  } catch (...) {
+    int **matrix = new int *[rows];
+    try {
+      for (int i = 0; i < rows; ++i) {
+        matrix[i] = new int[cols]{};
+      }
+    } catch (...) {
+      for (int i = 0; i < rows; i++) {
+        delete[] matrix[i];
+      }
+      delete[] matrix;
+      throw;
+    }
+    return matrix;
+  }
+
+  void freeMatrix(int **matrix, int rows)
+  {
     for (int i = 0; i < rows; i++) {
       delete[] matrix[i];
     }
     delete[] matrix;
-    throw;
   }
-  return matrix;
-}
 
-void freeMatrix(int **matrix, int rows) {
-  for (int i = 0; i < rows; i++) {
-    delete[] matrix[i];
-  }
-  delete[] matrix;
-}
-
-bool osedlElement(int **matrix, int row, int col, int rows, int cols) {
-  int element = matrix[row][col];
-  for (int i = 0; i < rows; i++) {
-    if (element < matrix[i][col]) {
-      return false;
-    }
-  }
-  for (int i = 0; i < cols; i++) {
-    if (element > matrix[row][i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-bool osedlElement(int matrix[][MAX_COLS], int row, int col, int rows,
-                  int cols) {
-  int element = matrix[row][col];
-  for (int i = 0; i < rows; i++) {
-    if (element < matrix[i][col]) {
-      return false;
-    }
-  }
-  for (int i = 0; i < cols; i++) {
-    if (element > matrix[row][i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-std::size_t checkCount(int **matrix, int rows, int cols) {
-  std::size_t count = 0;
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      if (osedlElement(matrix, i, j, rows, cols)) {
-        count++;
+  bool osedlElement(int **matrix, int row, int col, int rows, int cols)
+  {
+    int element = matrix[row][col];
+    for (int i = 0; i < rows; i++) {
+      if (element < matrix[i][col]) {
+        return false;
       }
     }
-  }
-  return count;
-}
-
-std::size_t checkCount(int matrix[][MAX_COLS], int rows, int cols) {
-  std::size_t count = 0;
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      if (osedlElement(matrix, i, j, rows, cols)) {
-        count++;
+    for (int i = 0; i < cols; i++) {
+      if (element > matrix[row][i]) {
+        return false;
       }
     }
+    return true;
   }
-  return count;
-}
-} // namespace shakirov
 
-int main(int argc, char *argv[]) {
+  bool osedlElement(int matrix[][MAX_COLS], int row, int col, int rows, int cols)
+  {
+    int element = matrix[row][col];
+    for (int i = 0; i < rows; i++) {
+      if (element < matrix[i][col]) {
+        return false;
+      }
+    }
+    for (int i = 0; i < cols; i++) {
+      if (element > matrix[row][i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  std::size_t checkCount(int **matrix, int rows, int cols)
+  {
+    std::size_t count = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (osedlElement(matrix, i, j, rows, cols)) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  std::size_t checkCount(int matrix[][MAX_COLS], int rows, int cols)
+  {
+    std::size_t count = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (osedlElement(matrix, i, j, rows, cols)) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+}
+int main(int argc, char *argv[])
+{
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <variant> <input> <output>\n";
     return 1;
