@@ -51,11 +51,7 @@ int main()
   char old_char = '\0';
   char new_char = '\0';
 
-  if (!(std::cin >> old_char >> new_char)) {
-    delete[] res10;
-    delete[] res11;
-    return 1;
-  }
+  std::cin >> old_char >> new_char;
 
   oglov::changeChar(s.c_str(), res10, old_char, new_char);
 
