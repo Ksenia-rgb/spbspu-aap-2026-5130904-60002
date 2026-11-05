@@ -2,11 +2,10 @@
 #include <iostream>
 #include <stdexcept>
 #include <limits>
-#include <new>
 
 namespace tsilke {
 
-  const size_t MAX_STR = 20;
+  const size_t MAX_STR = 100;
 
   bool match(const char* str, char a, size_t size)
   {
@@ -50,16 +49,14 @@ namespace tsilke {
   {
     char symb = ' ';
     for (size_t i = 0; i < size; i++) {
-      if (!(std::cin.get(symb)) || symb < 0) {
+      if (!(std::cin.get(symb))) {
         throw std::invalid_argument("unacceptable symbol. Use only ASCII symbols");
       }
       if (symb == '\n') {
-        std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         return;
       }
       str[i] = symb;
     }
-    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 
 }
@@ -72,12 +69,11 @@ int main()
   char* str_2 = nullptr;
   char* str_symbols = nullptr;
   char* str_result = nullptr;
-  try {
-    str_1 = new char[size];
-    str_2 = new char[size];
-    str_symbols = new char[size];
-    str_result = new char[size * 2 + 1];
-  } catch (const std::bad_alloc& e) {
+  str_1 = new char[size];
+  str_2 = new char[size];
+  str_symbols = new char[size];
+  str_result = new char[size * 2 + 1];
+  if (!str_1 || !str_2 || !str_symbols || !str_result) {
     std::cerr << "ERROR: bad alloc\n";
     delete[] str_1;
     delete[] str_2;
