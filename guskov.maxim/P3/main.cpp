@@ -34,10 +34,67 @@ int main(int argc, char* argv[]) {
 
     int rows;
     int cols;
+    const int MAX_COLS = 10000; 
 
     in >> rows >> cols;
     int count = cols;
+    if (num == 1)
+    {
+        int arr[MAX_COLS];
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                in >> arr[j];
+            }
+
+            for (int j = 1; j < cols; ++j)
+            {
+                if (arr[j] == arr[j - 1])
+                {
+                    --count;
+                    break;
+                }
+            }
+        }
+    }
+    if (num == 2)
+    {
+        int** matrix = new int*[rows];
+        for (int i=0;i < rows; ++i)
+        {
+            matrix[i] = new int[cols];
+        }
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                in >> matrix[i][j];
+            }
+        }
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 1; j < cols; ++j)
+            {
+                if (matrix[i][j] == matrix[i][j - 1])
+                {
+                    --count;
+                    break;
+                }
+            }
+        }
+        
+
+        for (int i=0;i < cols; ++i)
+        {
+            delete[] matrix[i];
+        }
+        delete[] matrix;
+    }
     
+
     out  << count << "\n";
     return 0;
 }
