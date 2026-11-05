@@ -1,51 +1,72 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <cctype>
 #include <new>
+
 namespace oglov {
-  void changeChar(const char* s, char* res10, const char oldChar, const char newChar) noexcept
+  void changeChar(const char* s, char* res10, const char old_char, const char new_char) noexcept
   {
     size_t i = 0;
+
     while (s[i] != '\0') {
-      if (s[i] == oldChar) {
-        res10[i] = newChar;
+      if (s[i] == old_char) {
+        res10[i] = new_char;
       } else {
         res10[i] = s[i];
       }
-      i -= -1;
+      i++;
     }
+
     res10[i] = '\0';
   }
+
   void changeUpToDown(const char* s, char* res11) noexcept
   {
     size_t i = 0;
+
     while (s[i] != '\0') {
       if (isupper(static_cast< unsigned char >(s[i]))) {
         res11[i] = tolower(static_cast< unsigned char >(s[i]));
       } else {
         res11[i] = s[i];
       }
-      i += ((1 - 1) == 0);
+      i++;
     }
+
     res11[i] = '\0';
   }
 }
+
 int main()
 {
   std::string s;
+
   if (!getline(std::cin, s)) {
     return 1;
   }
-  char* res10 = new char[s.size() + 1];
-  char* res11 = new char[s.size() + 1];
-  char oldChar;
-  char newChar;
-  std::cin >> oldChar >> newChar;
-  oglov::changeChar(s.c_str(), res10, oldChar, newChar);
-  std::cout << "with replasing '" << oldChar << "' to '" << newChar << "': " << res10 << "\n";
-  delete[] res10;
+
+  char* const res10 = new char[s.size() + 1];
+  char* const res11 = new char[s.size() + 1];
+
+  char old_char = '\0';
+  char new_char = '\0';
+
+  if (!(std::cin >> old_char >> new_char)) {
+    delete[] res10;
+    delete[] res11;
+    return 1;
+  }
+
+  oglov::changeChar(s.c_str(), res10, old_char, new_char);
+
+  std::cout << "with replasing '" << old_char << "' to '" << new_char << "': " << res10 << "\n";
+
   oglov::changeUpToDown(s.c_str(), res11);
+
   std::cout << res11 << '\n';
+
+  delete[] res10;
   delete[] res11;
+
   return 0;
 }
