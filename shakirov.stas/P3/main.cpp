@@ -1,0 +1,153 @@
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <string>
+
+namespace shakirov {
+constexpr std::size_t MAX_ROWS = 100;
+constexpr std::size_t MAX_COLS = 100;
+
+int **allocateMatrix(int rows, int cols) {
+  if (rows <= 0 || cols <= 0) {
+    throw std::invalid_argument("matrix size <= 0");
+  }
+  int **const matrix = new int *[rows];
+  try {
+    for (int i = 0; i < rows; ++i) {
+      matrix[i] = new int[cols]{};
+    }
+  } catch (...) {
+    for (int i = 0; i < rows; i++) {
+      delete[] matrix[i];
+    }
+    delete[] matrix;
+    throw;
+  }
+  return matrix;
+}
+
+void freeMatrix(int **matrix, int rows) {
+  for (int i = 0; i < rows; i++) {
+    delete[] matrix[i];
+  }
+  delete[] matrix;
+  matrix = nullptr;
+}
+bool osedlElement(int **matrix, int row, int col, int rows, int cols) {
+  int element = matrix[row][col];
+  for (int i = 0; i < rows; i++) {
+    if (element < matrix[i][col]) {
+      return false;
+    }
+  }
+  for (int i = 0; i < cols; i++) {
+    if (element > matrix[row][i]) {
+      return false;
+    }
+  }
+  return true;
+}
+bool osedlElement(int matrix[][MAX_COLS], int row, int col, int rows,
+                  int cols) {
+  int element = matrix[row][col];
+  for (int i = 0; i < rows; i++) {
+    if (element < matrix[i][col]) {
+      return false;
+    }
+  }
+  for (int i = 0; i < cols; i++) {
+    if (element > matrix[row][i]) {
+      return false;
+    }
+  }
+  return true;
+}
+int chekCount(int **matrix, int rows, int cols) {
+  size_t count = 0;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (osedlElement(matrix, i, j, rows, cols)) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+int chekCount(int matrix[][MAX_COLS], int rows, int cols) {
+  size_t count = 0;
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      if (osedlElement(matrix, i, j, rows, cols)) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+} // namespace shakirov
+
+int main(int argc, char *argv[]) {
+  if (argc != 4) {
+    std::cerr << "Usage: " << argv[0] << " <variant> <input> <output>\n";
+    return 1;
+  }
+  const std::string inName = argv[2];
+  const std::string outName = argv[3];
+  const int variant = std::atoi(argv[1]);
+
+  if (variant != 1 && variant != 2) {
+    std::cerr << "Unsupported mode: " << variant << " (expected 1 or 2)\n";
+    return 1;
+  }
+
+  std::ifstream fin(inName);
+  if (!fin) {
+    std::cerr << "Cannot open input file: " << inName << '\n';
+    return 1;
+  }
+
+  std::size_t rows = 0, cols = 0;
+  if (!(fin >> rows >> cols) || rows == 0 || cols == 0) {
+    std::cerr << "Invalid matrix size in input file\n";
+    return 1;
+  }
+
+  std::ofstream fout(outName);
+  if (!fout) {
+    std::cerr << "Cannot open output file: " << outName << '\n';
+    return 1;
+  }
+
+  if (variant == 1) {
+    if (rows > shakirov::MAX_ROWS || cols > shakirov::MAX_COLS) {
+      std::cerr << "Matrix is too large for stack mode\n";
+      return 1;
+    }
+    int matrix[shakirov::MAX_ROWS][shakirov::MAX_COLS];
+    for (std::size_t i = 0; i < rows; ++i) {
+      for (std::size_t j = 0; j < cols; ++j) {
+        if (!(fin >> matrix[i][j])) {
+          std::cerr << "Not enough matrix elements in input file\n";
+          return 1;
+        }
+      }
+    }
+    std::size_t count = shakirov::chekCount(matrix, rows, cols);
+    fout << count << '\n';
+  } else {
+    int **matrix = shakirov::allocateMatrix(rows, cols);
+    for (std::size_t i = 0; i < rows; ++i) {
+      for (std::size_t j = 0; j < cols; ++j) {
+        if (!(fin >> matrix[i][j])) {
+          std::cerr << "Not enough matrix elements in input file\n";
+          shakirov::freeMatrix(matrix, rows);
+          return 1;
+        }
+      }
+    }
+    std::size_t count = shakirov::chekCount(matrix, rows, cols);
+    fout << count << '\n';
+    shakirov::freeMatrix(matrix, rows);
+  }
+  return 0;
+}
