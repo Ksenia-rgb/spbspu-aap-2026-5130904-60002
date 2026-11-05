@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 namespace shakirov {
@@ -11,7 +12,7 @@ int **allocateMatrix(int rows, int cols) {
   if (rows <= 0 || cols <= 0) {
     throw std::invalid_argument("matrix size <= 0");
   }
-  int **const matrix = new int *[rows];
+  int **matrix = new int *[rows];
   try {
     for (int i = 0; i < rows; ++i) {
       matrix[i] = new int[cols]{};
@@ -31,8 +32,8 @@ void freeMatrix(int **matrix, int rows) {
     delete[] matrix[i];
   }
   delete[] matrix;
-  matrix = nullptr;
 }
+
 bool osedlElement(int **matrix, int row, int col, int rows, int cols) {
   int element = matrix[row][col];
   for (int i = 0; i < rows; i++) {
@@ -47,6 +48,7 @@ bool osedlElement(int **matrix, int row, int col, int rows, int cols) {
   }
   return true;
 }
+
 bool osedlElement(int matrix[][MAX_COLS], int row, int col, int rows,
                   int cols) {
   int element = matrix[row][col];
@@ -62,8 +64,9 @@ bool osedlElement(int matrix[][MAX_COLS], int row, int col, int rows,
   }
   return true;
 }
-int chekCount(int **matrix, int rows, int cols) {
-  size_t count = 0;
+
+std::size_t checkCount(int **matrix, int rows, int cols) {
+  std::size_t count = 0;
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       if (osedlElement(matrix, i, j, rows, cols)) {
@@ -73,8 +76,9 @@ int chekCount(int **matrix, int rows, int cols) {
   }
   return count;
 }
-int chekCount(int matrix[][MAX_COLS], int rows, int cols) {
-  size_t count = 0;
+
+std::size_t checkCount(int matrix[][MAX_COLS], int rows, int cols) {
+  std::size_t count = 0;
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       if (osedlElement(matrix, i, j, rows, cols)) {
@@ -91,9 +95,9 @@ int main(int argc, char *argv[]) {
     std::cerr << "Usage: " << argv[0] << " <variant> <input> <output>\n";
     return 1;
   }
-  const std::string inName = argv[2];
-  const std::string outName = argv[3];
-  const int variant = std::atoi(argv[1]);
+  std::string inName = argv[2];
+  std::string outName = argv[3];
+  int variant = std::atoi(argv[1]);
 
   if (variant != 1 && variant != 2) {
     std::cerr << "Unsupported mode: " << variant << " (expected 1 or 2)\n";
@@ -132,7 +136,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    std::size_t count = shakirov::chekCount(matrix, rows, cols);
+    std::size_t count = shakirov::checkCount(matrix, rows, cols);
     fout << count << '\n';
   } else {
     int **matrix = shakirov::allocateMatrix(rows, cols);
@@ -145,7 +149,7 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-    std::size_t count = shakirov::chekCount(matrix, rows, cols);
+    std::size_t count = shakirov::checkCount(matrix, rows, cols);
     fout << count << '\n';
     shakirov::freeMatrix(matrix, rows);
   }
