@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <limits>
+#include <new>
 
 namespace tsilke {
 
@@ -15,7 +16,7 @@ namespace tsilke {
     return false;
   }
 
-  int dif_lat(char* symbols, char* str, int size)
+  size_t dif_lat(char* symbols, char* str, size_t size)
   {
     size_t count_symbols = 0;
     for (size_t i = 0; i < size; i++) {
@@ -28,7 +29,7 @@ namespace tsilke {
     return count_symbols;
   }
 
-  char* dgt_snd(char* res, char* str1, char* str2, int size1, int size2)
+  char* dgt_snd(char* res, char* str1, char* str2, size_t size1, size_t size2)
   {
     size_t count_res = 0;
     for (size_t i = 0; i < size1; i++) {
@@ -63,7 +64,7 @@ namespace tsilke {
 
 int main()
 {
-  int count_7 = 0;
+  size_t count_7 = 0;
   size_t size_1 = 0;
   size_t size_2 = 0;
   char* str_1 = nullptr;
@@ -86,8 +87,12 @@ int main()
     str_2 = new char[size_2];
     str_symbols = new char[size_1];
     str_result = new char[size_1 + size_2 + 1];
-  } catch (std::bad_alloc) {
+  } catch (...) {
     std::cerr << "ERROR: bad alloc\n";
+    delete[] str_1;
+    delete[] str_2;
+    delete[] str_symbols;
+    delete[] str_result;
     return 1;
   }
   try {
