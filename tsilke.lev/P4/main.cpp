@@ -1,10 +1,12 @@
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
+#include <limits>
+#include <new>
 
 namespace tsilke {
 
-  const size_t MAX_STR = 500;
+  const size_t MAX_STR = 20;
 
   bool match(const char* str, char a, size_t size)
   {
@@ -16,7 +18,7 @@ namespace tsilke {
     return false;
   }
 
-  size_t dif_lat(char* symbols, const char* str, size_t size)
+  size_t difLat(char* symbols, const char* str, size_t size)
   {
     size_t count_symbols = 0;
     for (size_t i = 0; i < size; i++) {
@@ -29,7 +31,7 @@ namespace tsilke {
     return count_symbols;
   }
 
-  char* dgt_snd(char* res, const char* str1, const char* str2, size_t size)
+  char* dgtSnd(char* res, const char* str1, const char* str2, size_t size)
   {
     size_t count_res = 0;
     for (size_t i = 0; i < size; i++) {
@@ -52,10 +54,12 @@ namespace tsilke {
         throw std::invalid_argument("unacceptable symbol. Use only ASCII symbols");
       }
       if (symb == '\n') {
+        std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
         return;
       }
       str[i] = symb;
     }
+    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 
 }
@@ -63,7 +67,7 @@ namespace tsilke {
 int main()
 {
   size_t count_7 = 0;
-  size_t size = tsilke::MAX_STR;
+  const size_t size = tsilke::MAX_STR;
   char* str_1 = nullptr;
   char* str_2 = nullptr;
   char* str_symbols = nullptr;
@@ -73,7 +77,7 @@ int main()
     str_2 = new char[size];
     str_symbols = new char[size];
     str_result = new char[size * 2 + 1];
-  } catch (...) {
+  } catch (const std::bad_alloc& e) {
     std::cerr << "ERROR: bad alloc\n";
     delete[] str_1;
     delete[] str_2;
@@ -92,8 +96,8 @@ int main()
     delete[] str_2;
     return 2;
   }
-  count_7 = tsilke::dif_lat(str_symbols, str_1, size);
-  str_result = tsilke::dgt_snd(str_result, str_1, str_2, size);
+  count_7 = tsilke::difLat(str_symbols, str_1, size);
+  str_result = tsilke::dgtSnd(str_result, str_1, str_2, size);
   std::cout << count_7 << "\n";
   size_t count_result = 0;
   while (str_result[count_result] != '\n') {
