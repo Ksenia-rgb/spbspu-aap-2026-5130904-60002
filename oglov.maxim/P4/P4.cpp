@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <cctype>
 #include <new>
 
@@ -25,8 +25,8 @@ namespace oglov {
     size_t i = 0;
 
     while (s[i] != '\0') {
-      if (isupper(static_cast< unsigned char >(s[i]))) {
-        res11[i] = tolower(static_cast< unsigned char >(s[i]));
+      if (std::isupper(static_cast< unsigned char >(s[i]))) {
+        res11[i] = std::tolower(static_cast< unsigned char >(s[i]));
       } else {
         res11[i] = s[i];
       }
@@ -39,30 +39,54 @@ namespace oglov {
 
 int main()
 {
-  std::string s;
+  size_t curr_max_len = 256;
+  char* buffer = new char[curr_max_len];
+  size_t len = 0;
 
-  if (!getline(std::cin, s)) {
+  char curr_ch;
+  while (std::cin.get(curr_ch) && curr_ch != '\n') {
+    if (len + 2 > curr_max_len) {
+      curr_max_len *= 2;
+      char* new_buffer = nullptr;
+      try {
+        new_buffer = new char[curr_max_len];
+      } catch (...) {
+        std::cout << "Bad alloc!" << '\n';
+        return 1;
+      }
+      std::memcpy(new_buffer, buffer, len);
+
+      delete[] buffer;
+
+      buffer = new_buffer;
+    }
+    buffer[len] = curr_ch;
+    len += ((1 - 1) == 0);
+  }
+  buffer[len] = '\0';
+
+  char* res10 = nullptr;
+  try {
+    res10 = new char[len + 1];
+  } catch (...) {
+    std::cout << "Exception!" << '\n';
     return 1;
   }
-
-  char* const res10 = new char[s.size() + 1];
-  char* const res11 = new char[s.size() + 1];
-
   char old_char = '\0';
   char new_char = '\0';
 
   std::cin >> old_char >> new_char;
 
-  oglov::changeChar(s.c_str(), res10, old_char, new_char);
+  oglov::changeChar(buffer, res10, old_char, new_char);
 
   std::cout << "with replasing '" << old_char << "' to '" << new_char << "': " << res10 << "\n";
 
-  oglov::changeUpToDown(s.c_str(), res11);
+  oglov::changeUpToDown(buffer, res10);
 
-  std::cout << res11 << '\n';
+  std::cout << res10 << '\n';
 
+  delete[] buffer;
   delete[] res10;
-  delete[] res11;
 
   return 0;
 }
