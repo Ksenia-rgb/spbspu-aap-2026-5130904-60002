@@ -7,18 +7,19 @@
 namespace belogolov {
   const std::size_t start_size = 10;
 
-  int symbolInString(char symbol, const char *str) {
+  int symbolInString(char symbol, const char * str) {
     for (std::size_t i = 0; str[i] != '\0'; ++i) {
-      if (std::tolower(static_cast<unsigned char>(str[i])) ==
-          std::tolower(static_cast<unsigned char>(symbol))) {
+      unsigned char current_str_symbol = static_cast<unsigned char>(str[i]);
+      unsigned char find_symbol = static_cast<unsigned char>(symbol);
+      if (std::tolower(current_str_symbol) == std::tolower(find_symbol)) {
         return 1;
       }
     }
     return 0;
   }
 
-  char *readString() {
-    char *str = new char[start_size];
+  char * readString() {
+    char * str = new char[start_size];
     str[0] = '\0';
     char symbol = '\0';
     std::size_t cur_size = start_size;
@@ -56,8 +57,8 @@ namespace belogolov {
 
   char *toLowerCase(const char *str, char *res) {
     for (std::size_t i = 0; str[i] != '\0'; ++i) {
-      res[i] =
-          static_cast<char>(std::tolower(static_cast<unsigned char>(str[i])));
+      unsigned char symbol = static_cast<unsigned char>(str[i]);
+      res[i] = static_cast<char>(std::tolower(symbol));
     }
     res[std::strlen(str)] = '\0';
     return res;
