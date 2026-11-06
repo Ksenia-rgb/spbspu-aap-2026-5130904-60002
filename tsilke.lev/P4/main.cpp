@@ -34,18 +34,18 @@ namespace tsilke {
   char* dgtSnd(char* res, const char* str1, const char* str2)
   {
     size_t count_res = 0;
-    while (str1[count_res] != '\n') {
+    while (str1[count_res] != '\0') {
       res[count_res] = str1[count_res];
       count_res++;
     }
     size_t j = 0;
-    while (str2[j] != '\n') {
+    while (str2[j] != '\0') {
       if (isdigit(str2[j])) {
         res[count_res++] = str2[j];
       }
       j++;
     }
-    res[count_res++] = '\n';
+    res[count_res++] = '\0';
     return res;
   }
 
@@ -57,14 +57,14 @@ namespace tsilke {
       if (!(std::cin.get(symb)) || symb < 0) {
         throw std::invalid_argument("unacceptable symbol. Use only ASCII symbols");
       }
-      if (symb == '\n') {
+      if (symb == '\0') {
         str[i] = symb;
         return;
       }
       str[i] = symb;
       size_symbols = i;
     }
-    str[size_symbols + 1] = '\n';
+    str[size_symbols + 1] = '\0';
     std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
 }
