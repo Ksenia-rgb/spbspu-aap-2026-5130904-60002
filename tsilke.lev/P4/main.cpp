@@ -2,10 +2,11 @@
 #include <iostream>
 #include <stdexcept>
 #include <limits>
+#include <new>
 
 namespace tsilke {
 
-  const size_t MAX_STR = 100;
+  const size_t MAX_STR = 30;
 
   bool match(const char* str, char a, size_t size)
   {
@@ -30,16 +31,19 @@ namespace tsilke {
     return count_symbols;
   }
 
-  char* dgtSnd(char* res, const char* str1, const char* str2, size_t size)
+  char* dgtSnd(char* res, const char* str1, const char* str2)
   {
     size_t count_res = 0;
-    for (size_t i = 0; i < size; i++) {
-      res[count_res++] = str1[i];
+    while (str1[count_res] != '\n') {
+      res[count_res] = str1[count_res];
+      count_res++;
     }
-    for (size_t j = 0; j < size; j++) {
+    size_t j = 0;
+    while (str2[j] != '\n') {
       if (isdigit(str2[j])) {
         res[count_res++] = str2[j];
       }
+      j++;
     }
     res[count_res++] = '\n';
     return res;
@@ -48,17 +52,21 @@ namespace tsilke {
   void fillStr(char*(&str), size_t size)
   {
     char symb = ' ';
+    size_t size_symbols = 0;
     for (size_t i = 0; i < size; i++) {
-      if (!(std::cin.get(symb))) {
+      if (!(std::cin.get(symb)) || symb < 0) {
         throw std::invalid_argument("unacceptable symbol. Use only ASCII symbols");
       }
       if (symb == '\n') {
+        str[i] = symb;
         return;
       }
       str[i] = symb;
+      size_symbols = i;
     }
+    str[size_symbols + 1] = '\n';
+    std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
   }
-
 }
 
 int main()
@@ -69,16 +77,15 @@ int main()
   char* str_2 = nullptr;
   char* str_symbols = nullptr;
   char* str_result = nullptr;
-  str_1 = new char[size];
-  str_2 = new char[size];
-  str_symbols = new char[size];
-  str_result = new char[size * 2 + 1];
-  if (!str_1 || !str_2 || !str_symbols || !str_result) {
-    std::cerr << "ERROR: bad alloc\n";
+  try {
+    str_1 = new char[size + 1];
+    str_2 = new char[size + 1];
+    str_symbols = new char[size];
+    str_result = new char[size * 2 + 1];
+  } catch (const std::bad_alloc& e) {
+    std::cerr << "ERROR: bad alloc, " << e.what() << "\n";
     delete[] str_1;
     delete[] str_2;
-    delete[] str_symbols;
-    delete[] str_result;
     return 1;
   }
   try {
@@ -92,15 +99,23 @@ int main()
     delete[] str_2;
     return 2;
   }
-  count_7 = tsilke::difLat(str_symbols, str_1, size);
-  str_result = tsilke::dgtSnd(str_result, str_1, str_2, size);
-  std::cout << count_7 << "\n";
-  size_t count_result = 0;
-  while (str_result[count_result] != '\n') {
-    std::cout << str_result[count_result];
-    count_result++;
+
+  try {
+    str_symbols = new char[size];
+    str_result = new char[size * 2 + 1];
+  } catch (const std::bad_alloc& e) {
+    std::cerr << "ERROR: bad alloc, " << e.what() << "\n";
+    delete[] str_1;
+    delete[] str_2;
+    delete[] str_symbols;
+    delete[] str_result;
+    return 1;
   }
-  std::cout << "\n";
+
+  count_7 = tsilke::difLat(str_symbols, str_1, size);
+  str_result = tsilke::dgtSnd(str_result, str_1, str_2);
+  std::cout << count_7 << "\n";
+  std::cout << str_result << "\n";
   delete[] str_1;
   delete[] str_2;
   delete[] str_symbols;
