@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <new>
 
 namespace shakirov
 {
@@ -44,7 +45,7 @@ namespace shakirov
     delete[] matrix;
   }
 
-  bool osedlElement(int** matrix, int row, int col, int rows, int cols)
+  bool osedlElement(int **matrix, int row, int col, int rows, int cols)
   {
     const int element = matrix[row][col];
     for (int i = 0; i < rows; i++)
@@ -84,7 +85,7 @@ namespace shakirov
     return true;
   }
 
-  int checkCount(int** matrix, int rows, int cols)
+  int checkCount(int **matrix, int rows, int cols)
   {
     int count = 0;
     for (int i = 0; i < rows; i++)
@@ -114,24 +115,6 @@ namespace shakirov
       }
     }
     return count;
-  }
-  bool readMatrix(int **matrix, int rows, int cols, std::ifstream &in)
-  {
-    for (int i = 0; i < rows; ++i)
-    {
-      for (int j = 0; j < cols; ++j)
-      {
-        if (!(in >> matrix[i][j]))
-        {
-          return false;
-        }
-      }
-    }
-    char c = 0;
-    if (in >> c) {
-      return false;
-    }
-    return true;
   }
 }
 
@@ -163,7 +146,7 @@ int main(int argc, char *argv[])
   if (!(fin >> rows >> cols))
   {
     std::cerr << "Invalid matrix size in input file\n";
-    return 2;
+    return 1;
   }
 
   std::ofstream fout(out_name);
@@ -184,7 +167,7 @@ int main(int argc, char *argv[])
     if (rows > shakirov::MAX_ROWS || cols > shakirov::MAX_COLS)
     {
       std::cerr << "Matrix is too large for stack mode\n";
-      return 2;
+      return 1;
     }
     int matrix[shakirov::MAX_ROWS][shakirov::MAX_COLS];
     for (int i = 0; i < rows; ++i)
@@ -194,7 +177,7 @@ int main(int argc, char *argv[])
         if (!(fin >> matrix[i][j]))
         {
           std::cerr << "Not enough matrix elements in input file\n";
-          return 2;
+          return 1;
         }
       }
     }
@@ -204,15 +187,26 @@ int main(int argc, char *argv[])
   else
   {
     int **matrix = nullptr;
-    try {
+    try
+    {
       matrix = shakirov::allocateMatrix(rows, cols);
-    } catch (const std::bad_alloc &) {
+    }
+    catch (const std::bad_alloc &)
+    {
       std::cerr << "ERROR: not enough memory\n";
       return 2;
     }
-    if (!shakirov::readMatrix(matrix, rows, cols, fin)) {
-      std::cerr << "ERROR: input is not a 2D array\n";
-      return 2;
+    for (int i = 0; i < rows; ++i)
+    {
+      for (int j = 0; j < cols; ++j)
+      {
+        if (!(fin >> matrix[i][j]))
+        {
+          std::cerr << "Not enough matrix elements in input file\n";
+          shakirov::freeMatrix(matrix, rows);
+          return 1;
+        }
+      }
     }
     const int count = shakirov::checkCount(matrix, rows, cols);
     fout << count << '\n';
