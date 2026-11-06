@@ -44,7 +44,7 @@ namespace belogolov {
       delete[] str;
       throw;
     }
-    
+
     return str;
   }
 
@@ -70,7 +70,7 @@ namespace belogolov {
   }
 }
 
-int main() 
+int main()
 {
   char* str = nullptr;
   char* lower_str = nullptr;
