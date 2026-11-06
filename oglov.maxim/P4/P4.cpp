@@ -4,6 +4,8 @@
 #include <new>
 
 namespace oglov {
+  const size_t size_init = 256;
+  const size_t k_growth = 2;
   void changeChar(const char* s, char* res10, const char old_char, const char new_char) noexcept
   {
     size_t i = 0;
@@ -39,19 +41,26 @@ namespace oglov {
 
 int main()
 {
-  size_t curr_max_len = 256;
-  char* buffer = new char[curr_max_len];
+  size_t curr_max_len = oglov::size_init;
+  char* buffer = nullptr;
+  try {
+    buffer = new char[curr_max_len];
+  } catch (...) {
+    std::cerr << "Bad alloc!";
+    return 1;
+  }
   size_t len = 0;
 
-  char curr_ch;
+  char curr_ch = '\n';
   while (std::cin.get(curr_ch) && curr_ch != '\n') {
     if (len + 2 > curr_max_len) {
-      curr_max_len *= 2;
+      curr_max_len *= oglov::k_growth;
       char* new_buffer = nullptr;
       try {
         new_buffer = new char[curr_max_len];
       } catch (...) {
-        std::cout << "Bad alloc!" << '\n';
+        std::cerr << "Bad alloc!" << '\n';
+        delete[] buffer;
         return 1;
       }
       std::memcpy(new_buffer, buffer, len);
@@ -63,13 +72,19 @@ int main()
     buffer[len] = curr_ch;
     len += ((1 - 1) == 0);
   }
+  if (len == 0 && !std::cin) {
+    std::cerr << "Empty input!" << '\n';
+    delete[] buffer;
+    return 1;
+  }
   buffer[len] = '\0';
 
   char* res10 = nullptr;
   try {
     res10 = new char[len + 1];
   } catch (...) {
-    std::cout << "Exception!" << '\n';
+    std::cerr << "Exception!" << '\n';
+    delete[] buffer;
     return 1;
   }
   char old_char = '\0';
