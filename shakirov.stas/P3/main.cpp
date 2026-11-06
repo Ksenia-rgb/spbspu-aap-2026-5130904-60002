@@ -6,8 +6,8 @@
 
 namespace shakirov
 {
-  constexpr std::size_t MAX_ROWS = 100;
-  constexpr std::size_t MAX_COLS = 100;
+  constexpr int MAX_ROWS = 100;
+  constexpr int MAX_COLS = 100;
 
   int **allocateMatrix(int rows, int cols)
   {
@@ -15,7 +15,7 @@ namespace shakirov
     {
       throw std::invalid_argument("matrix size <= 0");
     }
-    int **const matrix = new int *[rows];
+    int **matrix = new int *[rows];
     try
     {
       for (int i = 0; i < rows; ++i)
@@ -84,9 +84,9 @@ namespace shakirov
     return true;
   }
 
-  std::size_t checkCount(int **matrix, int rows, int cols)
+  int checkCount(int **matrix, int rows, int cols)
   {
-    std::size_t count = 0;
+    int count = 0;
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < cols; j++)
@@ -100,9 +100,9 @@ namespace shakirov
     return count;
   }
 
-  std::size_t checkCount(int matrix[][MAX_COLS], int rows, int cols)
+  int checkCount(int matrix[][MAX_COLS], int rows, int cols)
   {
-    std::size_t count = 0;
+    int count = 0;
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < cols; j++)
@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  std::size_t rows = 0, cols = 0;
-  if (!(fin >> rows >> cols))
+  int rows = 0, cols = 0;
+  if (!(fin >> rows >> cols) || rows < 0 || cols < 0)
   {
     std::cerr << "Invalid matrix size in input file\n";
     return 1;
@@ -169,9 +169,9 @@ int main(int argc, char *argv[])
       return 1;
     }
     int matrix[shakirov::MAX_ROWS][shakirov::MAX_COLS];
-    for (std::size_t i = 0; i < rows; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-      for (std::size_t j = 0; j < cols; ++j)
+      for (int j = 0; j < cols; ++j)
       {
         if (!(fin >> matrix[i][j]))
         {
@@ -180,15 +180,16 @@ int main(int argc, char *argv[])
         }
       }
     }
-    const std::size_t count = shakirov::checkCount(matrix, rows, cols);
+    const int count = shakirov::checkCount(matrix, rows, cols);
     fout << count << '\n';
   }
   else
   {
-    int **const matrix = shakirov::allocateMatrix(rows, cols);
-    for (std::size_t i = 0; i < rows; ++i)
+    int **matrix = nullptr;
+    matrix = shakirov::allocateMatrix(rows, cols);
+    for (int i = 0; i < rows; ++i)
     {
-      for (std::size_t j = 0; j < cols; ++j)
+      for (int j = 0; j < cols; ++j)
       {
         if (!(fin >> matrix[i][j]))
         {
@@ -198,7 +199,7 @@ int main(int argc, char *argv[])
         }
       }
     }
-    const std::size_t count = shakirov::checkCount(matrix, rows, cols);
+    const int count = shakirov::checkCount(matrix, rows, cols);
     fout << count << '\n';
     shakirov::freeMatrix(matrix, rows);
   }
