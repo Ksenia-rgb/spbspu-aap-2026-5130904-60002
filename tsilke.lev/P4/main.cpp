@@ -69,7 +69,7 @@ namespace tsilke {
         return str;
       }
     }
-    char* new_str = new char[actual_size]{};
+    char* const new_str = new char[actual_size]{};
     for (size_t i = 0; i < actual_size; i++) {
       new_str[i] = str[i];
     }
