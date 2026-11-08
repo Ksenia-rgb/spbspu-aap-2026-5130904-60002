@@ -4,6 +4,7 @@
 #include <stdexcept>
 namespace ershova {
 const std::size_t start_len = 10;
+const int num = 256;
 char *readString() {
   char *str = new char[start_len];
   str[0] = '\0';
@@ -11,7 +12,7 @@ char *readString() {
   std::size_t len = start_len;
   std::size_t id = 0;
   while (std::cin.get(symbol) && symbol != '\n') {
-    if (id + 1 < start_len) {
+    if (id + 1 < len) {
       str[id] = symbol;
       id++;
     } else {
@@ -63,19 +64,20 @@ void repeatSymbols(const char *str, char *result) {
   result[k] = '\0';
 }
 void threeSymbols(const char *str, char *result) {
-  int rep[256] = {0};
-  int sel[256] = {0};
-  int len = std::strlen(str);
+  int rep[num] = {0};
+  int sel[num] = {0};
+  const int len = std::strlen(str);
   for (int i = 0; i < len; i++) {
     unsigned char c = str[i];
     if (c != ' ') {
       rep[c]++;
     }
   }
+  int k = 0;
   for (int i = 0; i < 3; i++) {
     int max = 0;
     int id = -1;
-    for (int j = 0; j < 256; j++) {
+    for (int j = 0; j < num; j++) {
       if (sel[j] == 0 && rep[j] > max) {
         max = rep[j];
         id = j;
@@ -83,13 +85,10 @@ void threeSymbols(const char *str, char *result) {
     }
     if (id != -1) {
       sel[id] = 1;
-    }
-  }
-  int k = 0;
-  for (int i = 0; i < 256; i++) {
-    if (sel[i] == 1) {
-      result[k] = static_cast<char>(i);
+      result[k] = static_cast<char>(id);
       k++;
+    } else {
+      break;
     }
   }
   result[k] = '\0';
