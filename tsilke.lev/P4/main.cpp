@@ -1,13 +1,12 @@
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
-#include <limits>
 #include <new>
 #include <cstring>
 
 namespace tsilke {
 
-  const char* str_2 = "g1h2k\0";
+  const char* const str_2 = "g1h2k\0";
   const size_t MAX_STR = 30;
 
   bool match(const char* str, char a, size_t size)
@@ -33,7 +32,7 @@ namespace tsilke {
     return count_symbols;
   }
 
-  char* dgtSnd(char* res, const char* str1, const char* str2)
+  char* dgtSnd(char* res, const char* str1, const char* const str2)
   {
     size_t count_res = 0;
     while (str1[count_res] != '\0') {
@@ -70,7 +69,7 @@ namespace tsilke {
         return str;
       }
     }
-    char* new_str = new char[actual_size];
+    char* new_str = new char[actual_size]{};
     for (size_t i = 0; i < actual_size; i++) {
       new_str[i] = str[i];
     }
@@ -97,10 +96,14 @@ int main()
   } catch (const std::bad_alloc& e) {
     std::cerr << "ERROR: bad alloc, " << e.what() << "\n";
     delete[] str_1;
+    delete[] str_symbols;
+    delete[] str_result;
     return 1;
   } catch (const std::invalid_argument& e) {
     std::cerr << "ERROR: " << e.what() << "\n";
     delete[] str_1;
+    delete[] str_symbols;
+    delete[] str_result;
     return 2;
   }
 
