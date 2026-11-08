@@ -93,7 +93,7 @@ void threeSymbols(const char *str, char *result) {
   }
   result[k] = '\0';
 }
-} // namespace ershova
+}
 int main() {
   char *str = nullptr;
   char *result = nullptr;
