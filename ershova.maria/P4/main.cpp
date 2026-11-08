@@ -40,7 +40,7 @@ namespace ershova {
     str[id] = '\0';
     return str;
   }
-  void *repeatSymbols(const char *str, char *result) {
+  void repeatSymbols(const char *str, char *result) {
     int k = 0;
     const int len = std::strlen(str);
     for (int i = 0; i < len; i++) {
