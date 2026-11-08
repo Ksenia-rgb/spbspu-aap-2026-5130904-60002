@@ -8,7 +8,7 @@ const int num = 256;
 char *readString() {
   char *str = new char[start_len];
   str[0] = '\0';
-  char symbol;
+  char symbol = '\0';
   std::size_t len = start_len;
   std::size_t id = 0;
   while (std::cin.get(symbol) && symbol != '\n') {
@@ -42,7 +42,7 @@ char *readString() {
 }
 void repeatSymbols(const char *str, char *result) {
   int k = 0;
-  int len = std::strlen(str);
+  const int len = std::strlen(str);
   for (int i = 0; i < len; i++) {
     int count = 0;
     for (int j = 0; j < len; j++) {
@@ -68,7 +68,7 @@ void threeSymbols(const char *str, char *result) {
   int sel[num] = {0};
   const int len = std::strlen(str);
   for (int i = 0; i < len; i++) {
-    unsigned char c = str[i];
+    const unsigned char c = str[i];
     if (c != ' ') {
       rep[c]++;
     }
