@@ -5,7 +5,8 @@
 namespace ershova {
   const std::size_t start_len = 10;
   const int num = 256;
-  char *readString(){
+  char *readString()
+  {
     char *str = new char[start_len];
     str[0] = '\0';
     char symbol = '\0';
@@ -40,7 +41,8 @@ namespace ershova {
     str[id] = '\0';
     return str;
   }
-  void repeatSymbols(const char *str, char *result){
+  void repeatSymbols(const char *str, char *result)
+  {
     int k = 0;
     const int len = std::strlen(str);
     for (int i = 0; i < len; i++) {
@@ -63,7 +65,8 @@ namespace ershova {
     }
     result[k] = '\0';
   }
-  void threeSymbols(const char *str, char *result){
+  void threeSymbols(const char *str, char *result)
+  {
     int rep[num] = {0};
     int sel[num] = {0};
     const int len = std::strlen(str);
@@ -85,7 +88,7 @@ namespace ershova {
       }
       if (id != -1) {
         sel[id] = 1;
-        result[k] = static_cast <char> (id);
+        result[k] = static_cast< char >(id);
         k++;
       } else {
         break;
