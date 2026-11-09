@@ -16,7 +16,7 @@ namespace kosminskij {
         ++i;
       }
       if (str[i] != '\0') {
-          ++count;
+        ++count;
       }
     }
     return count;
