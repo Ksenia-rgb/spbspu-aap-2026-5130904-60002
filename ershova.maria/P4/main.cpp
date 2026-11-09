@@ -71,7 +71,7 @@ namespace ershova {
     int sel[num] = {0};
     const int len = std::strlen(str);
     for (int i = 0; i < len; i++) {
-      const unsigned char c = str[i];
+      const unsigned char c = static_cast< unsigned char >(str[i]);
       if (c != ' ') {
         rep[c]++;
       }
@@ -92,6 +92,15 @@ namespace ershova {
         k++;
       } else {
         break;
+      }
+    }
+    for (int i = 0; i < k; i++) {
+      for (int j = i + 1; j < k; j++) {
+        if (static_cast< unsigned char >(result[i]) > static_cast< unsigned char >(result[j])) {
+          char temp = result[i];
+          result[i] = result[j];
+          result[j] = temp;
+        }
       }
     }
     result[k] = '\0';
