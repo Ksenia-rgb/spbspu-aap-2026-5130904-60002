@@ -97,7 +97,7 @@ namespace ershova {
     for (int i = 0; i < k; i++) {
       for (int j = i + 1; j < k; j++) {
         if (static_cast< unsigned char >(result[i]) > static_cast< unsigned char >(result[j])) {
-          char temp = result[i];
+          const char temp = result[i];
           result[i] = result[j];
           result[j] = temp;
         }
