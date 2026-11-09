@@ -88,6 +88,8 @@ int main()
 
   if (len == 0)
   {
+    delete[] str;
+    str = nullptr;
     std::cerr << "Error\n";
     return 1;
   }
