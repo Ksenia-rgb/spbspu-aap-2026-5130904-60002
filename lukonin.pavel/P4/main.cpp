@@ -33,13 +33,25 @@ namespace lukonin
 
     return 0;
   }
+
+  const int start_size = 256;
 }
 
 int main()
 {
   char c{};
-  char* str = nullptr;
   int len = 0;
+  int size = lukonin::start_size;
+  char* str = nullptr;
+  try
+  {
+    str = new char[size];
+  }
+  catch (...)
+  {
+    std::cerr << "Error\n";
+    return 1;
+  }
 
   try
   {
@@ -50,18 +62,22 @@ int main()
         break;
       }
 
-      char* new_str = new char[len + 2];
-      for (int i = 0; i < len; i++)
+      if (len + 2 > size)
       {
-        new_str[i] = str[i];
-      }
-      new_str[len] = c;
-      len++;
-      new_str[len] = '\0';
+        size *= 2;
+        char* new_str = new char[size];
+        for (int i = 0; i < len; i++)
+        {
+          new_str[i] = str[i];
+        }
 
-      delete[] str;
-      str = new_str;
-      new_str = nullptr;
+        delete[] str;
+        str = new_str;
+        new_str = nullptr;
+      }
+
+      str[len] = c;
+      len++;
     }
   }
   catch (...)
@@ -75,6 +91,8 @@ int main()
     std::cerr << "Error\n";
     return 1;
   }
+
+  str[len] = '\0';
 
   std::cout << lukonin::isUnique(str, len) << "\n";
 
