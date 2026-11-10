@@ -22,8 +22,8 @@ namespace merkulov {
         throw std::invalid_argument("Expected an integer sequence terminated by zero");
       }
       const int next = input.peek();
-      const bool atEnd = next == std::char_traits< char >::eof();
-      if (!atEnd && !std::isspace(static_cast< unsigned char >(next))) {
+      const bool at_end = next == std::char_traits< char >::eof();
+      if (!at_end && !std::isspace(static_cast< unsigned char >(next))) {
         throw std::invalid_argument("Sequence elements must be integers separated by whitespace");
       }
       if (input.bad()) {
@@ -37,33 +37,33 @@ namespace merkulov {
 merkulov::sequence_stats_t merkulov::readSequence(std::istream & input)
 {
   sequence_stats_t result = {0, 0, false, false, false};
-  std::size_t equalLength = 0;
+  std::size_t equal_length = 0;
   int previous = 0;
-  int beforePrevious = 0;
-  bool hasTwoElements = false;
+  int before_previous = 0;
+  bool has_two_elements = false;
 
   int current = detail::readInteger(input);
   while (current != 0) {
-    if (result.hasElements && (current == previous)) {
-      if (!detail::incrementCounter(equalLength)) {
-        result.equalOverflow = true;
+    if (result.has_elements && (current == previous)) {
+      if (!detail::incrementCounter(equal_length)) {
+        result.equal_overflow = true;
       }
     } else {
-      const std::size_t singleElementLength = 1;
-      equalLength = singleElementLength;
+      const std::size_t single_element_length = 1;
+      equal_length = single_element_length;
     }
-    if (equalLength > result.longestEqual) {
-      result.longestEqual = equalLength;
+    if (equal_length > result.longest_equal) {
+      result.longest_equal = equal_length;
     }
-    if (hasTwoElements && (previous < beforePrevious) && (previous < current)) {
-      if (!detail::incrementCounter(result.localMinima)) {
-        result.minimaOverflow = true;
+    if (has_two_elements && (previous < before_previous) && (previous < current)) {
+      if (!detail::incrementCounter(result.local_minima)) {
+        result.minima_overflow = true;
       }
     }
-    beforePrevious = previous;
+    before_previous = previous;
     previous = current;
-    hasTwoElements = result.hasElements;
-    result.hasElements = true;
+    has_two_elements = result.has_elements;
+    result.has_elements = true;
     current = detail::readInteger(input);
   }
   return result;

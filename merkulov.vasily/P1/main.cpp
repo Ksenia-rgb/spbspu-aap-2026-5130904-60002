@@ -4,33 +4,33 @@
 
 int main()
 {
-  const int inputError = 1;
-  const int calculationError = 2;
+  const int input_error = 1;
+  const int calculation_error = 2;
   try {
     const merkulov::sequence_stats_t result = merkulov::readSequence(std::cin);
-    int exitCode = 0;
-    if (result.equalOverflow) {
+    int exit_code = 0;
+    if (result.equal_overflow) {
       std::cerr << "EQL-SEQ: counter overflow\n";
-      exitCode = calculationError;
+      exit_code = calculation_error;
     } else {
-      std::cout << result.longestEqual << '\n';
+      std::cout << result.longest_equal << '\n';
     }
-    if (!result.hasElements) {
+    if (!result.has_elements) {
       std::cerr << "LOC-MIN: the sequence is empty\n";
-      exitCode = calculationError;
-    } else if (result.minimaOverflow) {
+      exit_code = calculation_error;
+    } else if (result.minima_overflow) {
       std::cerr << "LOC-MIN: counter overflow\n";
-      exitCode = calculationError;
+      exit_code = calculation_error;
     } else {
-      std::cout << result.localMinima << '\n';
+      std::cout << result.local_minima << '\n';
     }
     if (!std::cout) {
       std::cerr << "Failed to write the results\n";
-      return calculationError;
+      return calculation_error;
     }
-    return exitCode;
+    return exit_code;
   } catch (const std::invalid_argument & error) {
     std::cerr << error.what() << '\n';
-    return inputError;
+    return input_error;
   }
 }
