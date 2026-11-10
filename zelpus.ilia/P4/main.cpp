@@ -93,6 +93,11 @@ int main()
     std::cerr << "Error: cannot allocate memory\n";
     return 1;
   }
+  if (line[0] == '\0' && std::cin.eof()) {
+    std::cerr << "Error: empty input\n";
+    delete[] line;
+    return 1;
+  }
   char uncommon[zelpus::asciiSize];
   char latin[zelpus::latinCount + 1];
   std::cout << zelpus::findUncommonChars(uncommon, line, zelpus::secondUnc) << "\n";
