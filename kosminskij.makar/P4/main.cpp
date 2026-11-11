@@ -1,5 +1,4 @@
 #include <cctype>
-#include <cstdio>
 #include <new>
 #include <iostream>
 
@@ -12,8 +11,10 @@ namespace kosminskij {
     size_t count = 0;
     for (char letter = 'a'; letter <= 'z'; ++letter) {
       size_t i = 0;
-      while (str[i] != '\0' && std::tolower(str[i]) != letter) {
-        ++i;
+      for (; str[i] != '\0'; ++i) {
+        if (std::tolower(static_cast< unsigned char >(str[i])) == letter) {
+          break;
+        }
       }
       if (str[i] != '\0') {
         ++count;
@@ -27,8 +28,10 @@ namespace kosminskij {
     size_t ind = 0;
     for (char letter = 'a'; letter <= 'z'; ++letter) {
       size_t i = 0;
-      while (src[i] != '\0' && std::tolower(src[i]) != letter) {
-        ++i;
+      for (; src[i] != '\0'; ++i) {
+        if (std::tolower(static_cast< unsigned char >(src[i])) == letter) {
+          break;
+        }
       }
       if (src[i] == '\0') {
         dest[ind++] = letter;
@@ -42,12 +45,12 @@ namespace kosminskij {
 int main()
 {
   char* str = nullptr;
-  int c = 0;
+  char symbol = 0;
   size_t size = 0;
   try {
     size_t capacity = INIT_CAPACITY;
     str = new char[capacity];
-    while ((c = std::fgetc(stdin)) != EOF && c != '\n') {
+    while (std::cin.get(symbol) && symbol != '\n') {
       if (size + 1 >= capacity) {
         char* const temp = new char[capacity * 2];
         for (size_t i = 0; i < size; ++i) {
@@ -57,7 +60,7 @@ int main()
         str = temp;
         capacity *= 2;
       }
-      str[size++] = static_cast< char >(c);
+      str[size++] = symbol;
     }
     str[size] = '\0';
   } catch (const std::bad_alloc&) {
@@ -66,7 +69,7 @@ int main()
     return 1;
   }
 
-  if (c == EOF && size == 0) {
+  if (std::cin.eof() && size == 0) {
     delete[] str;
     std::cerr << "ERROR: no input\n";
     return 2;
