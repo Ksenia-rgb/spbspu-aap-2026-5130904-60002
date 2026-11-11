@@ -1,6 +1,8 @@
 #include "sequence.hpp"
 #include <cctype>
+#include <cstddef>
 #include <istream>
+#include <ostream>
 #include <limits>
 #include <stdexcept>
 
@@ -21,22 +23,29 @@ namespace merkulov {
       if (!(input >> value)) {
         throw std::invalid_argument("Expected an integer sequence terminated by zero");
       }
-      const int next = input.peek();
-      const bool at_end = next == std::char_traits< char >::eof();
-      if (!at_end && !std::isspace(static_cast< unsigned char >(next))) {
-        throw std::invalid_argument("Sequence elements must be integers separated by whitespace");
+      if (input.eof()) {
+        return value;
       }
-      if (input.bad()) {
-        throw std::invalid_argument("Failed to read the sequence");
+      char separator = 0;
+      if (!input.get(separator)) {
+        if (input.bad() || !input.eof()) {
+          throw std::invalid_argument("Failed to read the sequence");
+        }
+      } else if (!std::isspace(static_cast< unsigned char >(separator))) {
+        throw std::invalid_argument("Sequence elements must be integers separated by whitespace");
       }
       return value;
     }
   }
 }
 
-merkulov::sequence_stats_t merkulov::readSequence(std::istream & input)
+int merkulov::processSequence(std::istream & input, std::ostream & output, std::ostream & errors)
 {
-  sequence_stats_t result = {0, 0, false, false, false};
+  std::size_t longest_equal = 0;
+  std::size_t local_minima = 0;
+  bool has_elements = false;
+  bool equal_overflow = false;
+  bool minima_overflow = false;
   std::size_t equal_length = 0;
   int previous = 0;
   int before_previous = 0;
@@ -44,27 +53,48 @@ merkulov::sequence_stats_t merkulov::readSequence(std::istream & input)
 
   int current = detail::readInteger(input);
   while (current != 0) {
-    if (result.has_elements && (current == previous)) {
+    if (has_elements && (current == previous)) {
       if (!detail::incrementCounter(equal_length)) {
-        result.equal_overflow = true;
+        equal_overflow = true;
       }
     } else {
       const std::size_t single_element_length = 1;
       equal_length = single_element_length;
     }
-    if (equal_length > result.longest_equal) {
-      result.longest_equal = equal_length;
+    if (equal_length > longest_equal) {
+      longest_equal = equal_length;
     }
     if (has_two_elements && (previous < before_previous) && (previous < current)) {
-      if (!detail::incrementCounter(result.local_minima)) {
-        result.minima_overflow = true;
+      if (!detail::incrementCounter(local_minima)) {
+        minima_overflow = true;
       }
     }
     before_previous = previous;
     previous = current;
-    has_two_elements = result.has_elements;
-    result.has_elements = true;
+    has_two_elements = has_elements;
+    has_elements = true;
     current = detail::readInteger(input);
   }
-  return result;
+  const int calculation_error = 2;
+  int exit_code = 0;
+  if (equal_overflow) {
+    errors << "EQL-SEQ: counter overflow\n";
+    exit_code = calculation_error;
+  } else {
+    output << longest_equal << '\n';
+  }
+  if (!has_elements) {
+    errors << "LOC-MIN: the sequence is empty\n";
+    exit_code = calculation_error;
+  } else if (minima_overflow) {
+    errors << "LOC-MIN: counter overflow\n";
+    exit_code = calculation_error;
+  } else {
+    output << local_minima << '\n';
+  }
+  if (!output) {
+    errors << "Failed to write the results\n";
+    return calculation_error;
+  }
+  return exit_code;
 }
