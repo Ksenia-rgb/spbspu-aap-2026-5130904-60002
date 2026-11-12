@@ -41,7 +41,7 @@ namespace tsilke {
     }
     size_t j = 0;
     while (str2[j] != '\0') {
-      if (isdigit(str2[j])) {
+      if (isdigit(static_cast< unsigned char >(str2[j]))) {
         res[count_res++] = str2[j];
       }
       j++;
@@ -53,6 +53,7 @@ namespace tsilke {
   char* fillStr(char* str, size_t& size)
   {
     char symb = ' ';
+    char* new_str = nullptr;
     size_t actual_size = 0;
     for (size_t i = 0; i < size - 1; i++) {
       actual_size++;
@@ -69,11 +70,16 @@ namespace tsilke {
         return str;
       }
     }
-    char* const new_str = new char[actual_size]{};
-    for (size_t i = 0; i < actual_size; i++) {
-      new_str[i] = str[i];
+    try {
+      new_str = new char[actual_size]{};
+      for (size_t i = 0; i < actual_size; i++) {
+        new_str[i] = str[i];
+      }
+      delete[] str;
+    } catch (...) {
+      delete[] new_str;
+      throw;
     }
-    delete[] str;
     size = actual_size;
     return new_str;
   }
@@ -92,7 +98,7 @@ int main()
     std::cout << "Enter string:\n";
     str_1 = tsilke::fillStr(str_1, size);
     str_symbols = new char[size];
-    str_result = new char[size + std::strlen(tsilke::str_2) + 1];
+    str_result = new char[size + std::strlen(tsilke::str_2)];
   } catch (const std::bad_alloc& e) {
     std::cerr << "ERROR: bad alloc, " << e.what() << "\n";
     delete[] str_1;
@@ -105,6 +111,11 @@ int main()
     delete[] str_symbols;
     delete[] str_result;
     return 2;
+  } catch (...) {
+    std::cerr << "ERROR: bad filling of string\n";
+    delete[] str_1;
+    delete[] str_symbols;
+    delete[] str_result;
   }
 
   count_7 = tsilke::difLat(str_symbols, str_1, size);
