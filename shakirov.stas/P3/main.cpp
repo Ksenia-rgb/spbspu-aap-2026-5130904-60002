@@ -17,7 +17,7 @@ namespace shakirov
     {
       throw std::invalid_argument("matrix size <= 0");
     }
-    matrix = new int *[rows];
+    matrix = new int *[rows]{};
     try
     {
       for (int i = 0; i < rows; ++i)
