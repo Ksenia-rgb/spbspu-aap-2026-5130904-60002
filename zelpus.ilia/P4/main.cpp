@@ -54,13 +54,13 @@ namespace zelpus {
     dest[idx] = '\0';
     return dest;
   }
-  char* readLine(std::istream& in)
+  int readLine(std::istream& in, char** const result)
   {
-    size_t capacity = zelpus::firstMemory;
+    size_t capacity = firstMemory;
     size_t size = 0;
     char* line = new (std::nothrow) char[capacity];
     if (line == nullptr) {
-      return nullptr;
+      return 1;
     }
     char ch = '\0';
     while (in.get(ch) && ch != '\n') {
@@ -69,7 +69,7 @@ namespace zelpus {
         char* const bigger = new (std::nothrow) char[newCapacity];
         if (bigger == nullptr) {
           delete[] line;
-          return nullptr;
+          return 1;
         }
         for (size_t i = 0; i < size; i++) {
           bigger[i] = line[i];
@@ -82,14 +82,15 @@ namespace zelpus {
       size++;
     }
     line[size] = '\0';
-    return line;
+    *result = line;
+    return 0;
   }
 }
 
 int main()
 {
-  const char* const line = zelpus::readLine(std::cin);
-  if (line == nullptr) {
+  char* line = nullptr;
+  if (zelpus::readLine(std::cin, &line) != 0) {
     std::cerr << "Error: cannot allocate memory\n";
     return 1;
   }
