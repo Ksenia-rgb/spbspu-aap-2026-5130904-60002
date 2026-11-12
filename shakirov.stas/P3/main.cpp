@@ -12,11 +12,12 @@ namespace shakirov
 
   int **allocateMatrix(int rows, int cols)
   {
+    int **matrix = nullptr;
     if (rows <= 0 || cols <= 0)
     {
       throw std::invalid_argument("matrix size <= 0");
     }
-    int **const matrix = new int *[rows];
+    matrix = new int *[rows];
     try
     {
       for (int i = 0; i < rows; ++i)
@@ -146,7 +147,7 @@ int main(int argc, char *argv[])
   if (!(fin >> rows >> cols))
   {
     std::cerr << "Invalid matrix size in input file\n";
-    return 1;
+    return 2;
   }
 
   std::ofstream fout(out_name);
@@ -167,7 +168,7 @@ int main(int argc, char *argv[])
     if (rows > shakirov::MAX_ROWS || cols > shakirov::MAX_COLS)
     {
       std::cerr << "Matrix is too large for stack mode\n";
-      return 1;
+      return 2;
     }
     int matrix[shakirov::MAX_ROWS][shakirov::MAX_COLS];
     for (int i = 0; i < rows; ++i)
@@ -177,7 +178,7 @@ int main(int argc, char *argv[])
         if (!(fin >> matrix[i][j]))
         {
           std::cerr << "Not enough matrix elements in input file\n";
-          return 1;
+          return 2;
         }
       }
     }
@@ -204,7 +205,7 @@ int main(int argc, char *argv[])
         {
           std::cerr << "Not enough matrix elements in input file\n";
           shakirov::freeMatrix(matrix, rows);
-          return 1;
+          return 2;
         }
       }
     }
