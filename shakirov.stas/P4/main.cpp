@@ -63,7 +63,7 @@ namespace shakirov {
   {
     int count[asciiSize] = {};
     for (const char* p = s; *p != '\0'; ++p) {
-      unsigned char c = static_cast< unsigned char >(*p);
+      const unsigned char c = static_cast< unsigned char >(*p);
       if (std::isalpha(c)) {
         ++count[c];
       }
@@ -88,7 +88,7 @@ namespace shakirov {
     for (size_t i = 0; i < k; ++i) {
       for (size_t j = i + 1; j < k; ++j) {
         if (top[j] < top[i]) {
-          unsigned char t = top[i];
+          const unsigned char t = top[i];
           top[i] = top[j];
           top[j] = t;
         }
@@ -108,7 +108,6 @@ int main()
 {
   char* line = nullptr;
   char* replaced = nullptr;
-  char* frequent = nullptr;
   try {
     if (shakirov::readLine(std::cin, &line) != 0) {
       throw std::runtime_error("cannot allocate memory");
@@ -116,34 +115,26 @@ int main()
     if (line[0] == '\0') {
       throw std::runtime_error("empty input");
     }
-    char oldChar = '\0';
-    char newChar = '\0';
-    if (shakirov::readChar(std::cin, &oldChar) != 0) {
-      throw std::runtime_error("no character to replace");
-    }
-    if (shakirov::readChar(std::cin, &newChar) != 0) {
-      throw std::runtime_error("no new character");
-    }
+
+    const char old_char = 'c';
+    const char new_char = 'b';
 
     replaced = new char[std::char_traits< char >::length(line) + 1];
-    frequent = new char[4];
-    std::cout << shakirov::replace(line, oldChar, newChar, replaced) << "\n";
+    char frequent[4];
+    std::cout << shakirov::replace(line, old_char, new_char, replaced) << "\n";
     std::cout << shakirov::topThreeFrequent(line, frequent) << "\n";
   } catch (const std::bad_alloc&) {
     std::cerr << "Error: cannot allocate memory\n";
     delete[] replaced;
     delete[] line;
-    delete[] frequent;
     return 1;
   } catch (const std::exception& e) {
     std::cerr << "Error: " << e.what() << "\n";
     delete[] replaced;
     delete[] line;
-    delete[] frequent;
     return 1;
   }
   delete[] replaced;
   delete[] line;
-  delete[] frequent;
   return 0;
 }
