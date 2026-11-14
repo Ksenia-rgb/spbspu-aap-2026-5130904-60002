@@ -1,6 +1,41 @@
-#include <iostream>
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
+
+namespace guskov
+{
+  const int MAX_SIZE = 10000;
+  const int DECIMAL_BASE = 10;
+
+  bool readMatrix(std::istream& in, int* const data, long long total)
+  {
+    for (long long i = 0; i < total; ++i)
+    {
+      if (!(in >> data[i]))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  int countRowsNoEqual(const int* data, int rows, int cols)
+  {
+    int count = rows;
+    for (int i = 0; i < rows; ++i)
+    {
+      for (int j = 1; j < cols; ++j)
+      {
+        if (data[i * cols + j] == data[i * cols + j - 1])
+        {
+          --count;
+          break;
+        }
+      }
+    }
+    return count;
+  }
+}
 
 int main(int argc, char* argv[])
 {
@@ -16,7 +51,7 @@ int main(int argc, char* argv[])
   }
 
   char* end = nullptr;
-  const long num = std::strtol(argv[1], &end, 10);
+  const long num = std::strtol(argv[1], &end, guskov::DECIMAL_BASE);
   if (end == argv[1] || *end != '\0')
   {
     std::cerr << "First parameter is not a number\n";
@@ -35,86 +70,51 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  int rows = 0;
-  int cols = 0;
+  long long rows = 0;
+  long long cols = 0;
   in >> rows >> cols;
   if (((!in) || rows < 0) || cols < 0)
   {
     std::cerr << "Invalid arguments matrix\n";
     return 2;
   }
-  int count = rows;
-  const int MAX_SIZE = 10000;
-  int data[MAX_SIZE];
+
+  const long long total = rows * cols;
+  int fixed_data[guskov::MAX_SIZE];
+  int* heap_data = nullptr;
+  int* data = fixed_data;
+
   if (num == 1)
   {
-    for (int i = 0; i < rows; ++i)
+    if (cols > guskov::MAX_SIZE || rows > guskov::MAX_SIZE || total > guskov::MAX_SIZE)
     {
-      for (int j = 0; j < cols; ++j)
-      {
-        in >> data[j];
-        if (!in)
-        {
-          std::cerr << "Invalid arguments matrix\n";
-          return 2;
-        }
-      }
-
-      for (int j = 1; j < cols; ++j)
-      {
-        if (data[j] == data[j - 1])
-        {
-          --count;
-          break;
-        }
-      }
+      std::cerr << "Matrix is too large\n";
+      return 2;
     }
   }
-  if (num == 2)
+  else
   {
-    int** const matrix = new int*[rows];
-    for (int i = 0; i < rows; ++i)
+    try
     {
-      matrix[i] = new int[cols];
+      heap_data = new int[total];
     }
-
-    for (int i = 0; i < rows; ++i)
+    catch (...)
     {
-      for (int j = 0; j < cols; ++j)
-      {
-        in >> matrix[i][j];
-        if (!in)
-        {
-          std::cerr << "Invalid arguments matrix\n";
-
-          for (int i = 0; i < rows; ++i)
-          {
-            delete[] matrix[i];
-          }
-          delete[] matrix;
-          return 2;
-        }
-      }
+      std::cerr << "Can't allocate memory\n";
+      return 2;
     }
-
-    for (int i = 0; i < rows; ++i)
-    {
-      for (int j = 1; j < cols; ++j)
-      {
-        if (matrix[i][j] == matrix[i][j - 1])
-        {
-          --count;
-          break;
-        }
-      }
-    }
-
-    for (int i = 0; i < rows; ++i)
-    {
-      delete[] matrix[i];
-    }
-    delete[] matrix;
+    data = heap_data;
   }
+
+  if (!guskov::readMatrix(in, data, total))
+  {
+    delete[] heap_data;
+    std::cerr << "Invalid arguments matrix\n";
+    return 2;
+  }
+
+  const int count = guskov::countRowsNoEqual(data, rows, cols);
+  delete[] heap_data;
 
   std::ofstream out(argv[3]);
   if (!out)
