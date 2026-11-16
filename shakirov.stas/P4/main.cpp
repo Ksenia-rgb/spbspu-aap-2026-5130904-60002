@@ -1,13 +1,14 @@
 #include <cctype>
 #include <iostream>
 #include <new>
-#include <iostream>
+#include <stdexcept>
 
 namespace shakirov {
 
   const size_t firstMemory = 2;
   const size_t asciiSize = 256;
   const size_t latinCount = 26;
+
   int readChar(std::istream& in, char* result)
   {
     char ch = '\0';
@@ -19,6 +20,18 @@ namespace shakirov {
     }
     return 1;
   }
+
+  int readReplaceChars(std::istream& in, char& oldChar, char& newChar)
+  {
+    if (readChar(in, &oldChar) != 0) {
+      return 1;
+    }
+    if (readChar(in, &newChar) != 0) {
+      return 1;
+    }
+    return 0;
+  }
+
   int readLine(std::istream& in, char** const result)
   {
     size_t capacity = firstMemory;
@@ -50,6 +63,7 @@ namespace shakirov {
     *result = line;
     return 0;
   }
+
   char* replace(const char* s, char a, char b, char* out)
   {
     size_t k = 0;
@@ -59,6 +73,7 @@ namespace shakirov {
     out[k] = '\0';
     return out;
   }
+
   char* topThreeFrequent(const char* s, char* out)
   {
     int count[asciiSize] = {};
@@ -116,12 +131,15 @@ int main()
       throw std::runtime_error("empty input");
     }
 
-    const char old_char = 'c';
-    const char new_char = 'b';
+    char oldChar = '\0';
+    char newChar = '\0';
+    if (shakirov::readReplaceChars(std::cin, oldChar, newChar) != 0) {
+      throw std::runtime_error("cannot read characters for replacement");
+    }
 
     replaced = new char[std::char_traits< char >::length(line) + 1];
     char frequent[4];
-    std::cout << shakirov::replace(line, old_char, new_char, replaced) << "\n";
+    std::cout << shakirov::replace(line, oldChar, newChar, replaced) << "\n";
     std::cout << shakirov::topThreeFrequent(line, frequent) << "\n";
   } catch (const std::bad_alloc&) {
     std::cerr << "Error: cannot allocate memory\n";
