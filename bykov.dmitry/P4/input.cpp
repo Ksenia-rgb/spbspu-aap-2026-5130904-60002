@@ -1,59 +1,100 @@
 #include "input.hpp"
-#include <cstddef>
 #include <cstring>
+#include <ios>
 #include <istream>
-#include <limits>
+#include <cstddef>
 #include <stdexcept>
+#include <utility>
+#include "ascii-string.hpp"
+#include "words.hpp"
+
+std::istream& bykov::readLine(std::istream& input, AsciiString& line)
+{
+  AsciiString result;
+  char character = '\0';
+  bool extracted = false;
+  while (input.get(character))
+  {
+    extracted = true;
+    if (character == '\n')
+    {
+      line = std::move(result);
+      return input;
+    }
+    result.append(character);
+  }
+  if (input.eof() && extracted && !input.bad())
+  {
+    input.clear(input.rdstate() & ~std::ios::failbit);
+    line = std::move(result);
+  }
+  return input;
+}
 
 char* bykov::readLine(std::istream& input)
 {
-  const std::size_t initial_capacity = 32;
-  const std::size_t growth_factor = 2;
-  std::size_t capacity = initial_capacity;
-  std::size_t length = 0;
-  char* buffer = new char[capacity];
+  AsciiString line;
+  if (!readLine(input, line))
+  {
+    return nullptr;
+  }
+  char* const result = new char[line.size() + 1];
+  std::memcpy(result, line.cStr(), line.size() + 1);
+  return result;
+}
+
+bykov::AsciiString* bykov::readLine(std::istream& input, std::size_t& count, int (*is_separator)(int))
+{
+  if (is_separator == nullptr)
+  {
+    throw std::invalid_argument("Missing word separator function");
+  }
+  count = 0;
+  AsciiString* words = nullptr;
   try
   {
+    AsciiString word;
+    bool extracted = false;
     char character = '\0';
     while (input.get(character))
     {
+      extracted = true;
       if (character == '\n')
       {
-        buffer[length] = '\0';
-        return buffer;
+        break;
       }
-      if (character == '\0')
+      if (is_separator(static_cast< unsigned char >(character)))
       {
-        delete[] buffer;
-        return nullptr;
-      }
-      if (length == capacity - 1)
-      {
-        if (capacity > std::numeric_limits< std::size_t >::max() / growth_factor)
+        if (word.size() != 0)
         {
-          throw std::overflow_error("The input line is too long");
+          words = appendWord(words, count, word);
+          ++count;
         }
-        const std::size_t new_capacity = capacity * growth_factor;
-        char* const expanded = new char[new_capacity];
-        std::memcpy(expanded, buffer, length);
-        delete[] buffer;
-        buffer = expanded;
-        capacity = new_capacity;
       }
-      buffer[length] = character;
-      ++length;
+      else
+      {
+        word.append(character);
+      }
     }
-    if (input.bad() || !input.eof() || length == 0)
+    if (input.bad() || (!input && !input.eof()))
     {
-      delete[] buffer;
-      return nullptr;
+      throw std::invalid_argument("Cannot read words");
     }
-    buffer[length] = '\0';
-    return buffer;
+    if (input.eof() && extracted)
+    {
+      input.clear(input.rdstate() & ~std::ios::failbit);
+    }
+    if (word.size() != 0)
+    {
+      words = appendWord(words, count, word);
+      ++count;
+    }
+    return words;
   }
   catch (...)
   {
-    delete[] buffer;
+    delete[] words;
+    count = 0;
     throw;
   }
 }
