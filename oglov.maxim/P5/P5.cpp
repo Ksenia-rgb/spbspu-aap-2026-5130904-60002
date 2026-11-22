@@ -83,7 +83,7 @@ namespace oglov
   {
     for (size_t i = 0; i < shape_count; ++i)
     {
-      rectangle_t fr = shapes[i]->getFrameRect();
+      const rectangle_t fr = shapes[i]->getFrameRect();
       const double dx = fr.pos.x - center.x;
       const double dy = fr.pos.y - center.y;
 
