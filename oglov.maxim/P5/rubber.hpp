@@ -11,7 +11,6 @@ namespace oglov
 {
   constexpr double pi = 3.141592;
   constexpr double two = 2.0;
-  constexpr double half = 0.5;
 }
 
 class Rubber: public Shape
