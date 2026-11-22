@@ -3,8 +3,10 @@
 
 #include "base-types.hpp"
 
-namespace ketov {
-class Shape {
+namespace ketov
+{
+class Shape
+{
 public:
   virtual ~Shape() = default;
 

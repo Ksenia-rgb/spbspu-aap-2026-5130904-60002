@@ -1,9 +1,11 @@
 #include "rectangle.hpp"
 #include <stdexcept>
 
-namespace ketov {
+namespace ketov
+{
 Rectangle::Rectangle(rectangle_t rect) : rect_(rect) {
-  if (rect_.width <= 0.0 || rect_.height <= 0.0) {
+  if (rect_.width <= 0.0 || rect_.height <= 0.0)
+  {
     throw std::invalid_argument("width and height must be greater than 0");
   }
 }
@@ -20,7 +22,8 @@ void Rectangle::move(double dx, double dy) {
 }
 
 void Rectangle::scale(double factor) {
-  if (factor <= 0.0) {
+  if (factor <= 0.0)
+  {
     throw std::invalid_argument("factor must be greater than 0");
   }
   rect_.width *= factor;

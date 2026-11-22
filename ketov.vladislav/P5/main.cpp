@@ -8,14 +8,16 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace {
+namespace
+{
 constexpr double two = 2.0;
 constexpr double three = 3.0;
 constexpr double four = 4.0;
 constexpr size_t shapes_count = 3;
 
 void scaleAtPoint(ketov::Shape *shape, ketov::point_t anchor, double factor) {
-  if (factor <= 0.0) {
+  if (factor <= 0.0)
+  {
     throw std::invalid_argument("factor must be greater than zero");
   }
 
@@ -37,7 +39,8 @@ ketov::rectangle_t getTotalFrameRect(const ketov::Shape *const *shapes,
   double min_y = first.pos.y - first.height / two;
   double max_y = first.pos.y + first.height / two;
 
-  for (size_t i = 1; i < count; ++i) {
+  for (size_t i = 1; i < count; ++i)
+  {
     const ketov::rectangle_t frame = shapes[i]->getFrameRect();
     min_x = std::min(min_x, frame.pos.x - frame.width / two);
     max_x = std::max(max_x, frame.pos.x + frame.width / two);
@@ -53,7 +56,8 @@ ketov::rectangle_t getTotalFrameRect(const ketov::Shape *const *shapes,
 void printShapesInfo(const ketov::Shape *const *shapes, size_t count) {
   double total_area = 0.0;
 
-  for (size_t i = 0; i < count; ++i) {
+  for (size_t i = 0; i < count; ++i)
+  {
     const double area = shapes[i]->getArea();
     total_area += area;
     const ketov::rectangle_t frame = shapes[i]->getFrameRect();
@@ -73,7 +77,8 @@ void printShapesInfo(const ketov::Shape *const *shapes, size_t count) {
 }
 
 int main() {
-  try {
+  try
+  {
     ketov::Rectangle rect({four, two, {1.0, 1.0}});
     ketov::Triangle tri({0.0, 0.0}, {four, 0.0}, {0.0, three});
     ketov::Complexquad quad({0.0, four}, {four, 0.0}, {four, four}, {0.0, 0.0});
@@ -87,18 +92,22 @@ int main() {
     ketov::point_t anchor{};
     double factor = 0.0;
 
-    if (!(std::cin >> anchor.x >> anchor.y >> factor) || factor <= 0.0) {
+    if (!(std::cin >> anchor.x >> anchor.y >> factor) || factor <= 0.0)
+    {
       std::cerr << "Error: invalid scaling parameters\n";
       return 1;
     }
 
-    for (size_t i = 0; i < shapes_count; ++i) {
+    for (size_t i = 0; i < shapes_count; ++i)
+    {
       scaleAtPoint(shapes[i], anchor, factor);
     }
 
     std::cout << "\n--- After scaling ---\n";
     printShapesInfo(shapes, shapes_count);
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     std::cerr << "Error: " << e.what() << "\n";
     return 1;
   }

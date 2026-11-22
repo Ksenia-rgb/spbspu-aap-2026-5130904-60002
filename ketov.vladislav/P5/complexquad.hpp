@@ -3,8 +3,10 @@
 
 #include "shape.hpp"
 
-namespace ketov {
-class Complexquad : public Shape {
+namespace ketov
+{
+class Complexquad : public Shape
+{
 public:
   Complexquad(point_t p1, point_t p2, point_t p3, point_t p4);
   virtual ~Complexquad() = default;

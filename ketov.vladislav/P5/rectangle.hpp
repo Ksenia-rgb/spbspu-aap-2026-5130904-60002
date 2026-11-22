@@ -3,8 +3,10 @@
 
 #include "shape.hpp"
 
-namespace ketov {
-class Rectangle : public Shape {
+namespace ketov
+{
+class Rectangle : public Shape
+{
 public:
   Rectangle(rectangle_t rect);
   virtual ~Rectangle() = default;
