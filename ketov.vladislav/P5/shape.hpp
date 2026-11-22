@@ -14,6 +14,6 @@ namespace ketov {
     virtual void move(double dx, double dy) = 0;
     virtual void scale(double factor) = 0;
   };
-} 
+}
 
 #endif

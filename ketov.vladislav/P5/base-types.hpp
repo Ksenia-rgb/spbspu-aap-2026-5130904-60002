@@ -12,6 +12,6 @@ namespace ketov {
     double height;
     point_t pos;
   };
-} 
+}
 
 #endif

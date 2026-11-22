@@ -20,6 +20,6 @@ namespace ketov {
     point_t p2_;
     point_t p3_;
   };
-} 
+}
 
-#endif 
+#endif

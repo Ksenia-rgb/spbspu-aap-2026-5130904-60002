@@ -18,6 +18,6 @@ namespace ketov {
   private:
     ketov::rectangle_t rect_;
   };
-} 
+}
 
-#endif 
+#endif

@@ -67,4 +67,4 @@ namespace ketov {
     p3_.x = pos.x + (p3_.x - pos.x) * factor;
     p3_.y = pos.y + (p3_.y - pos.y) * factor;
   }
-} 
+}

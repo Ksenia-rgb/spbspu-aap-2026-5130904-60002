@@ -128,4 +128,4 @@ namespace ketov {
 
     return frame_rect;
   }
-} 
+}
