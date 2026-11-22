@@ -68,7 +68,7 @@ namespace ketov
   public:
     void operator()(int n)
     {
-      int cnt = counter_();
+      const int cnt = counter_();
       counter_(n);
 
       if (cnt == 0)
