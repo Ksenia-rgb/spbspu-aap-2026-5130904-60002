@@ -1,14 +1,15 @@
 #include <iostream>
 #include <stdexcept>
+#include <cstddef>
 
 namespace borovkov
 {
-  class SequenceCounter
+  class CountSequence
   {
-    size_t count_;
-
   public:
-    SequenceCounter() : count_(0) {}
+    CountSequence():
+      count_(0)
+    {}
 
     void operator()(int)
     {
@@ -19,16 +20,19 @@ namespace borovkov
     {
       return count_;
     }
+
+  private:
+    size_t count_;
   };
 
-  class MaxEqualSequence
+  class CountMaxEqual
   {
-    size_t current_count_;
-    size_t max_count_;
-    int previous_number_;
-
   public:
-    MaxEqualSequence() : current_count_(0), max_count_(0), previous_number_(0) {}
+    CountMaxEqual():
+      current_count_(0),
+      max_count_(0),
+      previous_number_(0)
+    {}
 
     void operator()(int next)
     {
@@ -60,41 +64,50 @@ namespace borovkov
     {
       return max_count_;
     }
+
+  private:
+    size_t current_count_;
+    size_t max_count_;
+    int previous_number_;
   };
 
-  class LocalMaxCounter
+  class CountLocalMax
   {
-    SequenceCounter counter_;
-    size_t count_local_max_;
-    int left_;
-    int middle_;
-    int right_;
-
   public:
-    LocalMaxCounter() : counter_(), count_local_max_(0), left_(0), middle_(0), right_(0) {}
+    CountLocalMax():
+      counter_(),
+      count_local_max_(0),
+      left_(0),
+      middle_(0),
+      right_(0)
+    {}
 
     void operator()(int next)
     {
+      const size_t first_position = 1;
+      const size_t second_position = 2;
+      const size_t third_position = 3;
+
       counter_(next);
-      if (counter_() == 1)
+      if (counter_() == first_position)
       {
         left_ = next;
       }
-      if (counter_() == 2)
+      if (counter_() == second_position)
       {
         middle_ = next;
       }
-      if (counter_() == 3)
+      if (counter_() == third_position)
       {
         right_ = next;
       }
-      if (counter_() > 3)
+      if (counter_() > third_position)
       {
         left_ = middle_;
         middle_ = right_;
         right_ = next;
       }
-      if (counter_() >= 3 && middle_ > right_ && middle_ > left_)
+      if ((counter_() >= third_position) && (middle_ > right_) && (middle_ > left_))
       {
         count_local_max_++;
       }
@@ -108,13 +121,23 @@ namespace borovkov
       }
       return count_local_max_;
     }
+
+  private:
+    CountSequence counter_;
+    size_t count_local_max_;
+    int left_;
+    int middle_;
+    int right_;
   };
 }
 
 int main()
 {
-  borovkov::MaxEqualSequence max_similar_count;
-  borovkov::LocalMaxCounter count_local_max;
+  const int error_out_of_range = 2;
+  const int error_invalid_input = 1;
+
+  borovkov::CountMaxEqual max_similar_count;
+  borovkov::CountLocalMax count_local_max;
 
   int value = 0;
   while (std::cin >> value)
@@ -129,8 +152,8 @@ int main()
 
   if (std::cin.fail())
   {
-    std::cerr << "Error: incorrect input number!!!" << "\n";
-    return 1;
+    std::cerr << "Error: incorrect input number!!!\n";
+    return error_invalid_input;
   }
 
   std::cout << max_similar_count() << "\n";
@@ -142,7 +165,7 @@ int main()
   catch (const std::out_of_range& e)
   {
     std::cerr << "Error: " << e.what() << "\n";
-    return 2;
+    return error_out_of_range;
   }
 
   return 0;
