@@ -3,10 +3,8 @@
 
 #include "shape.hpp"
 
-namespace ketov
-{
-class Triangle : public Shape
-{
+namespace ketov {
+class Triangle : public Shape {
 public:
   Triangle(point_t p1, point_t p2, point_t p3);
   virtual ~Triangle() = default;
@@ -22,6 +20,6 @@ private:
   point_t p2_;
   point_t p3_;
 };
-} // namespace ketov
+}
 
 #endif

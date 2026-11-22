@@ -3,10 +3,8 @@
 
 #include "base-types.hpp"
 
-namespace ketov
-{
-class Shape
-{
+namespace ketov {
+class Shape {
 public:
   virtual ~Shape() = default;
 
@@ -16,6 +14,6 @@ public:
   virtual void move(double dx, double dy) = 0;
   virtual void scale(double factor) = 0;
 };
-} // namespace ketov
+}
 
 #endif
