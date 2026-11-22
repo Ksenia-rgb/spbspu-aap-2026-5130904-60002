@@ -85,4 +85,5 @@ private:
   double r_s_;
   point_t pos_s_;
 };
+#endif
 
