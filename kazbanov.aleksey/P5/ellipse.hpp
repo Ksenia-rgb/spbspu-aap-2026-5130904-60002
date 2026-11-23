@@ -8,7 +8,7 @@ namespace kazbanov {
     Ellipse(double radiusX, double radiusY, const point_t& center);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
-    void move(const point_t& pos) override;
+    void move(const point_t& new_pos) override;
     void move(double dx, double dy) override;
     void scale(double factor) override;
 

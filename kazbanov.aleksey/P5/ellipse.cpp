@@ -24,9 +24,9 @@ namespace kazbanov {
     return {2.0 * radiusX_, 2.0 * radiusY_, center_};
   }
 
-  void Ellipse::move(const point_t& newPos)
+  void Ellipse::move(const point_t& new_pos)
   {
-    center_ = newPos;
+    center_ = new_pos;
   }
 
   void Ellipse::move(double dx, double dy)

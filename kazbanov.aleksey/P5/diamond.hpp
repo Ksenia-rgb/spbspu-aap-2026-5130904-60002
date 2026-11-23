@@ -5,16 +5,16 @@
 namespace kazbanov {
   class Diamond: public Shape {
   public:
-    Diamond(double horizDiag, double vertDiag, const point_t& pos);
+    Diamond(double horiz_diag, double vert_diag, const point_t& pos);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
-    void move(const point_t& pos) override;
+    void move(const point_t& new_pos) override;
     void move(double dx, double dy) override;
     void scale(double factor) override;
 
   private:
-    double horizDiag_;
-    double vertDiag_;
+    double horiz_diag_;
+    double vert_diag_;
     point_t center_;
   };
 }

@@ -29,9 +29,9 @@ namespace kazbanov {
     return rect_;
   }
 
-  void Rectangle::move(const point_t& newPos)
+  void Rectangle::move(const point_t& new_pos)
   {
-    rect_.pos = newPos;
+    rect_.pos = new_pos;
   }
 
   void Rectangle::move(double dx, double dy)

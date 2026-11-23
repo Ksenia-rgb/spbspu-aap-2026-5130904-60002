@@ -2,29 +2,29 @@
 #include <stdexcept>
 
 namespace kazbanov {
-  Diamond::Diamond(double horizDiag, double vertDiag, const point_t& center):
-    horizDiag_(horizDiag),
-    vertDiag_(vertDiag),
+  Diamond::Diamond(double horiz_diag, double vert_diag, const point_t& center):
+    horizDiag_(horiz_diag),
+    vertDiag_(vert_diag),
     center_(center)
   {
-    if (horizDiag <= 0.0 || vertDiag <= 0.0) {
+    if (horiz_diag <= 0.0 || vert_diag <= 0.0) {
       throw std::invalid_argument("horizDiag or vertDiag must be positive");
     }
   }
 
   double Diamond::getArea() const
   {
-    return horizDiag_ * vertDiag_ / 2.0;
+    return horiz_diag_ * vert_diag_ / 2.0;
   }
 
   rectangle_t Diamond::getFrameRect() const
   {
-    return rectangle_t{horizDiag_, vertDiag_, center_};
+    return rectangle_t{horiz_diag_, vert_diag_, center_};
   }
 
-  void Diamond::move(const point_t& newPos)
+  void Diamond::move(const point_t& new_pos)
   {
-    center_ = newPos;
+    center_ = new_pos;
   }
 
   void Diamond::move(double dx, double dy)
@@ -38,7 +38,7 @@ namespace kazbanov {
     if (factor <= 0.0) {
       throw std::invalid_argument("factor must be positive");
     }
-    horizDiag_ *= factor;
-    vertDiag_ *= factor;
+    horiz_diag_ *= factor;
+    vert_diag_ *= factor;
   }
 }
