@@ -50,9 +50,8 @@ void bykov::Ring::move(double dx, double dy)
   move(shiftPoint(center_, dx, dy));
 }
 
-void bykov::Ring::scale(double factor)
+void bykov::Ring::scaleUnsafely(double factor)
 {
-  checkPositive(factor);
   const Ring scaled(center_, inner_radius_ * factor, outer_radius_ * factor);
   inner_radius_ = scaled.inner_radius_;
   outer_radius_ = scaled.outer_radius_;

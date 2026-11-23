@@ -12,7 +12,10 @@ namespace bykov
     virtual rectangle_t getFrameRect() const = 0;
     virtual void move(point_t position) = 0;
     virtual void move(double dx, double dy) = 0;
-    virtual void scale(double factor) = 0;
+    void scale(double factor);
+
+  protected:
+    virtual void scaleUnsafely(double factor) = 0;
   };
 }
 

@@ -39,9 +39,8 @@ void bykov::Rectangle::move(double dx, double dy)
   move(shiftPoint(frame_.pos, dx, dy));
 }
 
-void bykov::Rectangle::scale(double factor)
+void bykov::Rectangle::scaleUnsafely(double factor)
 {
-  const rectangle_t next = scaleFrame(frame_, factor);
-  const Rectangle scaled(next.pos, next.width, next.height);
+  const Rectangle scaled(frame_.pos, frame_.width * factor, frame_.height * factor);
   frame_ = scaled.frame_;
 }

@@ -40,9 +40,8 @@ void bykov::Diamond::move(double dx, double dy)
   move(shiftPoint(frame_.pos, dx, dy));
 }
 
-void bykov::Diamond::scale(double factor)
+void bykov::Diamond::scaleUnsafely(double factor)
 {
-  const rectangle_t next = scaleFrame(frame_, factor);
-  const Diamond scaled(next.pos, next.width, next.height);
+  const Diamond scaled(frame_.pos, frame_.width * factor, frame_.height * factor);
   frame_ = scaled.frame_;
 }

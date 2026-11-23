@@ -2,6 +2,8 @@
 #include <exception>
 #include <iostream>
 #include <istream>
+#include <memory>
+#include <new>
 #include <cstddef>
 #include "base-types.hpp"
 #include "diamond.hpp"
@@ -35,10 +37,11 @@ int main()
     constexpr double diagonal_x = 6.0;
     constexpr double diagonal_y = 4.0;
     constexpr double offset = 5.0;
-    bykov::Rectangle rectangle({0.0, 0.0}, rectangle_width, rectangle_height);
-    bykov::Ring ring({offset, 0.0}, inner_radius, outer_radius);
-    bykov::Diamond diamond({0.0, offset}, diagonal_x, diagonal_y);
-    bykov::Shape* const shapes[] = {&rectangle, &ring, &diamond};
+    const auto rectangle
+        = std::make_unique< bykov::Rectangle >(bykov::point_t{0.0, 0.0}, rectangle_width, rectangle_height);
+    const auto ring = std::make_unique< bykov::Ring >(bykov::point_t{offset, 0.0}, inner_radius, outer_radius);
+    const auto diamond = std::make_unique< bykov::Diamond >(bykov::point_t{0.0, offset}, diagonal_x, diagonal_y);
+    bykov::Shape* const shapes[] = {rectangle.get(), ring.get(), diamond.get()};
     const std::size_t count = sizeof(shapes) / sizeof(shapes[0]);
 
     std::cout << "Before\n";
@@ -52,8 +55,6 @@ int main()
       std::cerr << "Error: expected center x, center y and scale factor\n";
       return error_code;
     }
-    bykov::checkPoint(center);
-    bykov::checkPositive(factor);
     bykov::scaleShapes(shapes, count, center, factor);
     std::cout << "After\n";
     bykov::printShapes(std::cout, shapes, count);
@@ -62,6 +63,11 @@ int main()
       std::cerr << "Error: cannot write shape parameters\n";
       return error_code;
     }
+  }
+  catch (const std::bad_alloc&)
+  {
+    std::cerr << "Error: not enough memory for shapes\n";
+    return error_code;
   }
   catch (const std::exception& e)
   {

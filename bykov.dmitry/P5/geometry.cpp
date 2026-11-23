@@ -61,13 +61,10 @@ bykov::point_t bykov::shiftPoint(point_t point, double dx, double dy)
   return result;
 }
 
-bykov::rectangle_t bykov::scaleFrame(rectangle_t frame, double factor)
+void bykov::Shape::scale(double factor)
 {
   checkPositive(factor);
-  frame.width *= factor;
-  frame.height *= factor;
-  checkFrame(frame);
-  return frame;
+  scaleUnsafely(factor);
 }
 
 bykov::rectangle_t bykov::getTotalFrame(const Shape* const* shapes, std::size_t count)
@@ -97,23 +94,15 @@ bykov::rectangle_t bykov::getTotalFrame(const Shape* const* shapes, std::size_t 
 void bykov::scaleShapes(Shape* const* shapes, std::size_t count, point_t center, double factor)
 {
   checkPoint(center);
-  checkPositive(factor);
   if (factor == 1.0)
   {
     return;
   }
   for (std::size_t i = 0; i < count; ++i)
   {
-    rectangle_t target = scaleFrame(shapes[i]->getFrameRect(), factor);
-    target.pos = scaledPosition(target.pos, center, factor);
-    checkFrame(target);
-  }
-  for (std::size_t i = 0; i < count; ++i)
-  {
     const point_t position = shapes[i]->getFrameRect().pos;
-    const point_t target = scaledPosition(position, center, factor);
     shapes[i]->scale(factor);
-    shapes[i]->move(target);
+    shapes[i]->move(scaledPosition(position, center, factor));
   }
 }
 

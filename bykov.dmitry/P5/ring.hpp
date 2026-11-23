@@ -13,7 +13,9 @@ namespace bykov
     rectangle_t getFrameRect() const override;
     void move(point_t position) override;
     void move(double dx, double dy) override;
-    void scale(double factor) override;
+
+  protected:
+    void scaleUnsafely(double factor) override;
 
   private:
     point_t center_;
