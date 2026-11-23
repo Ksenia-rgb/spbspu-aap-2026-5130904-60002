@@ -11,7 +11,7 @@ namespace kazbanov {
     radius_y_(radius_y),
     center_(center)
   {
-    if (radiusX_ <= 0.0 || radiusY_ <= 0.0) {
+    if (radius_x_ <= 0.0 || radius_y_ <= 0.0) {
       throw std::invalid_argument("ellipse radius should be greater than 0");
     }
   }
