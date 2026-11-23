@@ -3,6 +3,7 @@
 #include <limits>
 #include <cstddef>
 #include <stdexcept>
+#include <utility>
 
 namespace bykov
 {
@@ -60,12 +61,8 @@ bykov::AsciiString& bykov::AsciiString::operator=(const AsciiString& other)
 {
   if (this != &other)
   {
-    char* const copy = new char[other.size_ + 1];
-    std::memcpy(copy, other.cStr(), other.size_ + 1);
-    delete[] data_;
-    data_ = copy;
-    size_ = other.size_;
-    capacity_ = other.size_;
+    AsciiString copy(other);
+    swap(copy);
   }
   return *this;
 }
@@ -74,13 +71,8 @@ bykov::AsciiString& bykov::AsciiString::operator=(AsciiString&& other) noexcept
 {
   if (this != &other)
   {
-    delete[] data_;
-    data_ = other.data_;
-    size_ = other.size_;
-    capacity_ = other.capacity_;
-    other.data_ = nullptr;
-    other.size_ = 0;
-    other.capacity_ = 0;
+    AsciiString moved(std::move(other));
+    swap(moved);
   }
   return *this;
 }
@@ -150,27 +142,59 @@ void bykov::AsciiString::reserve(std::size_t capacity)
   }
 }
 
-void bykov::AsciiString::insert(std::size_t position, char character)
+void bykov::AsciiString::swap(AsciiString& other) noexcept
+{
+  std::swap(data_, other.data_);
+  std::swap(size_, other.size_);
+  std::swap(capacity_, other.capacity_);
+}
+
+void bykov::AsciiString::makeSpace(std::size_t position, std::size_t count)
 {
   if (position > size_)
   {
     throw std::out_of_range("String insertion position is out of range");
   }
-  checkAscii(character);
-  if (size_ == capacity_)
+  if (count == 0)
+  {
+    return;
+  }
+  const std::size_t limit = std::numeric_limits< std::size_t >::max() - 1;
+  if (count > limit - size_)
+  {
+    throw std::overflow_error("String size is too large");
+  }
+  const std::size_t required = size_ + count;
+  if (required > capacity_)
   {
     constexpr std::size_t growth = 2;
-    const std::size_t limit = std::numeric_limits< std::size_t >::max() - 1;
-    if (size_ == limit)
-    {
-      throw std::overflow_error("String size is too large");
-    }
     const std::size_t next = capacity_ >= limit / growth ? limit : capacity_ * growth + 1;
-    reserve(next);
+    reserve(next < required ? required : next);
   }
-  std::memmove(data_ + position + 1, data_ + position, size_ - position + 1);
+  std::memmove(data_ + position + count, data_ + position, size_ - position + 1);
+  size_ = required;
+}
+
+void bykov::AsciiString::insert(std::size_t position, char character)
+{
+  checkAscii(character);
+  makeSpace(position, 1);
   data_[position] = character;
-  ++size_;
+}
+
+void bykov::AsciiString::insert(std::size_t position, const AsciiString& text)
+{
+  if (this == &text && size_ != 0)
+  {
+    const AsciiString copy(text);
+    insert(position, copy);
+    return;
+  }
+  makeSpace(position, text.size_);
+  if (text.size_ != 0)
+  {
+    std::memcpy(data_ + position, text.cStr(), text.size_);
+  }
 }
 
 void bykov::AsciiString::erase(std::size_t position, std::size_t count)

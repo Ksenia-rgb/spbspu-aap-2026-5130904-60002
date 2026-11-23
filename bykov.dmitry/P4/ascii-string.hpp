@@ -25,10 +25,14 @@ namespace bykov
     char* data();
     void reserve(std::size_t capacity);
     void insert(std::size_t position, char character);
+    void insert(std::size_t position, const AsciiString& text);
     void erase(std::size_t position, std::size_t count = 1);
     void append(char character);
 
   private:
+    void swap(AsciiString& other) noexcept;
+    void makeSpace(std::size_t position, std::size_t count);
+
     char* data_;
     std::size_t size_;
     std::size_t capacity_;
