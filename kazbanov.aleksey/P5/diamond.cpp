@@ -1,6 +1,8 @@
 #include "diamond.hpp"
 #include <stdexcept>
 
+const double two = 2.0;
+
 namespace kazbanov {
   Diamond::Diamond(double horiz_diag, double vert_diag, const point_t& center):
     horiz_diag_(horiz_diag),
@@ -14,7 +16,7 @@ namespace kazbanov {
 
   double Diamond::getArea() const
   {
-    return horiz_diag_ * vert_diag_ / 2.0;
+    return horiz_diag_ * vert_diag_ / two;
   }
 
   rectangle_t Diamond::getFrameRect() const

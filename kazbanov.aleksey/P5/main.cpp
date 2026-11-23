@@ -7,22 +7,26 @@
 #include <memory>
 #include <stdexcept>
 
+const double two = 2.0;
+const double three = 3.0;
+const double four = 4.0;
+
 namespace kazbanov {
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
   {
     rectangle_t first = shapes[0]->getFrameRect();
-    double left = first.pos.x - first.width / 2.0;
-    double right = first.pos.x + first.width / 2.0;
-    double bottom = first.pos.y - first.height / 2.0;
-    double top = first.pos.y + first.height / 2.0;
+    double left = first.pos.x - first.width / two;
+    double right = first.pos.x + first.width / two;
+    double bottom = first.pos.y - first.height / two;
+    double top = first.pos.y + first.height / two;
     for (size_t i = 1; i < size; i++) {
       rectangle_t r = shapes[i]->getFrameRect();
-      left = std::min(left, r.pos.x - r.width / 2.0);
-      right = std::max(right, r.pos.x + r.width / 2.0);
-      bottom = std::min(bottom, r.pos.y - r.height / 2.0);
-      top = std::max(top, r.pos.y + r.height / 2.0);
+      left = std::min(left, r.pos.x - r.width / two);
+      right = std::max(right, r.pos.x + r.width / two);
+      bottom = std::min(bottom, r.pos.y - r.height / two);
+      top = std::max(top, r.pos.y + r.height / two);
     }
-    return {right - left, top - bottom, {(left + right) / 2.0, (bottom + top) / 2.0}};
+    return {right - left, top - bottom, {(left + right) / two, (bottom + top) / two}};
   }
 
   void printFrame(const rectangle_t& r)
@@ -70,10 +74,10 @@ int main()
   Shape* shapes[size] = {};
   int code = 0;
   try {
-    shapes[0] = new Rectangle{4, 2, {0, 0}};
-    shapes[1] = new Rectangle{{-3, -1}, {-1, 2}};
-    shapes[2] = new Diamond{6, 4, {5, 5}};
-    shapes[3] = new Ellipse{3, 1.5, {-4, 6}};
+    shapes[0] = new Rectangle{four, two, {0.0, 0.0}};
+    shapes[1] = new Rectangle{{-three, -1.0}, {-1.0, two}};
+    shapes[2] = new Diamond{two, four, {0.0, 0.0}};
+    shapes[3] = new Ellipse{three, 1.0, {-four, 1.0}};
 
     std::cout << "Before scaling:\n";
     printInfo(shapes, size);
