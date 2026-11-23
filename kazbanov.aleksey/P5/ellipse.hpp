@@ -2,8 +2,10 @@
 #define ELLIPSE_HPP
 #include "shape.hpp"
 
-namespace kazbanov {
-  class Ellipse: public Shape {
+namespace kazbanov
+{
+  class Ellipse: public Shape
+  {
   public:
     Ellipse(double radius_x, double radius_y, const point_t& center);
     double getArea() const override;

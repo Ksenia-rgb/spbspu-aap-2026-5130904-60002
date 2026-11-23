@@ -2,8 +2,10 @@
 #define RECTANGLE_HPP
 #include "shape.hpp"
 
-namespace kazbanov {
-  class Rectangle: public Shape {
+namespace kazbanov
+{
+  class Rectangle: public Shape
+  {
   public:
     Rectangle(double width, double height, const point_t& pos);
     Rectangle(const point_t& p1, const point_t& p2);

@@ -2,8 +2,10 @@
 #define DIAMOND_HPP
 #include "shape.hpp"
 
-namespace kazbanov {
-  class Diamond: public Shape {
+namespace kazbanov
+{
+  class Diamond: public Shape
+  {
   public:
     Diamond(double horiz_diag, double vert_diag, const point_t& pos);
     double getArea() const override;

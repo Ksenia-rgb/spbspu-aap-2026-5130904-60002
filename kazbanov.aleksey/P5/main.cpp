@@ -12,7 +12,8 @@ const double two = 2.0;
 const double three = 3.0;
 const double four = 4.0;
 
-namespace kazbanov {
+namespace kazbanov
+{
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
   {
     rectangle_t first = shapes[0]->getFrameRect();
@@ -20,7 +21,8 @@ namespace kazbanov {
     double right = first.pos.x + first.width / two;
     double bottom = first.pos.y - first.height / two;
     double top = first.pos.y + first.height / two;
-    for (size_t i = 1; i < size; i++) {
+    for (size_t i = 1; i < size; i++)
+    {
       rectangle_t r = shapes[i]->getFrameRect();
       left = std::min(left, r.pos.x - r.width / two);
       right = std::max(right, r.pos.x + r.width / two);
@@ -39,7 +41,8 @@ namespace kazbanov {
   void printInfo(Shape* const* shapes, size_t size)
   {
     double total = 0;
-    for (size_t i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++)
+    {
       double area = shapes[i]->getArea();
       total += area;
       std::cout << "Shape " << i + 1 << ": area = " << area << ", frame: ";
@@ -54,10 +57,12 @@ namespace kazbanov {
 
   void scaleShapes(Shape* const* shape, const point_t& pos, size_t size, double factor)
   {
-    if (factor <= 0) {
+    if (factor <= 0)
+    {
       throw std::invalid_argument("factor must be greater than 0.");
     }
-    for (size_t i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++)
+    {
       const point_t center = shape[i]->getFrameRect().pos;
       shape[i]->move(pos);
       const point_t new_center = shape[i]->getFrameRect().pos;
@@ -75,7 +80,8 @@ int main()
   const size_t size = 4;
   Shape* shapes[size] = {};
   int code = 0;
-  try {
+  try
+  {
     shapes[0] = new Rectangle{four, two, {0.0, 0.0}};
     shapes[1] = new Rectangle{{-three, -1.0}, {-1.0, two}};
     shapes[2] = new Diamond{two, four, {0.0, 0.0}};
@@ -86,20 +92,26 @@ int main()
 
     point_t pos{};
     double factor = 0.0;
-    if (!(std::cin >> pos.x >> pos.y >> factor)) {
+    if (!(std::cin >> pos.x >> pos.y >> factor))
+    {
       std::cerr << "Error: invalid input\n";
       code = 1;
-    } else {
+    }
+    else
+    {
       scaleShapes(shapes, pos, size, factor);
       std::cout << "After scaling:\n";
       printInfo(shapes, size);
     }
-  } catch (std::exception& e) {
+  }
+  catch (std::exception& e)
+  {
     std::cerr << "Error: " << e.what() << "\n";
     code = 1;
   }
 
-  for (size_t i = 0; i < size; i++) {
+  for (size_t i = 0; i < size; i++)
+  {
     delete shapes[i];
   }
   return code;

@@ -4,13 +4,15 @@
 
 const double two = 2.0;
 
-namespace kazbanov {
+namespace kazbanov
+{
   Diamond::Diamond(double horiz_diag, double vert_diag, const point_t& center):
     horiz_diag_(horiz_diag),
     vert_diag_(vert_diag),
     center_(center)
   {
-    if (horiz_diag <= 0.0 || vert_diag <= 0.0) {
+    if (horiz_diag <= 0.0 || vert_diag <= 0.0)
+    {
       throw std::invalid_argument("horizDiag or vertDiag must be positive");
     }
   }
@@ -38,7 +40,8 @@ namespace kazbanov {
 
   void Diamond::scale(double factor)
   {
-    if (factor <= 0.0) {
+    if (factor <= 0.0)
+    {
       throw std::invalid_argument("factor must be positive");
     }
     horiz_diag_ *= factor;

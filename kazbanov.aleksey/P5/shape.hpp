@@ -2,8 +2,10 @@
 #define SHAPE_HPP
 #include "base-types.hpp"
 
-namespace kazbanov {
-  class Shape {
+namespace kazbanov
+{
+  class Shape
+  {
   public:
     virtual ~Shape() = default;
     virtual double getArea() const = 0;
