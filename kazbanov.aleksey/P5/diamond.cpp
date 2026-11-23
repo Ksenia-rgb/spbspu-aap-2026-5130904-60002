@@ -1,9 +1,7 @@
-#include "diamond.h"
-
+#include "diamond.hpp"
 #include <stdexcept>
 
 namespace kazbanov {
-
   Diamond::Diamond(double horizDiag, double vertDiag, const point_t& center):
     center_(center),
     horizDiag_(horizDiag),
@@ -43,4 +41,4 @@ namespace kazbanov {
     horizDiag_ *= factor;
     vertDiag_ *= factor;
   }
-} // namespace kazbanov
+}

@@ -1,6 +1,6 @@
 #ifndef P5_ELLIPSE_H
 #define P5_ELLIPSE_H
-#include "shape.h"
+#include "shape.hpp"
 
 namespace kazbanov {
   class Ellipse: public Shape {
@@ -17,6 +17,6 @@ namespace kazbanov {
     double radiusY_;
     point_t center_;
   };
-} // namespace kazbanov
+}
 
 #endif

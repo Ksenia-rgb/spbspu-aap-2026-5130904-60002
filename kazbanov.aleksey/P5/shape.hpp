@@ -1,6 +1,6 @@
 #ifndef P5_SHAPE_H
 #define P5_SHAPE_H
-#include "base-types.h"
+#include "base-types.hpp"
 
 namespace kazbanov {
   class Shape {
@@ -12,6 +12,6 @@ namespace kazbanov {
     virtual void move(double dx, double dy) = 0;
     virtual void scale(double factor) = 0;
   };
-} // namespace kazbanov
+}
 
 #endif

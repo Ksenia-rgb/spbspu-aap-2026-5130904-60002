@@ -1,6 +1,6 @@
-#include "diamond.h"
-#include "ellipse.h"
-#include "rectangle.h"
+#include "diamond.hpp"
+#include "ellipse.hpp"
+#include "rectangle.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -11,7 +11,6 @@
 const int error = 1;
 
 namespace kazbanov {
-
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
   {
     rectangle_t first = shapes[0]->getFrameRect();
@@ -31,8 +30,7 @@ namespace kazbanov {
 
   void printFrame(const rectangle_t& r)
   {
-    std::cout << "width = " << r.width << ", height = " << r.height << " center = (" << r.pos.x << ", " << r.pos.y
-              << ")";
+    std::cout << "width = " << r.width << ", height = " << r.height << " center = (" << r.pos.x << ", " << r.pos.y << ")";
   }
 
   void printInfo(Shape* const* shapes, size_t size)
@@ -66,7 +64,7 @@ namespace kazbanov {
       shape[i]->move(dx * factor, dy * factor);
     }
   }
-} // namespace kazbanov
+}
 
 int main()
 {

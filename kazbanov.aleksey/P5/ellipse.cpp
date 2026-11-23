@@ -1,11 +1,9 @@
-#include "ellipse.h"
-
+#include "ellipse.hpp"
 #include <stdexcept>
 
 const double PI = 3.14159265358979323846;
 
 namespace kazbanov {
-
   Ellipse::Ellipse(double radiusX, double radiusY, const point_t& center):
     radiusX_(radiusX),
     radiusY_(radiusY),
@@ -45,4 +43,4 @@ namespace kazbanov {
     radiusX_ *= factor;
     radiusY_ *= factor;
   }
-} // namespace kazbanov
+}

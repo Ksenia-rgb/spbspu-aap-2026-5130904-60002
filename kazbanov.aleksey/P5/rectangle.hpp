@@ -1,6 +1,6 @@
 #ifndef P5_RECTANGLE_H
 #define P5_RECTANGLE_H
-#include "shape.h"
+#include "shape.hpp"
 
 namespace kazbanov {
   class Rectangle: public Shape {
@@ -16,6 +16,6 @@ namespace kazbanov {
   private:
     rectangle_t rect_;
   };
-} // namespace kazbanov
+}
 
 #endif

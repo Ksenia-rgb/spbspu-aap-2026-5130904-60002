@@ -1,10 +1,8 @@
-#include "rectangle.h"
-
+#include "rectangle.hpp"
 #include <cmath>
 #include <stdexcept>
 
 namespace kazbanov {
-
   Rectangle::Rectangle(double width, double height, const point_t& center):
     rect_{width, height, center}
   {
@@ -50,4 +48,4 @@ namespace kazbanov {
     rect_.width *= factor;
     rect_.height *= factor;
   }
-} // namespace kazbanov
+}

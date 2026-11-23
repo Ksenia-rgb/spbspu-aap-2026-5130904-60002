@@ -1,6 +1,6 @@
 #ifndef P5_DIAMOND_H
 #define P5_DIAMOND_H
-#include "shape.h"
+#include "shape.hpp"
 
 namespace kazbanov {
   class Diamond: public Shape {
@@ -17,6 +17,6 @@ namespace kazbanov {
     double vertDiag_;
     point_t center_;
   };
-} // namespace kazbanov
+}
 
 #endif
