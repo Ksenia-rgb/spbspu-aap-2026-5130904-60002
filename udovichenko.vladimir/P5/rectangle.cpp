@@ -48,12 +48,8 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Rectangle::scale(double factor)
+  void Rectangle::scaleUnsafely(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("Can't scale rectangle with non-positive number");
-    }
     width_ *= factor;
     height_ *= factor;
   }

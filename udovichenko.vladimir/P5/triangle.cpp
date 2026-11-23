@@ -48,13 +48,8 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Triangle::scale(double factor)
+  void Triangle::scaleUnsafely(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("Can't scale triangle with non-positive number");
-    }
-
     a_.x = center_.x + (a_.x - center_.x) * factor;
     a_.y = center_.y + (a_.y - center_.y) * factor;
     b_.x = center_.x + (b_.x - center_.x) * factor;

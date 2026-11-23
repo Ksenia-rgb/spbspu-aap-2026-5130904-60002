@@ -35,12 +35,8 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Diamond::scale(double factor)
+  void Diamond::scaleUnsafely(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("Can't scale diamond with non-positive number");
-    }
     diagonal_x_ *= factor;
     diagonal_y_ *= factor;
   }

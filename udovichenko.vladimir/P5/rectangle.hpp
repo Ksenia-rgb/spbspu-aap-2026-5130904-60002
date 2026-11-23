@@ -13,7 +13,9 @@ namespace udovichenko
     rectangle_t getFrameRect() const override;
     void move(const point_t &p) override;
     void move(double dx, double dy) override;
-    void scale(double factor) override;
+
+  protected:
+    void scaleUnsafely(double factor) override;
 
   private:
     double width_;
