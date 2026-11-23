@@ -3,9 +3,9 @@
 
 namespace kazbanov {
   Diamond::Diamond(double horizDiag, double vertDiag, const point_t& center):
-    center_(center),
     horizDiag_(horizDiag),
-    vertDiag_(vertDiag)
+    vertDiag_(vertDiag),
+    center_(center)
   {
     if (horizDiag <= 0.0 || vertDiag <= 0.0) {
       throw std::invalid_argument("horizDiag or vertDiag must be positive");
@@ -19,7 +19,7 @@ namespace kazbanov {
 
   rectangle_t Diamond::getFrameRect() const
   {
-    return rectangle_t(horizDiag_, vertDiag_, center_);
+    return rectangle_t{horizDiag_, vertDiag_, center_};
   }
 
   void Diamond::move(const point_t& newPos)
