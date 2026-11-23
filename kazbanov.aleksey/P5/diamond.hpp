@@ -1,5 +1,5 @@
-#ifndef P5_DIAMOND_H
-#define P5_DIAMOND_H
+#ifndef DIAMOND_HPP
+#define DIAMOND_HPP
 #include "shape.hpp"
 
 namespace kazbanov {
@@ -17,6 +17,6 @@ namespace kazbanov {
     double vert_diag_;
     point_t center_;
   };
-}
+} // namespace kazbanov
 
 #endif

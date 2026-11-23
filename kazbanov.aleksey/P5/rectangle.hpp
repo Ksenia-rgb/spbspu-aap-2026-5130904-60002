@@ -1,5 +1,5 @@
-#ifndef P5_RECTANGLE_H
-#define P5_RECTANGLE_H
+#ifndef RECTANGLE_HPP
+#define RECTANGLE_HPP
 #include "shape.hpp"
 
 namespace kazbanov {
@@ -16,6 +16,6 @@ namespace kazbanov {
   private:
     rectangle_t rect_;
   };
-}
+} // namespace kazbanov
 
 #endif

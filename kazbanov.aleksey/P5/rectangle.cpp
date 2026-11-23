@@ -1,4 +1,5 @@
 #include "rectangle.hpp"
+
 #include <cmath>
 #include <stdexcept>
 
@@ -50,4 +51,4 @@ namespace kazbanov {
     rect_.width *= factor;
     rect_.height *= factor;
   }
-}
+} // namespace kazbanov

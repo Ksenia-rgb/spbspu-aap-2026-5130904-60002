@@ -1,11 +1,11 @@
-#ifndef P5_ELLIPSE_H
-#define P5_ELLIPSE_H
+#ifndef ELLIPSE_HPP
+#define ELLIPSE_HPP
 #include "shape.hpp"
 
 namespace kazbanov {
   class Ellipse: public Shape {
   public:
-    Ellipse(double radiusX, double radiusY, const point_t& center);
+    Ellipse(double radius_X, double radius_Y, const point_t& center);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(const point_t& new_pos) override;
@@ -13,10 +13,10 @@ namespace kazbanov {
     void scale(double factor) override;
 
   private:
-    double radiusX_;
-    double radiusY_;
+    double radius_X_;
+    double radius_Y_;
     point_t center_;
   };
-}
+} // namespace kazbanov
 
 #endif

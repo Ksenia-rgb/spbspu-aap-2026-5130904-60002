@@ -1,6 +1,7 @@
 #include "diamond.hpp"
 #include "ellipse.hpp"
 #include "rectangle.hpp"
+
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
@@ -31,7 +32,8 @@ namespace kazbanov {
 
   void printFrame(const rectangle_t& r)
   {
-    std::cout << "width = " << r.width << ", height = " << r.height << " center = (" << r.pos.x << ", " << r.pos.y << ")";
+    std::cout << "width = " << r.width << ", height = " << r.height << " center = (" << r.pos.x << ", " << r.pos.y
+              << ")";
   }
 
   void printInfo(Shape* const* shapes, size_t size)
@@ -65,7 +67,7 @@ namespace kazbanov {
       shape[i]->move(dx * factor, dy * factor);
     }
   }
-}
+} // namespace kazbanov
 
 int main()
 {
@@ -85,8 +87,8 @@ int main()
     point_t pos{};
     double factor = 0.0;
     if (!(std::cin >> pos.x >> pos.y >> factor)) {
-    std::cerr << "Error: invalid input\n";
-    code = 1;
+      std::cerr << "Error: invalid input\n";
+      code = 1;
     } else {
       scaleShapes(shapes, pos, size, factor);
       std::cout << "After scaling:\n";
@@ -97,7 +99,7 @@ int main()
     code = 1;
   }
 
-  for(size_t i = 0; i < size; i++){
+  for (size_t i = 0; i < size; i++) {
     delete shapes[i];
   }
   return code;

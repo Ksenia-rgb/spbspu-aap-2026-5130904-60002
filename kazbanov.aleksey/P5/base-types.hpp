@@ -1,5 +1,5 @@
-#ifndef P5_BASE_TYPES_H
-#define P5_BASE_TYPES_H
+#ifndef BASE_TYPES_HPP
+#define BASE_TYPES_HPP
 
 struct point_t {
   double x = 0.0;

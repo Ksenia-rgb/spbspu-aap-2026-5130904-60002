@@ -1,4 +1,5 @@
 #include "diamond.hpp"
+
 #include <stdexcept>
 
 const double two = 2.0;
@@ -43,4 +44,4 @@ namespace kazbanov {
     horiz_diag_ *= factor;
     vert_diag_ *= factor;
   }
-}
+} // namespace kazbanov

@@ -1,5 +1,5 @@
-#ifndef P5_SHAPE_H
-#define P5_SHAPE_H
+#ifndef SHAPE_HPP
+#define SHAPE_HPP
 #include "base-types.hpp"
 
 namespace kazbanov {
@@ -12,6 +12,6 @@ namespace kazbanov {
     virtual void move(double dx, double dy) = 0;
     virtual void scale(double factor) = 0;
   };
-}
+} // namespace kazbanov
 
 #endif

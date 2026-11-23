@@ -1,12 +1,14 @@
 #include "ellipse.hpp"
+
 #include <stdexcept>
 
 const double PI = 3.14159265358979323846;
+const double two = 2.0;
 
 namespace kazbanov {
-  Ellipse::Ellipse(double radiusX, double radiusY, const point_t& center):
-    radiusX_(radiusX),
-    radiusY_(radiusY),
+  Ellipse::Ellipse(double radius_X, double radius_Y, const point_t& center):
+    radius_X_(radius_X),
+    radius_Y_(radius_Y),
     center_(center)
   {
     if (radiusX_ <= 0.0 || radiusY_ <= 0.0) {
@@ -21,7 +23,7 @@ namespace kazbanov {
 
   rectangle_t Ellipse::getFrameRect() const
   {
-    return {2.0 * radiusX_, 2.0 * radiusY_, center_};
+    return {two * radiusX_, two * radiusY_, center_};
   }
 
   void Ellipse::move(const point_t& new_pos)
@@ -43,4 +45,4 @@ namespace kazbanov {
     radiusX_ *= factor;
     radiusY_ *= factor;
   }
-}
+} // namespace kazbanov
