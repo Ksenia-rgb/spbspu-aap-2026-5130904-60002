@@ -1,14 +1,11 @@
 #include "diamond.hpp"
 #include "ellipse.hpp"
 #include "rectangle.hpp"
-
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
-
-const int error = 1;
 
 namespace kazbanov {
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
@@ -95,7 +92,7 @@ int main()
     std::cerr << "Error: " << e.what() << "\n";
     code = 1;
   }
-  
+
   for(size_t i = 0; i < size; i++){
     delete shapes[i];
   }
