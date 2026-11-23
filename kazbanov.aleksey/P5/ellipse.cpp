@@ -18,12 +18,12 @@ namespace kazbanov {
 
   double Ellipse::getArea() const
   {
-    return PI * radiusX_ * radiusY_;
+    return PI * radius_X_ * radius_Y_;
   }
 
   rectangle_t Ellipse::getFrameRect() const
   {
-    return {two * radiusX_, two * radiusY_, center_};
+    return {two * radius_X_, two * radius_Y_, center_};
   }
 
   void Ellipse::move(const point_t& new_pos)
@@ -42,7 +42,7 @@ namespace kazbanov {
     if (factor <= 0.0) {
       throw std::invalid_argument("factor must be positive");
     }
-    radiusX_ *= factor;
-    radiusY_ *= factor;
+    radius_X_ *= factor;
+    radius_Y_ *= factor;
   }
 } // namespace kazbanov
