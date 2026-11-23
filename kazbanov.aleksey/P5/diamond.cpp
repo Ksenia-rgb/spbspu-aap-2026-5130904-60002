@@ -3,8 +3,8 @@
 
 namespace kazbanov {
   Diamond::Diamond(double horiz_diag, double vert_diag, const point_t& center):
-    horizDiag_(horiz_diag),
-    vertDiag_(vert_diag),
+    horiz_diag_(horiz_diag),
+    vert_diag_(vert_diag),
     center_(center)
   {
     if (horiz_diag <= 0.0 || vert_diag <= 0.0) {
