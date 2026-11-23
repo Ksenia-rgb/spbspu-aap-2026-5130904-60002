@@ -6,9 +6,9 @@ const double PI = 3.14159265358979323846;
 const double two = 2.0;
 
 namespace kazbanov {
-  Ellipse::Ellipse(double radius_X, double radius_Y, const point_t& center):
-    radius_X_(radius_X),
-    radius_Y_(radius_Y),
+  Ellipse::Ellipse(double radius_x, double radius_y, const point_t& center):
+    radius_x_(radius_x),
+    radius_y_(radius_y),
     center_(center)
   {
     if (radiusX_ <= 0.0 || radiusY_ <= 0.0) {
@@ -18,12 +18,12 @@ namespace kazbanov {
 
   double Ellipse::getArea() const
   {
-    return PI * radius_X_ * radius_Y_;
+    return PI * radius_x_ * radius_y_;
   }
 
   rectangle_t Ellipse::getFrameRect() const
   {
-    return {two * radius_X_, two * radius_Y_, center_};
+    return {two * radius_x_, two * radius_y_, center_};
   }
 
   void Ellipse::move(const point_t& new_pos)
@@ -42,7 +42,7 @@ namespace kazbanov {
     if (factor <= 0.0) {
       throw std::invalid_argument("factor must be positive");
     }
-    radius_X_ *= factor;
-    radius_Y_ *= factor;
+    radius_x_ *= factor;
+    radius_y_ *= factor;
   }
 } // namespace kazbanov
