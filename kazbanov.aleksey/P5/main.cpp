@@ -70,34 +70,34 @@ int main()
 {
   using namespace kazbanov;
   const size_t size = 4;
-  Shape* shapes[size]{};
+  Shape* shapes[size] = {};
+  int code = 0;
   try {
     shapes[0] = new Rectangle{4, 2, {0, 0}};
     shapes[1] = new Rectangle{{-3, -1}, {-1, 2}};
     shapes[2] = new Diamond{6, 4, {5, 5}};
     shapes[3] = new Ellipse{3, 1.5, {-4, 6}};
 
-  } catch (std::exception& e) {
-    std::cerr << "Error: " << e.what() << "\n";
-    return error;
-  }
+    std::cout << "Before scaling:\n";
+    printInfo(shapes, size);
 
-  std::cout << "Before scaling:\n";
-  printInfo(shapes, size);
-
-  point_t pos{};
-  double factor = 0;
-  if (!(std::cin >> pos.x >> pos.y >> factor)) {
+    point_t pos{};
+    double factor = 0.0;
+    if (!(std::cin >> pos.x >> pos.y >> factor)) {
     std::cerr << "Error: invalid input\n";
-    return error;
-  }
-  try {
-    scaleShapes(shapes, pos, size, factor);
+    code = 1;
+    } else {
+      scaleShapes(shapes, pos, size, factor);
+      std::cout << "After scaling:\n";
+      printInfo(shapes, size);
+    }
   } catch (std::exception& e) {
     std::cerr << "Error: " << e.what() << "\n";
-    return error;
+    code = 1;
   }
-  std::cout << "After scaling:\n";
-  printInfo(shapes, size);
-  return 0;
+  
+  for(size_t i = 0; i < size; i++){
+    delete shapes[i];
+  }
+  return code;
 }
