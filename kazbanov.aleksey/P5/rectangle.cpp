@@ -55,4 +55,4 @@ namespace kazbanov
     rect_.width *= factor;
     rect_.height *= factor;
   }
-} // namespace kazbanov
+}

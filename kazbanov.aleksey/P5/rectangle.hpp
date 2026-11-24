@@ -18,6 +18,6 @@ namespace kazbanov
   private:
     rectangle_t rect_;
   };
-} // namespace kazbanov
+}
 
 #endif

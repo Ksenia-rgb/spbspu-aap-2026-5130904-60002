@@ -14,6 +14,6 @@ namespace kazbanov
     virtual void move(double dx, double dy) = 0;
     virtual void scale(double factor) = 0;
   };
-} // namespace kazbanov
+}
 
 #endif

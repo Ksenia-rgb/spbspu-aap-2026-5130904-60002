@@ -48,4 +48,4 @@ namespace kazbanov
     radius_x_ *= factor;
     radius_y_ *= factor;
   }
-} // namespace kazbanov
+}

@@ -16,14 +16,14 @@ namespace kazbanov
 {
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
   {
-    rectangle_t first = shapes[0]->getFrameRect();
+    const rectangle_t first = shapes[0]->getFrameRect();
     double left = first.pos.x - first.width / two;
     double right = first.pos.x + first.width / two;
     double bottom = first.pos.y - first.height / two;
     double top = first.pos.y + first.height / two;
     for (size_t i = 1; i < size; i++)
     {
-      rectangle_t r = shapes[i]->getFrameRect();
+      const rectangle_t r = shapes[i]->getFrameRect();
       left = std::min(left, r.pos.x - r.width / two);
       right = std::max(right, r.pos.x + r.width / two);
       bottom = std::min(bottom, r.pos.y - r.height / two);
@@ -43,7 +43,7 @@ namespace kazbanov
     double total = 0;
     for (size_t i = 0; i < size; i++)
     {
-      double area = shapes[i]->getArea();
+      const double area = shapes[i]->getArea();
       total += area;
       std::cout << "Shape " << i + 1 << ": area = " << area << ", frame: ";
       printFrame(shapes[i]->getFrameRect());
@@ -72,7 +72,7 @@ namespace kazbanov
       shape[i]->move(dx * factor, dy * factor);
     }
   }
-} // namespace kazbanov
+}
 
 int main()
 {

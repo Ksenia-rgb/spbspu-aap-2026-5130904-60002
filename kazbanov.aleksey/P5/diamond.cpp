@@ -47,4 +47,4 @@ namespace kazbanov
     horiz_diag_ *= factor;
     vert_diag_ *= factor;
   }
-} // namespace kazbanov
+}

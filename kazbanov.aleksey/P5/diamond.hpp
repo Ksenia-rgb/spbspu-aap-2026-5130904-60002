@@ -19,6 +19,6 @@ namespace kazbanov
     double vert_diag_;
     point_t center_;
   };
-} // namespace kazbanov
+}
 
 #endif

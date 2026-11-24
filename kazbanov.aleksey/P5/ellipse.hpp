@@ -19,6 +19,6 @@ namespace kazbanov
     double radius_y_;
     point_t center_;
   };
-} // namespace kazbanov
+}
 
 #endif
