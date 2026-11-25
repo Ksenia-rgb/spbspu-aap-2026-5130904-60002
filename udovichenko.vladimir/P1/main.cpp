@@ -1,33 +1,76 @@
 #include <iostream>
 
+namespace udovichenko
+{
+  class LocalMinCounter
+  {
+  public:
+    void operator()(int number)
+    {
+      if (prev_prev_ != 0 && prev_ < prev_prev_ && prev_ < number)
+      {
+        count_++;
+      }
+      prev_prev_ = prev_;
+      prev_ = number;
+      total_elements_++;
+    }
+
+    int operator()() const
+    {
+      if (total_elements_ == 0)
+      {
+        throw std::invalid_argument("Not enough elements to calculate local minimum");
+      }
+      return count_;
+    }
+
+  private:
+    int total_elements_ = 0;
+    int count_ = 0;
+    int prev_ = 0;
+    int prev_prev_ = 0;
+  };
+
+  class AfterMaxCounter
+  {
+  public:
+    void operator()(int number)
+    {
+      count_++;
+      if (total_elements_ == 0 || number > max_value_)
+      {
+        count_ = 0;
+        max_value_ = number;
+      }
+      total_elements_++;
+    }
+
+    int operator()() const
+    {
+      if (total_elements_ == 0)
+      {
+        throw std::invalid_argument("Not enough elements to calculate count after maximum");
+      }
+      return count_;
+    }
+
+  private:
+    int total_elements_ = 0;
+    int count_ = 0;
+    int max_value_ = 0;
+  };
+}
+
 int main()
 {
-  const int return_code_cannot_calculate_any_parameter = 2;
-  int x = 0;
-  int prev = 0;
-  int prev_prev = 0;
-  int count = 0;
-  int max_value = 0;
-  int count_local_minimums = 0;
-  int count_after_max = 0;
-
-  while (std::cin >> x && x != 0)
+  udovichenko::LocalMinCounter local_min_counter;
+  udovichenko::AfterMaxCounter after_max_counter;
+  int value = 0;
+  while (std::cin >> value && value != 0)
   {
-    if (prev_prev != 0 && prev < prev_prev && prev < x)
-    {
-      count_local_minimums++;
-    }
-
-    count_after_max++;
-    if (count == 0 || x > max_value)
-    {
-      max_value = x;
-      count_after_max = 0;
-    }
-
-    prev_prev = prev;
-    prev = x;
-    count++;
+    local_min_counter(value);
+    after_max_counter(value);
   }
   if (!std::cin)
   {
@@ -35,14 +78,16 @@ int main()
     return 1;
   }
 
-  std::cout << count_after_max << "\n";
-
-  if (count == 0)
+  try
   {
-    std::cerr << "Not enough elements to find local minimum\n";
-    return return_code_cannot_calculate_any_parameter;
+    std::cout << local_min_counter() << '\n';
+    std::cout << after_max_counter() << '\n';
   }
-  std::cout << count_local_minimums << "\n";
+  catch (const std::exception &e)
+  {
+    std::cerr << e.what() << '\n';
+    return 2;
+  }
 
   return 0;
 }
