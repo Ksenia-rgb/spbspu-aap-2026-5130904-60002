@@ -35,7 +35,7 @@ namespace ketov
     }
 
     Shape **new_data = nullptr;
-    std::size_t new_size = other.size_;
+    const std::size_t new_size = other.size_;
 
     if (other.data_ != nullptr)
     {
@@ -121,7 +121,7 @@ namespace ketov
     {
       return;
     }
-    Shape **new_data = new Shape *[new_cap];
+    Shape **const new_data = new Shape *[new_cap];
     for (std::size_t i = 0; i < size_; i++)
     {
       new_data[i] = data_[i];
@@ -144,7 +144,7 @@ namespace ketov
       capacity_ = 0;
       return;
     }
-    Shape **new_data = new Shape *[size_];
+    Shape **const new_data = new Shape *[size_];
     for (std::size_t i = 0; i < size_; i++)
     {
       new_data[i] = data_[i];
