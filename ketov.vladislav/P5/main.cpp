@@ -15,9 +15,22 @@ namespace
   constexpr double four = 4.0;
   constexpr size_t shapes_count = 3;
 
+  void deleteShapes(ketov::Shape **shapes, size_t count) noexcept
+  {
+    if (!shapes)
+    {
+      return;
+    }
+    for (size_t i = 0; i < count; i++)
+    {
+      delete shapes[i];
+    }
+    delete[] shapes;
+  }
+
   void scaleAtPoint(ketov::Shape *shape, ketov::point_t anchor, double factor)
   {
-    if (factor <= 0.0)
+    if (factor <= 0)
     {
       throw std::invalid_argument("factor must be greater than zero");
     }
@@ -75,13 +88,16 @@ namespace
 
 int main()
 {
+  ketov::Shape **shapes = nullptr;
   try
   {
-    ketov::Rectangle rect({four, two, {1.0, 1.0}});
-    ketov::Triangle tri({0.0, 0.0}, {four, 0.0}, {0.0, three});
-    ketov::Complexquad quad({0.0, four}, {four, 0.0}, {four, four}, {0.0, 0.0});
+    shapes = new ketov::Shape *[shapes_count]
+    {
+    };
 
-    ketov::Shape *shapes[shapes_count] = {&rect, &tri, &quad};
+    shapes[0] = new ketov::Rectangle({four, two, {1.0, 1.0}});
+    shapes[1] = new ketov::Triangle({0.0, 0.0}, {four, 0.0}, {0.0, three});
+    shapes[2] = new ketov::Complexquad({0.0, four}, {four, 0.0}, {four, four}, {0.0, 0.0});
 
     std::cout << "--- Before scaling ---\n";
     printShapesInfo(shapes, shapes_count);
@@ -90,9 +106,10 @@ int main()
     ketov::point_t anchor{};
     double factor = 0.0;
 
-    if (!(std::cin >> anchor.x >> anchor.y >> factor) || factor <= 0.0)
+    if (!(std::cin >> anchor.x >> anchor.y >> factor))
     {
       std::cerr << "Error: invalid scaling parameters\n";
+      deleteShapes(shapes, shapes_count);
       return 1;
     }
 
@@ -107,8 +124,10 @@ int main()
   catch (const std::exception &e)
   {
     std::cerr << "Error: " << e.what() << "\n";
+    deleteShapes(shapes, shapes_count);
     return 1;
   }
 
+  deleteShapes(shapes, shapes_count);
   return 0;
 }

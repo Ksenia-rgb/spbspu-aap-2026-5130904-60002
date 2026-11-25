@@ -57,10 +57,6 @@ namespace ketov
 
   void Triangle::scale(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("invalid argument");
-    }
     const point_t pos{(p1_.x + p2_.x + p3_.x) / three, (p1_.y + p2_.y + p3_.y) / three};
 
     p1_.x = pos.x + (p1_.x - pos.x) * factor;

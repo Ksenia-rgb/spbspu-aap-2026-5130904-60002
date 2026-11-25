@@ -116,11 +116,6 @@ namespace ketov
 
   void Complexquad::scale(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("Scale factor must be greater than 0");
-    }
-
     p1_.x = pos_.x + (p1_.x - pos_.x) * factor;
     p1_.y = pos_.y + (p1_.y - pos_.y) * factor;
     p2_.x = pos_.x + (p2_.x - pos_.x) * factor;
