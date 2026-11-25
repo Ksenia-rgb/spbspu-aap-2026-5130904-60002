@@ -57,21 +57,10 @@ namespace oglov
 
   void printShape(Shape* const* shapes)
   {
-    std::cout << "Rectangle: \n";
-    std::cout << "Area = " << shapes[0]->getArea() << "\nRectangle frame Rectangle: ";
-    printFrameRect(shapes[0]->getFrameRect());
-
-    std::cout << "Xquare: \n";
-    std::cout << "Area = " << shapes[1]->getArea() << "\nXquare frame Rectangle: ";
-    printFrameRect(shapes[1]->getFrameRect());
-
-    std::cout << "Rubber: \n";
-    std::cout << "Area = " << shapes[2]->getArea() << "\nRubber frame Rectangle: ";
-    printFrameRect(shapes[2]->getFrameRect());
-
     double sum_area = 0.0;
-    for (size_t i = 0; i < shape_count; ++i)
+    for (size_t i = 0; i < shape_count; i++)
     {
+      std::cout << "Area for shape number " << i + 1 << " = " << shapes[i]->getArea() << "\n";
       sum_area += shapes[i]->getArea();
     }
 
@@ -81,6 +70,10 @@ namespace oglov
 
   void scaleAll(Shape* const* shapes, const point_t& center, double k)
   {
+    if (k <= 0)
+    {
+      throw std::invalid_argument("Coefficient <= 0!");
+    }
     for (size_t i = 0; i < shape_count; ++i)
     {
       const rectangle_t fr = shapes[i]->getFrameRect();
@@ -95,7 +88,7 @@ namespace oglov
 
 int main()
 {
-  Shape* shapes[oglov::shape_count] = {nullptr, nullptr, nullptr};
+  oglov::Shape* shapes[oglov::shape_count] = {nullptr, nullptr, nullptr};
 
   constexpr double rect_w = 3.0;
   constexpr double rect_h = 4.0;
@@ -109,12 +102,11 @@ int main()
   constexpr double rb_r_small = 2.0;
   constexpr point_t rb_pos_small{0.0, 0.0};
 
-  int ret = 0;
   try
   {
-    shapes[0] = new Rectangle(rect_w, rect_h, rect_pos);
-    shapes[1] = new Xquare(xq_d, xq_pos);
-    shapes[2] = new Rubber(rb_r_big, rb_pos_big, rb_r_small, rb_pos_small);
+    shapes[0] = new oglov::Rectangle(rect_w, rect_h, rect_pos);
+    shapes[1] = new oglov::Xquare(xq_d, xq_pos);
+    shapes[2] = new oglov::Rubber(rb_r_big, rb_pos_big, rb_r_small, rb_pos_small);
 
     oglov::printShape(shapes);
 
@@ -133,7 +125,11 @@ int main()
   catch (const std::exception& e)
   {
     std::cerr << e.what() << "\n";
-    ret = 1;
+    for (size_t i = 0; i < oglov::shape_count; ++i)
+    {
+      delete shapes[i];
+    }
+    return 1;
   }
 
   for (size_t i = 0; i < oglov::shape_count; ++i)
@@ -141,5 +137,5 @@ int main()
     delete shapes[i];
   }
 
-  return ret;
+  return 0;
 }
