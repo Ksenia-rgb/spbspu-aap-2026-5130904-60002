@@ -5,7 +5,7 @@
 
 namespace kosminskij
 {
-  // Ромб с диагоналями, параллельными осям координат
+
   class Diamond: public Shape
   {
   public:

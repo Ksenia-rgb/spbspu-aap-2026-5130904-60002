@@ -14,7 +14,7 @@ namespace kosminskij
   namespace
   {
     constexpr std::size_t shapes_count = 3;
-    constexpr double two = 2.0;
+    double two = 2.0;
 
     void deleteShapes(Shape** shapes, std::size_t count) noexcept
     {
@@ -29,8 +29,6 @@ namespace kosminskij
       delete[] shapes;
     }
 
-    // Изотропное масштабирование относительно точки anchor через интерфейс Shape:
-    // move(anchor) -> scale(k) -> move(dx, dy)
     void scaleAtPoint(Shape* shape, const point_t& anchor, double factor)
     {
       if (factor <= 0.0)
