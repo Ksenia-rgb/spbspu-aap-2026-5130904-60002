@@ -7,25 +7,26 @@ namespace kosminskij
 {
   namespace
   {
-    const double kPi = 3.14159265358979323846;
+    constexpr double kPi = 3.14159265358979323846;
+    constexpr double two = 2.0;
   }
 
-  Rubber::Rubber(const point_t& center, double innerRadius, const point_t& outerCenter, double outerRadius):
+  Rubber::Rubber(const point_t& center, double inner_radius, const point_t& outer_center, double outer_radius):
     center_(center),
-    outerCenter_(outerCenter),
-    innerRadius_(innerRadius),
-    outerRadius_(outerRadius)
+    outer_center_(outer_center),
+    inner_radius_(inner_radius),
+    outer_radius_(outer_radius)
   {
-    if (innerRadius <= 0.0 || outerRadius <= innerRadius)
+    if (inner_radius <= 0.0 || outer_radius <= inner_radius)
     {
       throw std::invalid_argument("Rubber: need 0 < inner radius < outer radius");
     }
-    const double dist = std::hypot(outerCenter.x - center.x, outerCenter.y - center.y);
+    const double dist = std::hypot(outer_center.x - center.x, outer_center.y - center.y);
     if (dist == 0.0)
     {
       throw std::invalid_argument("Rubber: circles must not be concentric");
     }
-    if (dist + innerRadius >= outerRadius)
+    if (dist + inner_radius >= outer_radius)
     {
       throw std::invalid_argument("Rubber: inner circle must lie strictly inside the outer one");
     }
@@ -33,12 +34,12 @@ namespace kosminskij
 
   double Rubber::getArea() const
   {
-    return kPi * (outerRadius_ * outerRadius_ - innerRadius_ * innerRadius_);
+    return kPi * (outer_radius_ * outer_radius_ - inner_radius_ * inner_radius_);
   }
 
   rectangle_t Rubber::getFrameRect() const
   {
-    return {2.0 * outerRadius_, 2.0 * outerRadius_, outerCenter_};
+    return {two * outer_radius_, two * outer_radius_, outer_center_};
   }
 
   void Rubber::move(const point_t& p)
@@ -50,8 +51,8 @@ namespace kosminskij
   {
     center_.x += dx;
     center_.y += dy;
-    outerCenter_.x += dx;
-    outerCenter_.y += dy;
+    outer_center_.x += dx;
+    outer_center_.y += dy;
   }
 
   void Rubber::scale(double k)
@@ -60,9 +61,9 @@ namespace kosminskij
     {
       throw std::invalid_argument("Rubber: scale factor must be positive");
     }
-    innerRadius_ *= k;
-    outerRadius_ *= k;
-    outerCenter_.x = center_.x + (outerCenter_.x - center_.x) * k;
-    outerCenter_.y = center_.y + (outerCenter_.y - center_.y) * k;
+    inner_radius_ *= k;
+    outer_radius_ *= k;
+    outer_center_.x = center_.x + (outer_center_.x - center_.x) * k;
+    outer_center_.y = center_.y + (outer_center_.y - center_.y) * k;
   }
 }

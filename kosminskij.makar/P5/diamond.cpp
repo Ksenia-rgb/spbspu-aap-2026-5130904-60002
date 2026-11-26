@@ -4,12 +4,17 @@
 
 namespace kosminskij
 {
-  Diamond::Diamond(const point_t& center, double horDiagonal, double verDiagonal):
-    center_(center),
-    horDiagonal_(horDiagonal),
-    verDiagonal_(verDiagonal)
+  namespace
   {
-    if (horDiagonal <= 0.0 || verDiagonal <= 0.0)
+    constexpr double two = 2.0;
+  }
+
+  Diamond::Diamond(const point_t& center, double hor_diagonal, double ver_diagonal):
+    center_(center),
+    hor_diagonal_(hor_diagonal),
+    ver_diagonal_(ver_diagonal)
+  {
+    if (hor_diagonal <= 0.0 || ver_diagonal <= 0.0)
     {
       throw std::invalid_argument("Diamond: diagonals must be positive");
     }
@@ -17,12 +22,12 @@ namespace kosminskij
 
   double Diamond::getArea() const
   {
-    return horDiagonal_ * verDiagonal_ / 2.0;
+    return hor_diagonal_ * ver_diagonal_ / two;
   }
 
   rectangle_t Diamond::getFrameRect() const
   {
-    return {horDiagonal_, verDiagonal_, center_};
+    return {hor_diagonal_, ver_diagonal_, center_};
   }
 
   void Diamond::move(const point_t& p)
@@ -42,7 +47,7 @@ namespace kosminskij
     {
       throw std::invalid_argument("Diamond: scale factor must be positive");
     }
-    horDiagonal_ *= k;
-    verDiagonal_ *= k;
+    hor_diagonal_ *= k;
+    ver_diagonal_ *= k;
   }
 }

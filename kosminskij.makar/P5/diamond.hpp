@@ -5,10 +5,11 @@
 
 namespace kosminskij
 {
+  // Ромб с диагоналями, параллельными осям координат
   class Diamond: public Shape
   {
   public:
-    Diamond(const point_t& center, double horDiagonal, double verDiagonal);
+    Diamond(const point_t& center, double hor_diagonal, double ver_diagonal);
 
     double getArea() const override;
     rectangle_t getFrameRect() const override;
@@ -18,8 +19,8 @@ namespace kosminskij
 
   private:
     point_t center_;
-    double horDiagonal_;
-    double verDiagonal_;
+    double hor_diagonal_;
+    double ver_diagonal_;
   };
 }
 

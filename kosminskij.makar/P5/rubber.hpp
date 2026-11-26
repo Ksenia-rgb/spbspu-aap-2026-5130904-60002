@@ -5,10 +5,12 @@
 
 namespace kosminskij
 {
+  // Кольцо из двух неконцентрических окружностей.
+  // Центр фигуры - центр меньшей (внутренней) окружности.
   class Rubber: public Shape
   {
   public:
-    Rubber(const point_t& center, double innerRadius, const point_t& outerCenter, double outerRadius);
+    Rubber(const point_t& center, double inner_radius, const point_t& outer_center, double outer_radius);
 
     double getArea() const override;
     rectangle_t getFrameRect() const override;
@@ -18,9 +20,9 @@ namespace kosminskij
 
   private:
     point_t center_;
-    point_t outerCenter_;
-    double innerRadius_;
-    double outerRadius_;
+    point_t outer_center_;
+    double inner_radius_;
+    double outer_radius_;
   };
 }
 

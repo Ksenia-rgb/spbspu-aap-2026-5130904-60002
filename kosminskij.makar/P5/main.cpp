@@ -14,6 +14,7 @@ namespace kosminskij
   namespace
   {
     constexpr std::size_t shapes_count = 3;
+    constexpr double two = 2.0;
 
     void deleteShapes(Shape** shapes, std::size_t count) noexcept
     {
@@ -28,6 +29,8 @@ namespace kosminskij
       delete[] shapes;
     }
 
+    // Изотропное масштабирование относительно точки anchor через интерфейс Shape:
+    // move(anchor) -> scale(k) -> move(dx, dy)
     void scaleAtPoint(Shape* shape, const point_t& anchor, double factor)
     {
       if (factor <= 0.0)
@@ -48,21 +51,21 @@ namespace kosminskij
     rectangle_t getTotalFrameRect(const Shape* const* shapes, std::size_t count)
     {
       const rectangle_t first = shapes[0]->getFrameRect();
-      double min_x = first.pos.x - first.width / 2.0;
-      double max_x = first.pos.x + first.width / 2.0;
-      double min_y = first.pos.y - first.height / 2.0;
-      double max_y = first.pos.y + first.height / 2.0;
+      double min_x = first.pos.x - first.width / two;
+      double max_x = first.pos.x + first.width / two;
+      double min_y = first.pos.y - first.height / two;
+      double max_y = first.pos.y + first.height / two;
 
       for (std::size_t i = 1; i < count; ++i)
       {
         const rectangle_t frame = shapes[i]->getFrameRect();
-        min_x = std::min(min_x, frame.pos.x - frame.width / 2.0);
-        max_x = std::max(max_x, frame.pos.x + frame.width / 2.0);
-        min_y = std::min(min_y, frame.pos.y - frame.height / 2.0);
-        max_y = std::max(max_y, frame.pos.y + frame.height / 2.0);
+        min_x = std::min(min_x, frame.pos.x - frame.width / two);
+        max_x = std::max(max_x, frame.pos.x + frame.width / two);
+        min_y = std::min(min_y, frame.pos.y - frame.height / two);
+        max_y = std::max(max_y, frame.pos.y + frame.height / two);
       }
 
-      return {max_x - min_x, max_y - min_y, {(min_x + max_x) / 2.0, (min_y + max_y) / 2.0}};
+      return {max_x - min_x, max_y - min_y, {(min_x + max_x) / two, (min_y + max_y) / two}};
     }
 
     void printFrame(const rectangle_t& frame)
@@ -92,6 +95,12 @@ namespace kosminskij
 
 int main()
 {
+  constexpr double two = 2.0;
+  constexpr double three = 3.0;
+  constexpr double four = 4.0;
+  constexpr double five = 5.0;
+  constexpr double six = 6.0;
+
   kosminskij::Shape** shapes = nullptr;
   try
   {
@@ -99,9 +108,9 @@ int main()
     {
     };
 
-    shapes[0] = new kosminskij::Rectangle({1.0, 2.0}, 4.0, 3.0);
-    shapes[1] = new kosminskij::Diamond({-3.0, 0.0}, 6.0, 4.0);
-    shapes[2] = new kosminskij::Rubber({5.0, 5.0}, 1.0, {5.5, 5.0}, 3.0);
+    shapes[0] = new kosminskij::Rectangle({1.0, two}, four, three);
+    shapes[1] = new kosminskij::Diamond({-three, 0.0}, six, four);
+    shapes[2] = new kosminskij::Rubber({five, five}, 1.0, {five, six}, three);
 
     std::cout << "--- Before scaling ---\n";
     kosminskij::printShapesInfo(shapes, kosminskij::shapes_count);
