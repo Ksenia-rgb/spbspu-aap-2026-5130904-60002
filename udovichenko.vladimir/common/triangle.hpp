@@ -12,9 +12,10 @@ namespace udovichenko
     rectangle_t getFrameRect() const override;
     void move(const point_t &p) override;
     void move(double dx, double dy) override;
+    IShape *clone() const override;
 
   protected:
-    void scaleUnsafely(double factor) override;
+    void scaleUnsafely(double factor) noexcept override;
 
   private:
     point_t a_;

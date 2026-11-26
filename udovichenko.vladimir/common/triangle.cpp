@@ -48,7 +48,12 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Triangle::scaleUnsafely(double factor)
+  IShape *Triangle::clone() const
+  {
+    return new Triangle(*this);
+  }
+
+  void Triangle::scaleUnsafely(double factor) noexcept
   {
     a_.x = center_.x + (a_.x - center_.x) * factor;
     a_.y = center_.y + (a_.y - center_.y) * factor;

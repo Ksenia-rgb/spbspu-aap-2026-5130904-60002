@@ -48,7 +48,12 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Rectangle::scaleUnsafely(double factor)
+  IShape *Rectangle::clone() const
+  {
+    return new Rectangle(*this);
+  }
+
+  void Rectangle::scaleUnsafely(double factor) noexcept
   {
     width_ *= factor;
     height_ *= factor;
