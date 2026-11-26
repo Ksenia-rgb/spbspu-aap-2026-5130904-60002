@@ -14,7 +14,7 @@ namespace kosminskij
   namespace
   {
     constexpr std::size_t shapes_count = 3;
-    double two = 2.0;
+    constexpr double two = 2.0;
 
     void deleteShapes(Shape** shapes, std::size_t count) noexcept
     {
