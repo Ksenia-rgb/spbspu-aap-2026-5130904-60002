@@ -102,8 +102,8 @@ namespace borovkov
       const double new_x = x0 + (x - x0) * factor;
       const double new_y = y0 + (y - y0) * factor;
 
-      shapes[i]->move({new_x, new_y});
       shapes[i]->scale(factor);
+      shapes[i]->move({new_x, new_y});
     }
   }
 
