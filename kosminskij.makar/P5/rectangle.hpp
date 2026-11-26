@@ -3,8 +3,10 @@
 
 #include "shape.hpp"
 
-namespace kosminskij {
-  class Rectangle: public Shape {
+namespace kosminskij
+{
+  class Rectangle: public Shape
+  {
   public:
     Rectangle(const point_t& center, double width, double height);
 

@@ -2,11 +2,13 @@
 
 #include <stdexcept>
 
-namespace kosminskij {
+namespace kosminskij
+{
   Rectangle::Rectangle(const point_t& center, double width, double height):
     rect_{width, height, center}
   {
-    if (width <= 0.0 || height <= 0.0) {
+    if (width <= 0.0 || height <= 0.0)
+    {
       throw std::invalid_argument("Rectangle: width and height must be positive");
     }
   }
@@ -34,7 +36,8 @@ namespace kosminskij {
 
   void Rectangle::scale(double k)
   {
-    if (k <= 0.0) {
+    if (k <= 0.0)
+    {
       throw std::invalid_argument("Rectangle: scale factor must be positive");
     }
     rect_.width *= k;

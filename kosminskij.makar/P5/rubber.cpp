@@ -3,28 +3,30 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace kosminskij {
-  namespace {
+namespace kosminskij
+{
+  namespace
+  {
     const double kPi = 3.14159265358979323846;
   }
 
-  Rubber::Rubber(const point_t& center,
-      double innerRadius,
-      const point_t& outerCenter,
-      double outerRadius):
+  Rubber::Rubber(const point_t& center, double innerRadius, const point_t& outerCenter, double outerRadius):
     center_(center),
     outerCenter_(outerCenter),
     innerRadius_(innerRadius),
     outerRadius_(outerRadius)
   {
-    if (innerRadius <= 0.0 || outerRadius <= innerRadius) {
+    if (innerRadius <= 0.0 || outerRadius <= innerRadius)
+    {
       throw std::invalid_argument("Rubber: need 0 < inner radius < outer radius");
     }
     const double dist = std::hypot(outerCenter.x - center.x, outerCenter.y - center.y);
-    if (dist == 0.0) {
+    if (dist == 0.0)
+    {
       throw std::invalid_argument("Rubber: circles must not be concentric");
     }
-    if (dist + innerRadius >= outerRadius) {
+    if (dist + innerRadius >= outerRadius)
+    {
       throw std::invalid_argument("Rubber: inner circle must lie strictly inside the outer one");
     }
   }
@@ -54,7 +56,8 @@ namespace kosminskij {
 
   void Rubber::scale(double k)
   {
-    if (k <= 0.0) {
+    if (k <= 0.0)
+    {
       throw std::invalid_argument("Rubber: scale factor must be positive");
     }
     innerRadius_ *= k;

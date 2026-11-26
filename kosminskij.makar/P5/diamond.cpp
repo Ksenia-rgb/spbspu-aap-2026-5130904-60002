@@ -2,13 +2,15 @@
 
 #include <stdexcept>
 
-namespace kosminskij {
+namespace kosminskij
+{
   Diamond::Diamond(const point_t& center, double horDiagonal, double verDiagonal):
     center_(center),
     horDiagonal_(horDiagonal),
     verDiagonal_(verDiagonal)
   {
-    if (horDiagonal <= 0.0 || verDiagonal <= 0.0) {
+    if (horDiagonal <= 0.0 || verDiagonal <= 0.0)
+    {
       throw std::invalid_argument("Diamond: diagonals must be positive");
     }
   }
@@ -36,7 +38,8 @@ namespace kosminskij {
 
   void Diamond::scale(double k)
   {
-    if (k <= 0.0) {
+    if (k <= 0.0)
+    {
       throw std::invalid_argument("Diamond: scale factor must be positive");
     }
     horDiagonal_ *= k;

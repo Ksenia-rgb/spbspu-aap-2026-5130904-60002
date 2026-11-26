@@ -3,8 +3,10 @@
 
 #include "base-types.hpp"
 
-namespace kosminskij {
-  class Shape {
+namespace kosminskij
+{
+  class Shape
+  {
   public:
     virtual ~Shape() = default;
 

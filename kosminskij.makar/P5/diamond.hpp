@@ -3,8 +3,10 @@
 
 #include "shape.hpp"
 
-namespace kosminskij {
-  class Diamond: public Shape {
+namespace kosminskij
+{
+  class Diamond: public Shape
+  {
   public:
     Diamond(const point_t& center, double horDiagonal, double verDiagonal);
 

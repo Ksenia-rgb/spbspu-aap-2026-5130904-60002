@@ -3,13 +3,12 @@
 
 #include "shape.hpp"
 
-namespace kosminskij {
-  class Rubber: public Shape {
+namespace kosminskij
+{
+  class Rubber: public Shape
+  {
   public:
-    Rubber(const point_t& center,
-        double innerRadius,
-        const point_t& outerCenter,
-        double outerRadius);
+    Rubber(const point_t& center, double innerRadius, const point_t& outerCenter, double outerRadius);
 
     double getArea() const override;
     rectangle_t getFrameRect() const override;

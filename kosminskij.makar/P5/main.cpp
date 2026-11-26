@@ -9,16 +9,20 @@
 #include "rubber.hpp"
 #include "shape.hpp"
 
-namespace kosminskij {
-  namespace {
+namespace kosminskij
+{
+  namespace
+  {
     constexpr std::size_t shapes_count = 3;
 
     void deleteShapes(Shape** shapes, std::size_t count) noexcept
     {
-      if (!shapes) {
+      if (!shapes)
+      {
         return;
       }
-      for (std::size_t i = 0; i < count; ++i) {
+      for (std::size_t i = 0; i < count; ++i)
+      {
         delete shapes[i];
       }
       delete[] shapes;
@@ -26,7 +30,8 @@ namespace kosminskij {
 
     void scaleAtPoint(Shape* shape, const point_t& anchor, double factor)
     {
-      if (factor <= 0.0) {
+      if (factor <= 0.0)
+      {
         throw std::invalid_argument("scale factor must be greater than zero");
       }
 
@@ -48,7 +53,8 @@ namespace kosminskij {
       double min_y = first.pos.y - first.height / 2.0;
       double max_y = first.pos.y + first.height / 2.0;
 
-      for (std::size_t i = 1; i < count; ++i) {
+      for (std::size_t i = 1; i < count; ++i)
+      {
         const rectangle_t frame = shapes[i]->getFrameRect();
         min_x = std::min(min_x, frame.pos.x - frame.width / 2.0);
         max_x = std::max(max_x, frame.pos.x + frame.width / 2.0);
@@ -61,14 +67,15 @@ namespace kosminskij {
 
     void printFrame(const rectangle_t& frame)
     {
-      std::cout << "[width: " << frame.width << ", height: " << frame.height << ", center: ("
-                << frame.pos.x << ", " << frame.pos.y << ")]";
+      std::cout << "[width: " << frame.width << ", height: " << frame.height << ", center: (" << frame.pos.x << ", "
+                << frame.pos.y << ")]";
     }
 
     void printShapesInfo(const Shape* const* shapes, std::size_t count)
     {
       double total_area = 0.0;
-      for (std::size_t i = 0; i < count; ++i) {
+      for (std::size_t i = 0; i < count; ++i)
+      {
         const double area = shapes[i]->getArea();
         total_area += area;
         std::cout << "Shape #" << (i + 1) << ": area = " << area << ", frame = ";
@@ -86,7 +93,8 @@ namespace kosminskij {
 int main()
 {
   kosminskij::Shape** shapes = nullptr;
-  try {
+  try
+  {
     shapes = new kosminskij::Shape* [kosminskij::shapes_count]
     {
     };
@@ -101,19 +109,23 @@ int main()
     std::cout << "\nEnter scale center (x y) and scale factor: ";
     kosminskij::point_t anchor{};
     double factor = 0.0;
-    if (!(std::cin >> anchor.x >> anchor.y >> factor)) {
+    if (!(std::cin >> anchor.x >> anchor.y >> factor))
+    {
       std::cerr << "Error: invalid scaling parameters\n";
       kosminskij::deleteShapes(shapes, kosminskij::shapes_count);
       return 1;
     }
 
-    for (std::size_t i = 0; i < kosminskij::shapes_count; ++i) {
+    for (std::size_t i = 0; i < kosminskij::shapes_count; ++i)
+    {
       kosminskij::scaleAtPoint(shapes[i], anchor, factor);
     }
 
     std::cout << "\n--- After scaling ---\n";
     kosminskij::printShapesInfo(shapes, kosminskij::shapes_count);
-  } catch (const std::exception& e) {
+  }
+  catch (const std::exception& e)
+  {
     std::cerr << "Error: " << e.what() << "\n";
     kosminskij::deleteShapes(shapes, kosminskij::shapes_count);
     return 1;
