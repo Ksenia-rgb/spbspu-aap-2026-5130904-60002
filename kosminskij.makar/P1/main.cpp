@@ -18,7 +18,7 @@ namespace kosminskij
     {
       ++count_;
     }
-    size_t operator()()
+    size_t operator()() const
     {
       return count_;
     }
@@ -31,32 +31,32 @@ namespace kosminskij
   class SubMax
   {
   private:
-    int Max_ = std::numeric_limits< int >::min();
-    int SubMax_ = std::numeric_limits< int >::min();
+    int max_ = std::numeric_limits< int >::min();
+    int sub_max_ = std::numeric_limits< int >::min();
     Counter len_;
 
   public:
     void operator()(int value)
     {
       len_(value);
-      if (value > Max_)
+      if (value > max_)
       {
-        SubMax_ = Max_;
-        Max_ = value;
+        sub_max_ = max_;
+        max_ = value;
       }
-      else if (value > SubMax_ && value < Max_)
+      else if (value > sub_max_ && value < max_)
       {
-        SubMax_ = value;
+        sub_max_ = value;
       }
     }
 
-    int operator()()
+    int operator()() const
     {
       if (len_() < 2)
       {
         throw std::invalid_argument("Not enough values to determine second maximum.");
       }
-      return SubMax_;
+      return sub_max_;
     }
   };
 
@@ -88,7 +88,7 @@ namespace kosminskij
       last_ = value;
     }
 
-    size_t operator()()
+    size_t operator()() const
     {
       if (len_() < 2)
       {
@@ -102,12 +102,12 @@ namespace kosminskij
 int main()
 {
   int value = 0;
-  kosminskij::SubMax subMax;
-  kosminskij::MonInc monInc;
+  kosminskij::SubMax sub_max;
+  kosminskij::MonInc mon_inc;
   while (std::cin >> value && value != 0)
   {
-    subMax(value);
-    monInc(value);
+    sub_max(value);
+    mon_inc(value);
   }
   if (std::cin.fail())
   {
@@ -117,8 +117,8 @@ int main()
 
   try
   {
-    std::cout << subMax() << "\n";
-    std::cout << monInc() << "\n";
+    std::cout << sub_max() << "\n";
+    std::cout << mon_inc() << "\n";
   }
   catch (const std::invalid_argument& e)
   {
