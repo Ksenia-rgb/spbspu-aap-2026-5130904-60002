@@ -120,14 +120,14 @@ namespace korotkin
 
 int main()
 {
-  korotkin::Shape* shapes[SIZE]{};
+  korotkin::Shape *shapes[SIZE]{};
   try
   {
     shapes[0] = new korotkin::Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT, RECTANGLE_CENTER);
     shapes[1] = new korotkin::Ring(RING_OUTER_RADIUS, RING_INNER_RADIUS, RING_CENTER);
     shapes[2] = new korotkin::Concave(CONCAVE_A, CONCAVE_B, CONCAVE_C, CONCAVE_D);
   }
-  catch (const std::exception& e)
+  catch (const std::exception &e)
   {
     std::cerr << e.what() << '\n';
 
