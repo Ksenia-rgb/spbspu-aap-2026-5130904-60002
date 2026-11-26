@@ -1,75 +1,127 @@
 #include <iostream>
 #include <limits>
 
+const int error_1 = 1;
+const int error_2 = 2;
+
+const int two = 2;
+const int max_value = std::numeric_limits< int >::max();
+
+namespace kazbanov
+{
+  class IncreaseCounter
+  {
+  public:
+    void operator()(int num)
+    {
+      if (!flag_ && total_elem_ > 0 && num > prev_)
+      {
+        if (count_ == max_value)
+        {
+          flag_ = true;
+        }
+        else
+        {
+          count_++;
+        }
+      }
+      prev_ = num;
+      total_elem_++;
+    }
+
+    int operator()() const
+    {
+      if (flag_)
+      {
+        throw std::overflow_error("Error");
+      }
+      return count_;
+    }
+
+  private:
+    int total_elem_ = 0;
+    int count_ = 0;
+    int prev_ = 0;
+    bool flag_ = false;
+  };
+
+  class MaxEvenRun
+  {
+  public:
+    void operator()(int num)
+    {
+      if (flag_)
+      {
+        return;
+      }
+
+      if (num % two == 0)
+      {
+        if (count_ == max_value)
+        {
+          flag_ = true;
+        }
+        else
+        {
+          count_++;
+        }
+        if (count_ > max_count_)
+        {
+          max_count_ = count_;
+        }
+      }
+      else
+      {
+        count_ = 0;
+      }
+    }
+
+    int operator()() const
+    {
+      if (flag_)
+      {
+        throw std::overflow_error("Error");
+      }
+
+      return max_count_;
+    }
+
+  private:
+    int count_ = 0;
+    int max_count_ = 0;
+    bool flag_ = false;
+  };
+}
+
 int main()
 {
-  const int input_error_code = 1;
-  const int calculation_error_code = 2;
-  const int max_value = std::numeric_limits< int >::max();
-  const int even_divisor = 2;
-  const char* const too_long_message = "too long\n";
+  kazbanov::IncreaseCounter increase_counter;
+  kazbanov::MaxEvenRun even_counter;
 
-  int prev = 0;
-  bool has_prev = false;
+  int num = 0;
 
-  int increase = 0;
-  bool increase_fail = false;
-
-  int even_run = 0;
-  int max_even_run = 0;
-  bool even_fail = false;
-
-  while (true) {
-    int cur = 0;
-    std::cin >> cur;
-    if (std::cin.fail()) {
-      std::cerr << "Error in input\n";
-      return input_error_code;
-    }
-    if (cur == 0) {
-      break;
-    }
-
-    if (!increase_fail && has_prev && (cur > prev)) {
-      if (increase == max_value) {
-        increase_fail = true;
-      } else {
-        ++increase;
-      }
-    }
-
-    if (!even_fail) {
-      if ((cur % even_divisor) == 0) {
-        if (even_run == max_value) {
-          even_fail = true;
-        } else {
-          ++even_run;
-          if (even_run > max_even_run) {
-            max_even_run = even_run;
-          }
-        }
-      } else {
-        even_run = 0;
-      }
-    }
-
-    prev = cur;
-    has_prev = true;
+  while (std::cin >> num && num != 0)
+  {
+    increase_counter(num);
+    even_counter(num);
   }
 
-  int result = 0;
-  if (increase_fail) {
-    std::cerr << too_long_message;
-    result = calculation_error_code;
-  } else {
-    std::cout << increase << "\n";
+  if (!std::cin)
+  {
+    std::cerr << "Invalid input\n";
+    return error_1;
   }
 
-  if (even_fail) {
-    std::cerr << too_long_message;
-    result = calculation_error_code;
-  } else {
-    std::cout << max_even_run << "\n";
+  try
+  {
+    std::cout << increase_counter() << "\n";
+    std::cout << even_counter() << "\n";
   }
-  return result;
+  catch (std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+    return error_2;
+  }
+
+  return 0;
 }
