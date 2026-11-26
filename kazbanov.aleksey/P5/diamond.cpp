@@ -40,10 +40,6 @@ namespace kazbanov
 
   void Diamond::scale(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("factor must be positive");
-    }
     horiz_diag_ *= factor;
     vert_diag_ *= factor;
   }

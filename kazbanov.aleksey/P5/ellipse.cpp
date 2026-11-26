@@ -41,10 +41,6 @@ namespace kazbanov
 
   void Ellipse::scale(double factor)
   {
-    if (factor <= 0.0)
-    {
-      throw std::invalid_argument("factor must be positive");
-    }
     radius_x_ *= factor;
     radius_y_ *= factor;
   }

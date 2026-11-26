@@ -14,6 +14,20 @@ const double four = 4.0;
 
 namespace kazbanov
 {
+
+  void deleteShapes(Shape** shapes, size_t count) noexcept
+  {
+    if (!shapes)
+    {
+      return;
+    }
+    for (size_t i = 0; i < count; i++)
+    {
+      delete shapes[i];
+    }
+    delete[] shapes;
+  }
+
   rectangle_t getTotalFrameRect(Shape* const* shapes, size_t size)
   {
     const rectangle_t first = shapes[0]->getFrameRect();
@@ -78,10 +92,14 @@ int main()
 {
   using namespace kazbanov;
   const size_t size = 4;
-  Shape* shapes[size] = {};
-  int code = 0;
+  Shape** shapes = nullptr;
+
   try
   {
+    shapes = new Shape* [size]
+    {
+    };
+
     shapes[0] = new Rectangle{four, two, {0.0, 0.0}};
     shapes[1] = new Rectangle{{-three, -1.0}, {-1.0, two}};
     shapes[2] = new Diamond{two, four, {0.0, 0.0}};
@@ -95,7 +113,7 @@ int main()
     if (!(std::cin >> pos.x >> pos.y >> factor))
     {
       std::cerr << "Error: invalid input\n";
-      code = 1;
+      return 1;
     }
     else
     {
@@ -107,12 +125,12 @@ int main()
   catch (std::exception& e)
   {
     std::cerr << "Error: " << e.what() << "\n";
-    code = 1;
+    return 1;
   }
 
   for (size_t i = 0; i < size; i++)
   {
     delete shapes[i];
   }
-  return code;
+  return 0;
 }
