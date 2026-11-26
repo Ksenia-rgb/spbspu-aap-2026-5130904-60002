@@ -93,6 +93,7 @@ int main()
   using namespace kazbanov;
   const size_t size = 4;
   Shape** shapes = nullptr;
+  int result = 0;
 
   try
   {
@@ -113,7 +114,7 @@ int main()
     if (!(std::cin >> pos.x >> pos.y >> factor))
     {
       std::cerr << "Error: invalid input\n";
-      return 1;
+      result = 1;
     }
     else
     {
@@ -125,9 +126,9 @@ int main()
   catch (std::exception& e)
   {
     std::cerr << "Error: " << e.what() << "\n";
-    return 1;
+    result = 1;
   }
 
   deleteShapes(shapes, size);
-  return 0;
+  return result;
 }
