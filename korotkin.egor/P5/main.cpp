@@ -28,22 +28,22 @@ namespace
 
 namespace korotkin
 {
-  void deleteShapes(const Shape * const * const shapes)
+  void deleteShapes(const Shape *const *shapes)
   {
-    if(shapes)
+    if (shapes)
     {
-      for(std::size_t i = 0; i < SIZE; i++)
+      for (std::size_t i = 0; i < SIZE; i++)
       {
         delete shapes[i];
       }
     }
   }
 
-  double getTotalArea(const Shape * const * const shapes)
+  double getTotalArea(const Shape *const *shapes)
   {
     double sum = 0;
 
-    for(std::size_t i = 0; i < SIZE; i++)
+    for (std::size_t i = 0; i < SIZE; i++)
     {
       sum += shapes[i]->getArea();
     }
@@ -51,36 +51,36 @@ namespace korotkin
     return sum;
   }
 
-  rectangle_t getTotalFrameRect(const Shape * const * const shapes)
+  rectangle_t getTotalFrameRect(const Shape *const *shapes)
   {
     const rectangle_t first = shapes[0]->getFrameRect();
-    double minX = first.pos.x - (first.width / 2);
-    double maxX = first.pos.x + (first.width / 2);
-    double minY = first.pos.y - (first.height / 2);
-    double maxY = first.pos.y + (first.height / 2);
+    double min_x = first.pos.x - (first.width / 2);
+    double max_x = first.pos.x + (first.width / 2);
+    double min_y = first.pos.y - (first.height / 2);
+    double max_y = first.pos.y + (first.height / 2);
 
-    for(std::size_t i = 1; i < SIZE; i++)
+    for (std::size_t i = 1; i < SIZE; i++)
     {
       const rectangle_t curr = shapes[i]->getFrameRect();
-      const double currMinX = curr.pos.x - curr.width / 2;
-      const double currMaxX = curr.pos.x + curr.width / 2;
-      const double currMinY = curr.pos.y - curr.height / 2;
-      const double currMaxY = curr.pos.y + curr.height / 2;
+      const double curr_min_x = curr.pos.x - curr.width / 2;
+      const double curr_max_x = curr.pos.x + curr.width / 2;
+      const double curr_min_y = curr.pos.y - curr.height / 2;
+      const double curr_max_y = curr.pos.y + curr.height / 2;
 
-      minX = std::min(minX, currMinX);
-      maxX = std::max(maxX, currMaxX);
-      minY = std::min(minY, currMinY);
-      maxY = std::max(maxY, currMaxY);
+      min_x = std::min(min_x, curr_min_x);
+      max_x = std::max(max_x, curr_max_x);
+      min_y = std::min(min_y, curr_min_y);
+      max_y = std::max(max_y, curr_max_y);
     }
 
-    const double width = maxX - minX;
-    const double height = maxY - minY;
-    const point_t center{(minX + maxX) / 2, (minY + maxY) / 2};
+    const double width = max_x - min_x;
+    const double height = max_y - min_y;
+    const point_t center{(min_x + max_x) / 2, (min_y + max_y) / 2};
 
     return rectangle_t{width, height, center};
   }
 
-  void scaleAroundPoint(Shape * const * const shapes, point_t point, double factor)
+  void scaleAroundPoint(Shape *const *shapes, point_t point, double factor)
   {
     for (std::size_t i = 0; i < SIZE; i++)
     {
@@ -93,28 +93,28 @@ namespace korotkin
     }
   }
 
-  void outputData(const Shape * const * const shapes)
+  void outputData(const Shape *const *shapes)
   {
-    for(std::size_t i = 0; i < SIZE; i++)
+    for (std::size_t i = 0; i < SIZE; i++)
     {
       std::cout << "-------SHAPE " << i << "-------\n";
       std::cout << "Area: " << shapes[i]->getArea() << "\n";
 
-      const rectangle_t currRect = shapes[i]->getFrameRect();
+      const rectangle_t curr_rect = shapes[i]->getFrameRect();
       std::cout << "Rectangle:\n";
-      std::cout << "width: " << currRect.width << "\n";
-      std::cout << "height: " << currRect.height << "\n";
-      std::cout << "center: (" << currRect.pos.x << ", " << currRect.pos.y << ")\n";
+      std::cout << "width: " << curr_rect.width << "\n";
+      std::cout << "height: " << curr_rect.height << "\n";
+      std::cout << "center: (" << curr_rect.pos.x << ", " << curr_rect.pos.y << ")\n";
     }
 
     std::cout << "---------------------\n";
     std::cout << "Total Area: " << getTotalArea(shapes);
 
-    const rectangle_t totalRect = getTotalFrameRect(shapes);
+    const rectangle_t total_rect = getTotalFrameRect(shapes);
     std::cout << "\nTotal Frame Rectangle:\n";
-    std::cout << "width: " << totalRect.width << "\n";
-    std::cout << "height: " << totalRect.height << "\n";
-    std::cout << "center: (" << totalRect.pos.x << ", " << totalRect.pos.y << ")\n";
+    std::cout << "width: " << total_rect.width << "\n";
+    std::cout << "height: " << total_rect.height << "\n";
+    std::cout << "center: (" << total_rect.pos.x << ", " << total_rect.pos.y << ")\n";
   }
 }
 
@@ -136,18 +136,22 @@ int main()
     return ALLOCATION_ERROR;
   }
 
-  korotkin::point_t scalePoint{};
-  double scaleFactor = 0;
-  std::cin >> scalePoint.x >> scalePoint.y >> scaleFactor;
+  outputData(shapes);
 
-  if (std::cin.fail() || scaleFactor <= 0)
+  korotkin::point_t scale_point{};
+  double scale_factor = 0;
+  std::cin >> scale_point.x >> scale_point.y >> scale_factor;
+
+  if (std::cin.fail() || scale_factor <= 0)
   {
     std::cerr << "ERROR: scale must be a positive number" << '\n';
+
+    deleteShapes(shapes);
+
     return INPUT_ERROR;
   }
 
-  outputData(shapes);
-  scaleAroundPoint(shapes, scalePoint, scaleFactor);
+  scaleAroundPoint(shapes, scale_point, scale_factor);
   std::cout << "\n\n";
   outputData(shapes);
 

@@ -9,17 +9,17 @@ namespace
 
 namespace korotkin
 {
-  Ring::Ring(double outerRadius, double innerRadius, point_t center):
-    outerRadius_(outerRadius),
-    innerRadius_(innerRadius),
+  Ring::Ring(double outer_radius, double inner_radius, point_t center):
+    outer_radius_(outer_radius),
+    inner_radius_(inner_radius),
     center_(center)
   {
-    if (outerRadius <= 0 || innerRadius <= 0)
+    if (outer_radius <= 0 || inner_radius <= 0)
     {
       throw std::invalid_argument("ERROR: radius must be positive");
     }
 
-    if (outerRadius <= innerRadius)
+    if (outer_radius <= inner_radius)
     {
       throw std::invalid_argument("ERROR: outer radius > inner radius");
     }
@@ -27,12 +27,12 @@ namespace korotkin
 
   double Ring::getArea() const
   {
-    return PI * (outerRadius_ * outerRadius_ - innerRadius_ * innerRadius_);
+    return PI * (outer_radius_ * outer_radius_ - inner_radius_ * inner_radius_);
   }
 
   rectangle_t Ring::getFrameRect() const
   {
-    return rectangle_t{2 * outerRadius_, 2 * outerRadius_, center_};
+    return rectangle_t{2 * outer_radius_, 2 * outer_radius_, center_};
   }
 
   void Ring::move(point_t p)
@@ -53,8 +53,8 @@ namespace korotkin
       throw std::invalid_argument("ERROR: scale must be positive");
     }
 
-    outerRadius_ *= k;
-    innerRadius_ *= k;
+    outer_radius_ *= k;
+    inner_radius_ *= k;
   }
 }
 

@@ -8,7 +8,7 @@ namespace korotkin
   class Ring: public Shape
   {
   public:
-    Ring(double outerRadius, double innerRadius, point_t center);
+    Ring(double outer_radius, double inner_radius, point_t center);
 
     double getArea() const override;
     rectangle_t getFrameRect() const override;
@@ -17,8 +17,8 @@ namespace korotkin
     void scale(double k) override;
 
   private:
-    double outerRadius_;
-    double innerRadius_;
+    double outer_radius_;
+    double inner_radius_;
     point_t center_;
   };
 }

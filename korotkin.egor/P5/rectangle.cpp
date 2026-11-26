@@ -9,7 +9,7 @@ namespace korotkin
     height_(height),
     center_(center)
   {
-    if(width <= 0 || height <= 0)
+    if (width <= 0 || height <= 0)
     {
       throw std::invalid_argument("ERROR: size must be positive");
     }
@@ -38,7 +38,7 @@ namespace korotkin
 
   void Rectangle::scale(double k)
   {
-    if(k <= 0)
+    if (k <= 0)
     {
       throw std::invalid_argument("ERROR: scale must be positive");
     }

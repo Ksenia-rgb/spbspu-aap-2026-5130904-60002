@@ -58,10 +58,10 @@ namespace korotkin
       return VERTICES_NUMBER;
     }
 
-    const bool reflexPositive = (positive == REFLEX_COUNT);
+    const bool reflex_positive = (positive == REFLEX_COUNT);
     for (std::size_t i = 0; i < VERTICES_NUMBER; i++)
     {
-      if ((turns[i] > 0) == reflexPositive)
+      if ((turns[i] > 0) == reflex_positive)
       {
         return i;
       }
@@ -87,37 +87,37 @@ namespace korotkin
 
   rectangle_t Concave::getFrameRect() const
   {
-    double minX = vertices_[0].x;
-    double maxX = vertices_[0].x;
-    double minY = vertices_[0].y;
-    double maxY = vertices_[0].y;
+    double min_x = vertices_[0].x;
+    double max_x = vertices_[0].x;
+    double min_y = vertices_[0].y;
+    double max_y = vertices_[0].y;
 
     for (std::size_t i = 1; i < VERTICES_NUMBER; i++)
     {
-      if (vertices_[i].x < minX)
+      if (vertices_[i].x < min_x)
       {
-        minX = vertices_[i].x;
+        min_x = vertices_[i].x;
       }
 
-      if (vertices_[i].x > maxX)
+      if (vertices_[i].x > max_x)
       {
-        maxX = vertices_[i].x;
+        max_x = vertices_[i].x;
       }
 
-      if (vertices_[i].y < minY)
+      if (vertices_[i].y < min_y)
       {
-        minY = vertices_[i].y;
+        min_y = vertices_[i].y;
       }
-      if (vertices_[i].y > maxY)
+      if (vertices_[i].y > max_y)
       {
-        maxY = vertices_[i].y;
+        max_y = vertices_[i].y;
       }
     }
 
-    const double centerX = (minX + maxX) / 2;
-    const double centerY = (minY + maxY) / 2;
+    const double center_x = (min_x + max_x) / 2;
+    const double center_y = (min_y + max_y) / 2;
 
-    return rectangle_t{maxX - minX, maxY - minY, point_t{centerX, centerY}};
+    return rectangle_t{max_x - min_x, max_y - min_y, point_t{center_x, center_y}};
   }
 
   void Concave::move(point_t p)
