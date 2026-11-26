@@ -37,7 +37,7 @@ namespace bikina {
 
     return 0;
   }
-} // namespace bikina
+}
 
 int main()
 {
