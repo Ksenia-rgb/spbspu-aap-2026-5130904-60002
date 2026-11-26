@@ -38,7 +38,7 @@ int findSimilarElementsInTwoLines(const char *first_str,
 
   return 0;
 }
-} 
+}
 
 int main() {
   int first_memory = 2;
