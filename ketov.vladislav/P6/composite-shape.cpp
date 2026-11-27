@@ -10,7 +10,7 @@ namespace ketov
 
   CompositeShape::CompositeShape(const CompositeShape &other)
   {
-    if (other.data_ != nullptr && other.capacity_ > 0)
+    if (other.size_ > 0)
     {
       data_ = new Shape *[other.size_];
       try
@@ -19,11 +19,11 @@ namespace ketov
       }
       catch (...)
       {
+        delete[] data_;
         data_ = nullptr;
         throw;
       }
-      size_ = other.size_;
-      capacity_ = other.capacity_;
+      capacity_ = other.size_;
     }
   }
 
@@ -82,7 +82,7 @@ namespace ketov
 
     size_ = other.size_;
     data_ = other.data_;
-    capacity_ = other.size_;
+    capacity_ = other.capacity_;
 
     other.data_ = nullptr;
     other.size_ = 0;
@@ -293,7 +293,6 @@ namespace ketov
       {
         delete dest[j];
       }
-      delete[] dest;
       throw;
     }
   }
