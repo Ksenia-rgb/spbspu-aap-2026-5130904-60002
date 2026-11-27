@@ -36,19 +36,19 @@ namespace zelpus
   rectangle_t totalFrame(const Shape * const * const shapes, size_t n)
   {
     rectangle_t f = shapes[0]->getFrameRect();
-    double minX = f.pos.x - f.width / two;
-    double maxX = f.pos.x + f.width / two;
-    double minY = f.pos.y - f.height / two;
-    double maxY = f.pos.y + f.height / two;
+    double min_x = f.pos.x - f.width / two;
+    double max_x = f.pos.x + f.width / two;
+    double min_y = f.pos.y - f.height / two;
+    double max_y = f.pos.y + f.height / two;
     for (size_t i = 1; i < n; ++i)
     {
       f = shapes[i]->getFrameRect();
-      minX = std::min(minX, f.pos.x - f.width / two);
-      maxX = std::max(maxX, f.pos.x + f.width / two);
-      minY = std::min(minY, f.pos.y - f.height / two);
-      maxY = std::max(maxY, f.pos.y + f.height / two);
+      min_x = std::min(min_x, f.pos.x - f.width / two);
+      max_x = std::max(max_x, f.pos.x + f.width / two);
+      min_y = std::min(min_y, f.pos.y - f.height / two);
+      max_y = std::max(max_y, f.pos.y + f.height / two);
     }
-    return {maxX - minX, maxY - minY, {(minX + maxX) / two, (minY + maxY) / two}};
+    return {max_x - min_x, max_y - min_y, {(min_x + max_x) / two, (min_y + max_y) / two}};
   }
 
   void printFrame(const rectangle_t & f)

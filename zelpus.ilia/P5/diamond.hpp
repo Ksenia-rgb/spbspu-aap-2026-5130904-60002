@@ -9,7 +9,7 @@ namespace zelpus
   class Diamond final: public Shape
   {
   public:
-    Diamond(const point_t & center, double horizDiag, double vertDiag);
+    Diamond(const point_t & center, double horiz_diag, double vert_diag);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(const point_t & p) override;

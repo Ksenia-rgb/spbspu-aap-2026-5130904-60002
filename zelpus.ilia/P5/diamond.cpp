@@ -6,14 +6,14 @@ namespace
   const double two = 2.0;
 }
 
-zelpus::Diamond::Diamond(const point_t &center, double horizDiag, double vertDiag):
+zelpus::Diamond::Diamond(const point_t &center, double horiz_diag, double vert_diag):
   center_(center),
-  horiz_(horizDiag),
-  vert_(vertDiag)
+  horiz_(horiz_diag),
+  vert_(vert_diag)
 {
   if (horiz_ <= 0.0 || vert_ <= 0.0)
   {
-    throw std::invalid_argument("Error: sizes must be positive!\n");
+    throw std::invalid_argument("sizes must be positive");
   }
 }
 
@@ -42,7 +42,7 @@ void zelpus::Diamond::scale(double k)
 {
   if (k <= 0.0)
   {
-    throw std::invalid_argument("Error: scale factor must be positive!\n");
+    throw std::invalid_argument("scale factor must be positive");
   }
   horiz_ *= k;
   vert_ *= k;

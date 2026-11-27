@@ -7,14 +7,14 @@ namespace
   const double PI = 3.141593;
 }
 
-zelpus::Ellipse::Ellipse(const point_t &center, double radiusX, double radiusY):
+zelpus::Ellipse::Ellipse(const point_t &center, double radius_x, double radius_y):
   center_(center),
-  rx_(radiusX),
-  ry_(radiusY)
+  rx_(radius_x),
+  ry_(radius_y)
 {
   if (rx_ <= 0.0 || ry_ <= 0.0)
   {
-    throw std::invalid_argument("Error: radiuses must be positive!\n");
+    throw std::invalid_argument("radii must be positive");
   }
 }
 
@@ -43,7 +43,7 @@ void zelpus::Ellipse::scale(double k)
 {
   if (k <= 0.0)
   {
-    throw std::invalid_argument("Error: scale factor must be positive!\n");
+    throw std::invalid_argument("scale factor must be positive");
   }
   rx_ *= k;
   ry_ *= k;

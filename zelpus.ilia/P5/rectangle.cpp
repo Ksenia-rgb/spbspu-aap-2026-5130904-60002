@@ -6,7 +6,7 @@ zelpus::Rectangle::Rectangle(const point_t & center, double width, double height
 {
   if (width <= 0.0 || height <= 0.0)
   {
-    throw std::invalid_argument("Error: sides must be positive!\n");
+    throw std::invalid_argument("sides must be positive");
   }
 }
 
@@ -35,7 +35,7 @@ void zelpus::Rectangle::scale(double k)
 {
   if (k <= 0.0)
   {
-    throw std::invalid_argument("Error: scale factor must be positive!\n");
+    throw std::invalid_argument("scale factor must be positive");
   }
   rect_.width *= k;
   rect_.height *= k;
