@@ -16,59 +16,83 @@ namespace fedorov
               << ", height=" << rect.height << ", pos=(" << rect.pos.x << ", " << rect.pos.y << "))\n";
   }
 
-  void printShapesStats(fedorov::Shape** const shapes, const size_t size)
+  void printShapesStats(fedorov::Shape* const* const shapes, const size_t size)
   {
     const double sum_area = fedorov::getShapesArea(shapes, size);
     const fedorov::rectangle_t rect = fedorov::getShapesFrameRect(shapes, size);
     std::cout << "Sum area = " << sum_area << ", shapes frame = Rectangle(width=" << rect.width
               << ", height=" << rect.height << ", pos=(" << rect.pos.x << ", " << rect.pos.y << "))\n";
   }
+
+  void deleteShapes(fedorov::Shape* const* shapes, const size_t size)
+  {
+    if (!shapes)
+    {
+      return;
+    }
+    for (size_t i = 0; i < size; i++)
+    {
+      delete shapes[i];
+    }
+    delete[] shapes;
+    shapes = nullptr;
+  }
 }
 
 const size_t SHAPES_SIZE = 3;
 const int POINTS_COUNT = 3;
-const int ONE = 1;
-const int TWO = 2;
-const int THREE = 3;
 
 int main()
 {
-  fedorov::Shape* shapes[SHAPES_SIZE];
-
-  shapes[0] = new fedorov::Rectangle({1, 2}, 3, 4);
-  shapes[1] = new fedorov::Ellipse({0, 0}, 2, 4);
-
-  fedorov::point_t poly_vertices[POINTS_COUNT] = {{0, 1}, {1, 4}, {3, 2}};
-  shapes[2] = new fedorov::Polygon(poly_vertices, POINTS_COUNT);
-
-  printShape(shapes[0], "Rectangle");
-  printShape(shapes[1], "Ellipse");
-  printShape(shapes[2], "Polygon");
-
-  printShapesStats(shapes, SHAPES_SIZE);
-
-  double new_x = 0;
-  double new_y = 0;
-  double factor = 0;
-  std::cin >> new_x >> new_y >> factor;
-
-  const fedorov::point_t rel_point = {new_x, new_y};
-
-  for (size_t i = 0; i < SHAPES_SIZE; i++)
+  fedorov::Shape** shapes = nullptr;
+  try
   {
-    scaleRelative(shapes[i], rel_point, factor);
+    shapes = new fedorov::Shape*[SHAPES_SIZE];
+
+    shapes[0] = new fedorov::Rectangle({1, 2}, 3, 4);
+    shapes[1] = new fedorov::Ellipse({0, 0}, 2, 4);
+
+    fedorov::point_t poly_vertices[POINTS_COUNT] = {{0, 1}, {1, 4}, {3, 2}};
+    shapes[2] = new fedorov::Polygon(poly_vertices, POINTS_COUNT);
+
+    printShape(shapes[0], "Rectangle");
+    printShape(shapes[1], "Ellipse");
+    printShape(shapes[2], "Polygon");
+
+    printShapesStats(shapes, SHAPES_SIZE);
+
+    double new_x = 0;
+    double new_y = 0;
+    double factor = 0;
+    if (!(std::cin >> new_x >> new_y >> factor) || factor <= 0)
+    {
+      deleteShapes(shapes, SHAPES_SIZE);
+
+      std::cerr << "Invalid input for coordinates or scale factor\n";
+      return 1;
+    }
+
+    const fedorov::point_t rel_point = {new_x, new_y};
+
+    for (size_t i = 0; i < SHAPES_SIZE; i++)
+    {
+      scaleRelative(shapes[i], rel_point, factor);
+    }
+
+    printShape(shapes[0], "Rectangle");
+    printShape(shapes[1], "Ellipse");
+    printShape(shapes[2], "Polygon");
+
+    printShapesStats(shapes, SHAPES_SIZE);
+  }
+  catch (const std::exception& exc)
+  {
+    deleteShapes(shapes, SHAPES_SIZE);
+    std::cerr << exc.what() << "\n";
+    return 2;
   }
 
-  printShape(shapes[0], "Rectangle");
-  printShape(shapes[1], "Ellipse");
-  printShape(shapes[2], "Polygon");
-
-  printShapesStats(shapes, SHAPES_SIZE);
-
-  for (size_t i = 0; i < SHAPES_SIZE; i++)
-  {
-    delete shapes[i];
-  }
+  deleteShapes(shapes, SHAPES_SIZE);
 
   return 0;
 }

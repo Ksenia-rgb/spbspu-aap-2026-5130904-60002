@@ -13,7 +13,7 @@ namespace fedorov
   public:
     Polygon(point_t* vertices, size_t size);
     Polygon(const Polygon& other);
-    Polygon& operator=(const Polygon& other);
+    Polygon& operator=(Polygon& other);
     Polygon& operator=(Polygon&& other) noexcept;
     ~Polygon();
 

@@ -68,7 +68,7 @@ namespace fedorov
     }
   }
 
-  Polygon& Polygon::operator=(const Polygon& other) noexcept
+  Polygon& Polygon::operator=(Polygon& other)
   {
     if (&other == this)
     {

@@ -26,7 +26,17 @@ namespace fedorov
     shape->move((true_center.x - point.x) * factor, (true_center.y - point.y) * factor);
   }
 
-  rectangle_t getFrameRectFromPoints(const point_t* const points, size_t size)
+  double getShapesArea(Shape* const* const shapes, const size_t size)
+  {
+    double sum = 0;
+    for (size_t i = 0; i < size; i++)
+    {
+      sum += shapes[i]->getArea();
+    }
+    return sum;
+  }
+
+  rectangle_t getFrameRectFromPoints(const point_t* const points, const size_t size)
   {
     if (size < 3)
     {
@@ -59,19 +69,18 @@ namespace fedorov
     return {max_y - min_y, max_x - min_x, {(min_x + max_x) / 2, (min_y + max_y) / 2}};
   }
 
-  double getShapesArea(Shape* const* const shapes, size_t size)
+  rectangle_t getShapesFrameRect(Shape* const* const shapes, const size_t size)
   {
-    double sum = 0;
-    for (size_t i = 0; i < size; i++)
+    if (size == 0)
     {
-      sum += shapes[i]->getArea();
+      throw std::invalid_argument("Shapes count must be at least 1");
     }
-    return sum;
-  }
+    if (shapes == nullptr)
+    {
+      throw std::invalid_argument("Shapes pointer cannot be null");
+    }
 
-  rectangle_t getShapesFrameRect(Shape* const* const shapes, size_t size)
-  {
-    point_t* points = new point_t[size * 4];
+    point_t* const points = new point_t[size * 4];
     rectangle_t rect;
     for (size_t i = 0; i < size; i++)
     {
@@ -89,14 +98,11 @@ namespace fedorov
     catch (...)
     {
       delete[] points;
-      points = nullptr;
+
+      throw;
     }
 
-    if (points != nullptr)
-    {
-      delete[] points;
-      points = nullptr;
-    }
+    delete[] points;
 
     return rect;
   }
