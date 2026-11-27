@@ -12,9 +12,9 @@ namespace fedorov
 
     virtual double getArea() const = 0;
     virtual rectangle_t getFrameRect() const = 0;
-    virtual void move(const point_t new_pos) = 0;
-    virtual void move(const double delta_x, const double delta_y) = 0;
-    virtual void scale(const double factor) = 0;
+    virtual void move(point_t new_pos) = 0;
+    virtual void move(double delta_x, double delta_y) = 0;
+    virtual void scale(double factor) = 0;
   };
 }
 
