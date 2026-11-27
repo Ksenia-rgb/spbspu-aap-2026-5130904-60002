@@ -10,8 +10,13 @@
 int main(int argc, char * argv[])
 {
   const int argument_count = 4;
-  if ((argc != argument_count) || ((std::strcmp(argv[1], "1") != 0) && (std::strcmp(argv[1], "2") != 0))) {
+  if (argc != argument_count) {
     std::cerr << "Usage: lab 1|2 input output\n";
+    return 1;
+  }
+  const bool use_fixed_array = std::strcmp(argv[1], "1") == 0;
+  if (!use_fixed_array && (std::strcmp(argv[1], "2") != 0)) {
+    std::cerr << "Storage mode must be 1 or 2\n";
     return 1;
   }
   try {
@@ -27,7 +32,7 @@ int main(int argc, char * argv[])
     }
     const std::size_t size = rows * columns;
     std::size_t result = 0;
-    if (std::strcmp(argv[1], "1") == 0) {
+    if (use_fixed_array) {
       const std::size_t capacity = 10000;
       if (size > capacity) {
         throw std::runtime_error("Matrix exceeds the fixed array capacity");
