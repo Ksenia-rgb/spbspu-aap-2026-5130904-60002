@@ -1,25 +1,25 @@
-#ifndef RECTANGLE_HPP
-#define RECTANGLE_HPP
+#ifndef DIAMOND_HPP
+#define DIAMOND_HPP
 #include "shape.hpp"
 
 namespace udovichenko
 {
-  class Rectangle: public IShape
+  class Diamond: public IShape
   {
   public:
-    Rectangle(double width, double height, const point_t &center);
-    Rectangle(const point_t &a, const point_t &b);
+    Diamond(double diagonal_x, double diagonal_y, const point_t &center);
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(const point_t &p) override;
     void move(double dx, double dy) override;
+    IShape *clone() const override;
 
   protected:
-    void scaleUnsafely(double factor) override;
+    void scaleUnsafely(double factor) noexcept override;
 
   private:
-    double width_;
-    double height_;
+    double diagonal_x_;
+    double diagonal_y_;
     point_t center_;
   };
 }

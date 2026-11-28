@@ -35,7 +35,12 @@ namespace udovichenko
     center_.y += dy;
   }
 
-  void Diamond::scaleUnsafely(double factor)
+  IShape *Diamond::clone() const
+  {
+    return new Diamond(*this);
+  }
+
+  void Diamond::scaleUnsafely(double factor) noexcept
   {
     diagonal_x_ *= factor;
     diagonal_y_ *= factor;

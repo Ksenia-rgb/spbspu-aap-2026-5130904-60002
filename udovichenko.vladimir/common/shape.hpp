@@ -12,10 +12,11 @@ namespace udovichenko
     virtual rectangle_t getFrameRect() const = 0;
     virtual void move(const point_t &p) = 0;
     virtual void move(double dx, double dy) = 0;
+    virtual IShape *clone() const = 0;
     void scale(double factor);
 
   protected:
-    virtual void scaleUnsafely(double factor) = 0;
+    virtual void scaleUnsafely(double factor) noexcept = 0;
   };
 }
 

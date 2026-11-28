@@ -1,39 +1,32 @@
 #include <cstring>
 #include <string>
 #include <iostream>
+#include <limits>
+#include "ascii-string.hpp"
 
 namespace udovichenko
 {
-  size_t getCommonSymbolsString(const char *str1, const char *str2, char *buf)
-  {
-    if (!str1 || !str2 || !buf)
-    {
-      return 0;
-    }
+  constexpr std::size_t INITIAL_CAPACITY = 64;
 
-    size_t result_len = 0;
-    for (size_t i = 0; str1[i] != '\0'; i++)
+  ASCIIString getCommonSymbolsString(const ASCIIString &str1, const ASCIIString &str2)
+  {
+    ASCIIString result;
+    for (size_t i = 0; i < str1.size(); i++)
     {
-      if (std::strchr(str2, str1[i]))
+      if (std::strchr(str2.cStr(), str1[i]))
       {
-        buf[result_len++] = str1[i];
+        result.append(str1[i]);
       }
     }
 
-    buf[result_len] = '\0';
-    return result_len;
+    return result;
   }
 
-  int hasSameChars(const char *str1, const char *str2)
+  int hasSameChars(const ASCIIString &str1, const ASCIIString &str2)
   {
-    if (!str1 || !str2)
+    for (size_t i = 0; i < str1.size(); i++)
     {
-      return 0;
-    }
-
-    for (size_t i = 0; str1[i] != '\0'; i++)
-    {
-      if (std::strchr(str2, str1[i]))
+      if (std::strchr(str2.cStr(), str1[i]))
       {
         return 1;
       }
@@ -42,50 +35,90 @@ namespace udovichenko
     return 0;
   }
 
-  char *allocateString(size_t length)
+  bool readInputLine(std::istream &input, char *&buf, std::size_t &size)
   {
-    char *const buffer = new char[length + 1];
-    buffer[length] = '\0';
-    return buffer;
+    delete[] buf;
+    buf = nullptr;
+    std::size_t capacity = INITIAL_CAPACITY;
+    size = 0;
+    buf = new char[capacity + 1];
+    try
+    {
+      char ch = '\0';
+      while (input.get(ch) && ch != '\n')
+      {
+        if (size + 1 > capacity)
+        {
+          if (capacity >= std::numeric_limits< std::size_t >::max() / 2)
+          {
+            throw std::length_error("Too many characters in input");
+          }
+          capacity *= 2;
+          char *const temp = new char[capacity + 1];
+          std::memcpy(temp, buf, size);
+          delete[] buf;
+          buf = temp;
+        }
+        buf[size] = ch;
+        size++;
+      }
+      buf[size] = '\0';
+    }
+    catch (...)
+    {
+      delete[] buf;
+      buf = nullptr;
+      throw;
+    }
+
+    if (size == 0 && input.eof())
+    {
+      delete[] buf;
+      buf = nullptr;
+      return false;
+    }
+    return true;
+  }
+
+  bool readInputLine(std::istream &input, ASCIIString &string)
+  {
+    string.erase();
+    char ch = '\0';
+    while (input.get(ch) && ch != '\n')
+    {
+      string.append(ch);
+    }
+
+    if (string.size() == 0 && input.eof())
+    {
+      return false;
+    }
+
+    return true;
   }
 }
 
 int main()
 {
-  const char *const STRING_FOR_COMMON_SYMBOLS = "abc ef";
-  const char *const STRING_FOR_HAS_SAME = "abs";
-  std::string input_string;
+  const udovichenko::ASCIIString COMMON_SYMBOLS_STR{"abc ef"};
+  const udovichenko::ASCIIString HAS_SAME_STRING{"abs"};
   try
   {
-    if (!std::getline(std::cin, input_string))
+    udovichenko::ASCIIString input_string;
+    if (!udovichenko::readInputLine(std::cin, input_string))
     {
       std::cerr << "Failed to read string" << '\n';
       return 1;
     }
+    const udovichenko::ASCIIString result = udovichenko::getCommonSymbolsString(input_string, COMMON_SYMBOLS_STR);
+    std::cout << result.cStr() << '\n';
+    std::cout << udovichenko::hasSameChars(input_string, HAS_SAME_STRING) << '\n';
   }
   catch (const std::exception &e)
   {
     std::cerr << "Failed to read string: " << e.what() << '\n';
     return 1;
   }
-
-  const size_t length = input_string.length();
-  char *result = nullptr;
-  try
-  {
-    result = udovichenko::allocateString(length);
-  }
-  catch (const std::exception &e)
-  {
-    std::cerr << "Failed to allocate memory: " << e.what() << '\n';
-    return 1;
-  }
-  udovichenko::getCommonSymbolsString(input_string.c_str(), STRING_FOR_COMMON_SYMBOLS, result);
-  std::cout << result << '\n';
-  delete[] result;
-  result = nullptr;
-
-  std::cout << udovichenko::hasSameChars(input_string.c_str(), STRING_FOR_HAS_SAME) << '\n';
 
   return 0;
 }

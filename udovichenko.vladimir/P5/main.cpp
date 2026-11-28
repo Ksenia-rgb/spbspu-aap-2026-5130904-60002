@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cstddef>
-#include "diamond.hpp"
-#include "rectangle.hpp"
-#include "triangle.hpp"
+#include "../common/diamond.hpp"
+#include "../common/rectangle.hpp"
+#include "../common/triangle.hpp"
 
 namespace udovichenko
 {
