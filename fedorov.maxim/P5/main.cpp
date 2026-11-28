@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstddef>
 
 #include "base-types.hpp"
 #include "shape.hpp"
@@ -16,7 +17,7 @@ namespace fedorov
               << ", height=" << rect.height << ", pos=(" << rect.pos.x << ", " << rect.pos.y << "))\n";
   }
 
-  void printShapesStats(fedorov::Shape* const* const shapes, const size_t size)
+  void printShapesStats(fedorov::Shape* const* const shapes, const std::size_t size)
   {
     const double sum_area = fedorov::getShapesArea(shapes, size);
     const fedorov::rectangle_t rect = fedorov::getShapesFrameRect(shapes, size);
@@ -24,13 +25,13 @@ namespace fedorov
               << ", height=" << rect.height << ", pos=(" << rect.pos.x << ", " << rect.pos.y << "))\n";
   }
 
-  void deleteShapes(fedorov::Shape* const* shapes, const size_t size)
+  void deleteShapes(fedorov::Shape* const* shapes, const std::size_t size)
   {
     if (!shapes)
     {
       return;
     }
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
       delete shapes[i];
     }
@@ -39,7 +40,7 @@ namespace fedorov
   }
 }
 
-const size_t SHAPES_SIZE = 3;
+const std::size_t SHAPES_SIZE = 3;
 const int POINTS_COUNT = 3;
 
 int main()
@@ -74,7 +75,7 @@ int main()
 
     const fedorov::point_t rel_point = {new_x, new_y};
 
-    for (size_t i = 0; i < SHAPES_SIZE; i++)
+    for (std::size_t i = 0; i < SHAPES_SIZE; i++)
     {
       scaleRelative(shapes[i], rel_point, factor);
     }

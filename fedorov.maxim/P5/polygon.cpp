@@ -1,5 +1,5 @@
-
 #include <stdexcept>
+#include <cstddef>
 
 #include "polygon.hpp"
 #include "base-types.hpp"
@@ -10,7 +10,7 @@ namespace fedorov
   const int SIX = 6;
   const int MIN_AREA = 1e-9;
 
-  Polygon::Polygon(point_t* const vertices, const size_t size):
+  Polygon::Polygon(point_t* const vertices, const std::size_t size):
     vertices_count_(size),
     vertices_(nullptr)
   {
@@ -26,8 +26,8 @@ namespace fedorov
     double signed_area = 0;
     double cx = 0;
     double cy = 0;
-    size_t j = 0;
-    for (size_t i = 0; i < size; ++i)
+    std::size_t j = 0;
+    for (std::size_t i = 0; i < size; ++i)
     {
       j = (i + 1) % size;
       const double cross = vertices[i].x * vertices[j].y - vertices[j].x * vertices[i].y;
@@ -50,7 +50,7 @@ namespace fedorov
     center_ = {cx, cy};
 
     vertices_ = new point_t[size];
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
       vertices_[i] = vertices[i];
     }
@@ -62,7 +62,7 @@ namespace fedorov
   {
     vertices_ = new point_t[other.vertices_count_];
 
-    for (size_t i = 0; i < other.vertices_count_; i++)
+    for (std::size_t i = 0; i < other.vertices_count_; i++)
     {
       vertices_[i] = other.vertices_[i];
     }
@@ -76,7 +76,7 @@ namespace fedorov
     }
 
     point_t* const new_vertices = new point_t[other.vertices_count_];
-    for (size_t i = 0; i < other.vertices_count_; i++)
+    for (std::size_t i = 0; i < other.vertices_count_; i++)
     {
       new_vertices[i] = other.vertices_[i];
     }
@@ -117,8 +117,8 @@ namespace fedorov
   double Polygon::getArea() const
   {
     double signed_area = 0;
-    size_t j = 0;
-    for (size_t i = 0; i < vertices_count_; i++)
+    std::size_t j = 0;
+    for (std::size_t i = 0; i < vertices_count_; i++)
     {
       j = (i + 1) % vertices_count_;
       signed_area += vertices_[i].x * vertices_[j].y - vertices_[j].x * vertices_[i].y;
@@ -144,7 +144,7 @@ namespace fedorov
       return;
     }
 
-    for (size_t i = 0; i < vertices_count_; i++)
+    for (std::size_t i = 0; i < vertices_count_; i++)
     {
       vertices_[i].x += delta_x;
       vertices_[i].y += delta_y;
@@ -160,7 +160,7 @@ namespace fedorov
     {
       throw std::invalid_argument("Factor must be positive");
     }
-    for (size_t i = 0; i < vertices_count_; i++)
+    for (std::size_t i = 0; i < vertices_count_; i++)
     {
       vertices_[i].x = center_.x + (vertices_[i].x - center_.x) * factor;
       vertices_[i].y = center_.y + (vertices_[i].y - center_.y) * factor;

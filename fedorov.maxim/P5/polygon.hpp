@@ -11,7 +11,7 @@ namespace fedorov
   class Polygon: public Shape
   {
   public:
-    Polygon(point_t* vertices, size_t size);
+    Polygon(point_t* vertices, std::size_t size);
     Polygon(const Polygon& other);
     Polygon& operator=(Polygon& other);
     Polygon& operator=(Polygon&& other) noexcept;
@@ -23,7 +23,7 @@ namespace fedorov
     void move(double delta_x, double delta_y) override;
     void scale(double factor) override;
   private:
-    size_t vertices_count_;
+    std::size_t vertices_count_;
     point_t* vertices_;
     point_t center_;
   };

@@ -1,5 +1,5 @@
-
 #include <iostream>
+#include <cstddef>
 
 #include "geometry.hpp"
 #include "base-types.hpp"
@@ -26,17 +26,17 @@ namespace fedorov
     shape->move((true_center.x - point.x) * factor, (true_center.y - point.y) * factor);
   }
 
-  double getShapesArea(Shape* const* const shapes, const size_t size)
+  double getShapesArea(Shape* const* const shapes, const std::size_t size)
   {
     double sum = 0;
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
       sum += shapes[i]->getArea();
     }
     return sum;
   }
 
-  rectangle_t getFrameRectFromPoints(const point_t* const points, const size_t size)
+  rectangle_t getFrameRectFromPoints(const point_t* const points, const std::size_t size)
   {
     if (size < 3)
     {
@@ -47,7 +47,7 @@ namespace fedorov
     double min_y = points[0].y;
     double max_y = points[0].y;
 
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
       if (points[i].x < min_x)
       {
@@ -69,7 +69,7 @@ namespace fedorov
     return {max_y - min_y, max_x - min_x, {(min_x + max_x) / 2, (min_y + max_y) / 2}};
   }
 
-  rectangle_t getShapesFrameRect(Shape* const* const shapes, const size_t size)
+  rectangle_t getShapesFrameRect(Shape* const* const shapes, const std::size_t size)
   {
     if (size == 0)
     {
@@ -82,7 +82,7 @@ namespace fedorov
 
     point_t* const points = new point_t[size * 4];
     rectangle_t rect;
-    for (size_t i = 0; i < size; i++)
+    for (std::size_t i = 0; i < size; i++)
     {
       rect = shapes[i]->getFrameRect();
       points[i * 4] = {rect.pos.x - rect.width / 2, rect.pos.y - rect.height / 2};
