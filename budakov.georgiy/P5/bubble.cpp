@@ -22,7 +22,7 @@ namespace budakov
     }
   }
 
-  double Bubble::getArea() const 
+  double Bubble::getArea() const
   {
     return PI * radius_ * radius_;
   }

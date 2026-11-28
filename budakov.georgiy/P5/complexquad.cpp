@@ -80,7 +80,7 @@ namespace budakov
     {
       const double area1 = 0.5 * std::abs((center_.x - p[0].x) * (p[3].y - p[0].y) - (p[3].x - p[0].x) * (center_.y - p[0].y));
       const double area2 = 0.5 * std::abs((p[2].x - p[1].x) * (center_.y - p[1].y) - (center_.x - p[1].x) * (p[2].y - p[1].y));
-    
+
       return area1 + area2;
     }
       const double area1 = 0.5 * std::abs((p[1].x - p[0].x) * (center_.y - p[0].y) - (center_.x - p[0].x) * (p[1].y - p[0].y));
@@ -119,7 +119,7 @@ namespace budakov
     double width = max_x - min_x;
     double height = max_y - min_y;
     return { width, height, { min_x + (double)width/2, min_y + (double)height/2 } };
-    
+
   }
   void Complexquad::move(const point_t& target) noexcept
   {
@@ -132,7 +132,7 @@ namespace budakov
       p[i].x += dx;
       p[i].y += dy;
     }
-    
+
   }
 
   void Complexquad::move(const double mv_x, const double mv_y) noexcept

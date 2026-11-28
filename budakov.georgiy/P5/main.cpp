@@ -48,9 +48,9 @@ namespace budakov
       min_x = std::min(cmin_x, min_x);
       max_x = std::max(cmax_x, max_x);
       min_y = std::min(cmin_y, min_y);
-      max_y = std::max(cmax_y, max_y); 
+      max_y = std::max(cmax_y, max_y);
     }
-    
+
     double width = max_x - min_x;
     double height = max_y - min_y;
 
@@ -90,7 +90,8 @@ namespace budakov
     }
     rectangle_t sum_rect = getSumFrameRect(arr, size);
     std::cout << "Sum Frame Rectangle: \n";
-    std::cout << "Height: " << sum_rect.height << ", Width: " << sum_rect.width << ", Center: " << sum_rect.pos.x << " " << sum_rect.pos.y << "\n"; 
+    std::cout << "Height: " << sum_rect.height << ", Width: " << sum_rect.width << ", Center: " << sum_rect.pos.x;
+    std::cout << " " << sum_rect.pos.y << "\n";
   }
 }
 
@@ -131,7 +132,7 @@ int main()
 
     return 1;
   }
-  
+
 
   return 0;
 }

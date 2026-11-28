@@ -19,7 +19,7 @@ namespace budakov
     void move(const point_t& target) noexcept override;
     void move(const double mv_x, const double mv_y) noexcept override;
     void scale(const double factor) override;
-    
+
   };
 }
 

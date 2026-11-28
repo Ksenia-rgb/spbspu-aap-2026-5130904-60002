@@ -13,7 +13,7 @@ namespace budakov
       throw std::invalid_argument("Wrong size\n");
     }
   }
-  
+
   double Rectangle::getArea() const
   {
     return width_*height_;
