@@ -1,58 +1,130 @@
 #include <iostream>
+#include <limits>
+#include <stdexcept>
+
+const int code0 = 0;
+const int code1 = 1;
+const int code2 = 2;
+
+namespace kosminskij
+{
+  class Counter
+  {
+  private:
+    size_t count_ = 0;
+
+  public:
+    void operator()(int)
+    {
+      ++count_;
+    }
+    size_t operator()() const
+    {
+      return count_;
+    }
+    void reset()
+    {
+      count_ = 0;
+    }
+  };
+
+  class SubMax
+  {
+  private:
+    int max_ = std::numeric_limits< int >::min();
+    int sub_max_ = std::numeric_limits< int >::min();
+    Counter len_;
+
+  public:
+    void operator()(int value)
+    {
+      len_(value);
+      if (value > max_)
+      {
+        sub_max_ = max_;
+        max_ = value;
+      }
+      else if (value > sub_max_ && value < max_)
+      {
+        sub_max_ = value;
+      }
+    }
+
+    int operator()() const
+    {
+      if (len_() < 2)
+      {
+        throw std::invalid_argument("Not enough values to determine second maximum.");
+      }
+      return sub_max_;
+    }
+  };
+
+  class MonInc
+  {
+  private:
+    int last_ = 0;
+    Counter current_;
+    size_t result_ = 0;
+    Counter len_;
+
+  public:
+    void operator()(int value)
+    {
+      len_(value);
+      if (current_() > 0 && value >= last_)
+      {
+        current_(value);
+      }
+      else
+      {
+        current_.reset();
+        current_(value);
+      }
+      if (current_() > result_)
+      {
+        result_ = current_();
+      }
+      last_ = value;
+    }
+
+    size_t operator()() const
+    {
+      if (len_() < 2)
+      {
+        throw std::invalid_argument("Not enough values to determine longest monotonic subsequence.");
+      }
+      return result_;
+    }
+  };
+}
 
 int main()
 {
-  int x = 0;
-  int n = 0;
-  int max1 = 0, max2 = 0;
-  int prev = 0, cur = 0, best = 0;
-
-  while (true) {
-    if (!(std::cin >> x)) {
-      std::cerr << "Error: input is not a valid sequence\n";
-      return 1;
-    }
-    if (x == 0) {
-      break;
-    }
-
-    if (n == 0) {
-      max1 = x;
-    } else if (n == 1) {
-      if (x > max1) {
-        max2 = max1;
-        max1 = x;
-      } else {
-        max2 = x;
-      }
-    } else if (x > max1) {
-      max2 = max1;
-      max1 = x;
-    } else if (x > max2) {
-      max2 = x;
-    }
-
-    if (n > 0 && x >= prev) {
-      cur++;
-    } else {
-      cur = 1;
-    }
-    if (cur > best) {
-      best = cur;
-    }
-
-    prev = x;
-    n++;
+  int value = 0;
+  kosminskij::SubMax sub_max;
+  kosminskij::MonInc mon_inc;
+  while (std::cin >> value && value != 0)
+  {
+    sub_max(value);
+    mon_inc(value);
+  }
+  if (std::cin.fail())
+  {
+    std::cerr << "Invalid input. Please enter an integer.\n";
+    return code1;
   }
 
-  int code = 0;
-  if (n >= 2) {
-    std::cout << max2 << "\n";
-  } else {
-    std::cerr << "Error: sequence is too short for SUB-MAX\n";
-    code = 2;
+  try
+  {
+    std::cout << sub_max() << "\n";
+    std::cout << mon_inc() << "\n";
   }
-  std::cout << best << "\n";
+  catch (const std::invalid_argument& e)
+  {
+    std::cerr << e.what() << "\n";
+    return code2;
+  }
 
-  return code;
+  return code0;
 }
