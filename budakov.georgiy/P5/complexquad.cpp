@@ -118,7 +118,7 @@ namespace budakov
 
     double width = max_x - min_x;
     double height = max_y - min_y;
-    return { width, height, { min_x + static_cast<double>(width) / 2, min_y + static_cast<double>(height) / 2 } };
+    return { width, height, { min_x + width / 2, min_y + height / 2 } };
 
   }
   void Complexquad::move(const point_t& target) noexcept
