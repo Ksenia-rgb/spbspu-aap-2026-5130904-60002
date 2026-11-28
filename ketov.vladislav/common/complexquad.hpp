@@ -1,16 +1,17 @@
-#ifndef TRIANGLE_HPP
-#define TRIANGLE_HPP
+#ifndef COMPLEXQUAD_HPP
+#define COMPLEXQUAD_HPP
 
 #include "shape.hpp"
 
 namespace ketov
 {
-  class Triangle: public Shape
+  class Complexquad: public Shape
   {
   public:
-    Triangle(point_t p1, point_t p2, point_t p3);
-    virtual ~Triangle() = default;
+    Complexquad(point_t p1, point_t p2, point_t p3, point_t p4);
+    virtual ~Complexquad() = default;
 
+    Complexquad *clone() const override;
     double getArea() const override;
     rectangle_t getFrameRect() const override;
     void move(point_t new_pos) override;
@@ -21,6 +22,9 @@ namespace ketov
     point_t p1_;
     point_t p2_;
     point_t p3_;
+    point_t p4_;
+    point_t pos_;
+    bool cross1_;
   };
 }
 

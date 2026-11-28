@@ -1,36 +1,23 @@
-#include "base-types.hpp"
-#include "complexquad.hpp"
-#include "rectangle.hpp"
-#include "shape.hpp"
-#include "triangle.hpp"
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
+#include "../common/base-types.hpp"
+#include "../common/complexquad.hpp"
+#include "../common/rectangle.hpp"
+#include "../common/shape.hpp"
+#include "../common/triangle.hpp"
 
 namespace
 {
   constexpr double two = 2.0;
   constexpr double three = 3.0;
   constexpr double four = 4.0;
-  constexpr size_t shapes_count = 3;
-
-  void deleteShapes(ketov::Shape **shapes, size_t count) noexcept
-  {
-    if (!shapes)
-    {
-      return;
-    }
-    for (size_t i = 0; i < count; i++)
-    {
-      delete shapes[i];
-    }
-    delete[] shapes;
-  }
+  constexpr std::size_t shapes_count = 3;
 
   void scaleAtPoint(ketov::Shape *shape, ketov::point_t anchor, double factor)
   {
-    if (factor <= 0)
+    if (factor <= 0.0)
     {
       throw std::invalid_argument("factor must be greater than zero");
     }
@@ -45,7 +32,7 @@ namespace
     shape->move(dx, dy);
   }
 
-  ketov::rectangle_t getTotalFrameRect(const ketov::Shape *const *shapes, size_t count)
+  ketov::rectangle_t getTotalFrameRect(const ketov::Shape *const *shapes, std::size_t count)
   {
     const ketov::rectangle_t first = shapes[0]->getFrameRect();
     double min_x = first.pos.x - first.width / two;
@@ -53,7 +40,7 @@ namespace
     double min_y = first.pos.y - first.height / two;
     double max_y = first.pos.y + first.height / two;
 
-    for (size_t i = 1; i < count; ++i)
+    for (std::size_t i = 1; i < count; ++i)
     {
       const ketov::rectangle_t frame = shapes[i]->getFrameRect();
       min_x = std::min(min_x, frame.pos.x - frame.width / two);
@@ -65,11 +52,11 @@ namespace
     return {max_x - min_x, max_y - min_y, {(min_x + max_x) / two, (min_y + max_y) / two}};
   }
 
-  void printShapesInfo(const ketov::Shape *const *shapes, size_t count)
+  void printShapesInfo(const ketov::Shape *const *shapes, std::size_t count)
   {
     double total_area = 0.0;
 
-    for (size_t i = 0; i < count; ++i)
+    for (std::size_t i = 0; i < count; ++i)
     {
       const double area = shapes[i]->getArea();
       total_area += area;
@@ -88,16 +75,13 @@ namespace
 
 int main()
 {
-  ketov::Shape **shapes = nullptr;
   try
   {
-    shapes = new ketov::Shape *[shapes_count]
-    {
-    };
+    ketov::Rectangle rect({four, two, {1.0, 1.0}});
+    ketov::Triangle tri({0.0, 0.0}, {four, 0.0}, {0.0, three});
+    ketov::Complexquad quad({0.0, four}, {four, 0.0}, {four, four}, {0.0, 0.0});
 
-    shapes[0] = new ketov::Rectangle({four, two, {1.0, 1.0}});
-    shapes[1] = new ketov::Triangle({0.0, 0.0}, {four, 0.0}, {0.0, three});
-    shapes[2] = new ketov::Complexquad({0.0, four}, {four, 0.0}, {four, four}, {0.0, 0.0});
+    ketov::Shape *shapes[shapes_count] = {&rect, &tri, &quad};
 
     std::cout << "--- Before scaling ---\n";
     printShapesInfo(shapes, shapes_count);
@@ -106,10 +90,9 @@ int main()
     ketov::point_t anchor{};
     double factor = 0.0;
 
-    if (!(std::cin >> anchor.x >> anchor.y >> factor))
+    if (!(std::cin >> anchor.x >> anchor.y >> factor) || factor <= 0.0)
     {
       std::cerr << "Error: invalid scaling parameters\n";
-      deleteShapes(shapes, shapes_count);
       return 1;
     }
 
@@ -124,10 +107,8 @@ int main()
   catch (const std::exception &e)
   {
     std::cerr << "Error: " << e.what() << "\n";
-    deleteShapes(shapes, shapes_count);
     return 1;
   }
 
-  deleteShapes(shapes, shapes_count);
   return 0;
 }

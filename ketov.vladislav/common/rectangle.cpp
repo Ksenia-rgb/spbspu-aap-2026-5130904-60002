@@ -12,6 +12,11 @@ namespace ketov
     }
   }
 
+  Rectangle *Rectangle::clone() const
+  {
+    return new Rectangle(*this);
+  }
+
   double Rectangle::getArea() const
   {
     return rect_.width * rect_.height;
@@ -35,6 +40,10 @@ namespace ketov
 
   void Rectangle::scale(double factor)
   {
+    if (factor <= 0.0)
+    {
+      throw std::invalid_argument("factor must be greater than 0");
+    }
     rect_.width *= factor;
     rect_.height *= factor;
   }
