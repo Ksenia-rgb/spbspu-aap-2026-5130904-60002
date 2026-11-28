@@ -7,16 +7,16 @@ namespace budakov
 
   Bubble::Bubble(const double radius, const point_t& true_centre, const point_t& centre):
     radius_(radius),
-    center_(centre),
     dx_(true_centre.x - centre.x),
-    dy_(true_centre.y - centre.y)
+    dy_(true_centre.y - centre.y),
+    center_(centre)
   {
     if (radius_ <= 0)
     {
       throw std::invalid_argument("Wrong radius\n");
     }
 
-    if (dx_ >= radius_ || dy_ >= radius_ || dx_ == 0.0 && dy_ == 0.0)
+    if (dx_ >= radius_ || dy_ >= radius_ || (dx_ == 0.0 && dy_ == 0.0))
     {
       throw std::invalid_argument("Wrong centre point\n");
     }
