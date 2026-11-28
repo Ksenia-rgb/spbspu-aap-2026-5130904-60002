@@ -3,7 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <new>
+#include <stdexcept>
 #include "matrix.hpp"
+#include "variants.hpp"
 
 namespace bykov
 {
@@ -20,12 +22,20 @@ namespace bykov
 
     int processMatrix(std::istream& input, const char* output_name, int* matrix, std::size_t rows, std::size_t cols)
     {
-      if (bykov::readMatrix(input, matrix, rows * cols) != rows * cols)
+      if (!bykov::readMatrix(input, matrix, rows * cols))
       {
         std::cerr << "Error: the file does not contain a matrix\n";
         return data_error;
       }
-      bykov::addLayerNumbers(matrix, rows, cols);
+      try
+      {
+        bykov::addLayerNumbers(matrix, rows, cols);
+      }
+      catch (const std::overflow_error& e)
+      {
+        std::cerr << "Error: " << e.what() << "\n";
+        return data_error;
+      }
       std::ofstream output(output_name);
       if (!output)
       {
@@ -34,6 +44,12 @@ namespace bykov
       }
       bykov::writeMatrix(output, matrix, rows, cols);
       output << "\n";
+      output.close();
+      if (!output)
+      {
+        std::cerr << "Error: cannot write the output file\n";
+        return data_error;
+      }
       return 0;
     }
   }
